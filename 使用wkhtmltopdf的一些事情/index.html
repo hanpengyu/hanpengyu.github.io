@@ -9,7 +9,7 @@
     <meta name="description" content="写在前面：最近项目中要使用到导出把网页导出到图表的问题，本来以为随便找一个第三方的东西就可以搞定，不过因为网页中有一些图表，所有遇到了很多的坑，最后决定使用wkhtmltopdf，因为它是用Qt WebKit 引擎做渲染虽然也有一些坑，但是可以满足需求了，下面就是一些记录。  安装wkhtmltopdf wkhtmltopdf是一个可以执行的二进制文件，使用php调用系统的命令来执行。php用c">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用wkhtmltopdf的一些事情">
-<meta property="og:url" content="http://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/index.html">
+<meta property="og:url" content="https://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/index.html">
 <meta property="og:site_name" content="骑着蜗牛的蚂蚁">
 <meta property="og:description" content="写在前面：最近项目中要使用到导出把网页导出到图表的问题，本来以为随便找一个第三方的东西就可以搞定，不过因为网页中有一些图表，所有遇到了很多的坑，最后决定使用wkhtmltopdf，因为它是用Qt WebKit 引擎做渲染虽然也有一些坑，但是可以满足需求了，下面就是一些记录。  安装wkhtmltopdf wkhtmltopdf是一个可以执行的二进制文件，使用php调用系统的命令来执行。php用c">
 <meta property="og:locale" content="zh_CN">
@@ -88,17 +88,17 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/&text=使用wkhtmltopdf的一些事情" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/&title=使用wkhtmltopdf的一些事情" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/&is_video=false&description=使用wkhtmltopdf的一些事情" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=使用wkhtmltopdf的一些事情&body=Check out this article: http://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/&title=使用wkhtmltopdf的一些事情" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/&title=使用wkhtmltopdf的一些事情" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/&title=使用wkhtmltopdf的一些事情" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/&title=使用wkhtmltopdf的一些事情" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/&name=使用wkhtmltopdf的一些事情&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/&t=使用wkhtmltopdf的一些事情" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/&text=使用wkhtmltopdf的一些事情" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/&title=使用wkhtmltopdf的一些事情" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/&is_video=false&description=使用wkhtmltopdf的一些事情" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=使用wkhtmltopdf的一些事情&body=Check out this article: https://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/&title=使用wkhtmltopdf的一些事情" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/&title=使用wkhtmltopdf的一些事情" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/&title=使用wkhtmltopdf的一些事情" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/&title=使用wkhtmltopdf的一些事情" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/&name=使用wkhtmltopdf的一些事情&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/&t=使用wkhtmltopdf的一些事情" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -186,17 +186,17 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/&text=使用wkhtmltopdf的一些事情" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/&title=使用wkhtmltopdf的一些事情" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/&is_video=false&description=使用wkhtmltopdf的一些事情" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=使用wkhtmltopdf的一些事情&body=Check out this article: http://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/&title=使用wkhtmltopdf的一些事情" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/&title=使用wkhtmltopdf的一些事情" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/&title=使用wkhtmltopdf的一些事情" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/&title=使用wkhtmltopdf的一些事情" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/&name=使用wkhtmltopdf的一些事情&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/&t=使用wkhtmltopdf的一些事情" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/&text=使用wkhtmltopdf的一些事情" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/&title=使用wkhtmltopdf的一些事情" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/&is_video=false&description=使用wkhtmltopdf的一些事情" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=使用wkhtmltopdf的一些事情&body=Check out this article: https://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/&title=使用wkhtmltopdf的一些事情" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/&title=使用wkhtmltopdf的一些事情" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/&title=使用wkhtmltopdf的一些事情" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/&title=使用wkhtmltopdf的一些事情" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/&name=使用wkhtmltopdf的一些事情&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://hanpy.cn/%E4%BD%BF%E7%94%A8wkhtmltopdf%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85/&t=使用wkhtmltopdf的一些事情" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
