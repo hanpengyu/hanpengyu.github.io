@@ -74,7 +74,7 @@
         <div class="content-wrapper">
           <div id="content" class="content"><section id="posts" class="posts"><article class="post">
     <header class="post-header">
-      <h1 class="post-title"><a class="post-link" href="/2020/07/03/hello-world/">Nginx API for Lua</a>
+      <h1 class="post-title"><a class="post-link" href="/2020/07/03/Nginx-API-for-Lua/">Nginx API for Lua</a>
         </h1>
 
       <div class="post-meta">
@@ -172,7 +172,8 @@
 <p>增加URI查询字符串的请求</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">res &#x3D; ngx.location.capture(&#39;&#x2F;foo&#x2F;bar?a&#x3D;3&amp;b&#x3D;4&#39;)</span><br></pre></td></tr></table></figure>
 
-<h4 id="可选的options支持的选项"><a href="#可选的options支持的选项" class="headerlink" title="可选的options支持的选项"></a>可选的options支持的选项</h4><ul>
+<p>可选的options支持的选项</p>
+<ul>
 <li>method  指定子请求的request方法，该方法仅接受 HTTP status constants （默认值是 ngx.HTTP_GET）</li>
 <li>body 指定子请求的请求主体（仅支持字符串值）  </li>
 <li>args  指定子请求的URI查询参数（接受字符串值和Lua table）</li>
@@ -303,13 +304,13 @@
 <p>通过uri参数重写当前请求的（解析的）URI。 uri参数必须是Lua字符串，并且不能为零长度，否则会抛出Lua异常。</p>
 <p>可选的jump参数可以出发重新匹配，作为 ngx_http_rewrite_module 的 rewrite 指令，当jump为true（默认为false）此函数将永远不会返回，并且将告诉Nginx尝试使用 在后续的后期重写阶段使用新的URI值，然后跳转到新位置。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># nginx配置</span><br><span class="line">rewrite ^ &#x2F;foo last;</span><br><span class="line"># Lua代码</span><br><span class="line">ngx.req.set_uri(&quot;&#x2F;foo&quot;, true)</span><br><span class="line"></span><br><span class="line">- - - - - - - - - - - - - - - - - - -</span><br><span class="line"></span><br><span class="line"># nginx配置</span><br><span class="line">rewrite ^ &#x2F;foo break;</span><br><span class="line"># Lua代码</span><br><span class="line">ngx.req.set_uri(&quot;&#x2F;foo&quot;, false) 或者  ngx.req.set_uri(&quot;&#x2F;foo&quot;)</span><br></pre></td></tr></table></figure>
-
         </div></article>
       <nav class="pagination"></nav></section></div></div>
       </main>
 
-      <footer id="footer" class="footer"><div class="social-links"><a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
-        <a href="https://github.com/ahonn" target="_blank" rel="noopener" class="iconfont icon-github" title="github"></a>
+      <footer id="footer" class="footer"><div class="social-links"><a href="mailto:hanpengyu521@126.com" class="iconfont icon-email" title="email"></a>
+        <a href="https://github.com/hanpengyu" target="_blank" rel="noopener" class="iconfont icon-github" title="github"></a>
+        <a href="/sdfasdfsdf" class="iconfont icon-zhihu" title="zhihu"></a>
         <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
     </div><div class="copyright">
   <span class="power-by">
