@@ -63,8 +63,12 @@
      
     <div class="article-meta">
       <a href="/Nginx-API-for-Lua/" class="article-date">
-  <time datetime="2020-07-03T11:24:01.000Z" itemprop="datePublished">2020-07-03</time>
-</a>  
+  <time datetime="2020-06-27T14:29:00.000Z" itemprop="datePublished">2020-06-27</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Lua/">Lua</a>
+  </div>
+ 
     </div>
       
     <div class="tocbot"></div>
@@ -76,8 +80,6 @@
     <div class="article-entry" itemprop="articleBody">
        
   <p><span id="top"> </span></p>
-<a id="more"></a>
-
 <p><a href="#ngx.arg">ngx.arg</a><br><a href="#ngx.var.VARIABLE">ngx.var.VARIABLE</a><br><a href="#Core-constants">Core constants</a><br><a href="#HTTP-method-constants">HTTP method constants</a><br><a href="#HTTP-status-constants">HTTP status constants</a><br><a href="#Nginx-log-level-constants">Nginx log level constants</a><br><a href="#print">print</a><br><a href="#ngx.ctx">ngx.ctx</a><br><a href="#ngx.location.capture">ngx.location.capture</a><br><a href="#ngx.location.capture_multi">ngx.location.capture_multi</a><br><a href="#ngx.status">ngx.status</a><br><a href="#ngx.header.HEADER">ngx.header.HEADER</a><br><a href="#ngx.resp.get_headers">ngx.resp.get_headers</a><br><a href="#ngx.req.is_internal">ngx.req.is_internal</a><br><a href="#ngx.req.start_time">ngx.req.start_time</a><br><a href="#ngx.req.http_version">ngx.req.http_version</a><br><a href="#ngx.req.get_method">ngx.req.get_method</a><br><a href="#ngx.req.set_method">ngx.req.set_method</a><br><a href="#ngx.req.set_uri">ngx.req.set_uri</a>  </p>
 <p><span id="ngx.arg"> </span></p>
 <h2 id="ngx-arg"><a href="#ngx-arg" class="headerlink" title="ngx.arg"></a>ngx.arg</h2><blockquote>
@@ -149,7 +151,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">location &#x2F;sub &#123;</span><br><span class="line">    content_by_lua_block &#123;</span><br><span class="line">        ngx.say(&quot;sub pre: &quot;, ngx.ctx.blah)</span><br><span class="line">        ngx.ctx.blah &#x3D; 32</span><br><span class="line">        ngx.say(&quot;sub post: &quot;, ngx.ctx.blah)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">location &#x2F;main &#123;</span><br><span class="line">    content_by_lua_block &#123;</span><br><span class="line">        ngx.ctx.blah &#x3D; 73</span><br><span class="line">        ngx.say(&quot;main pre: &quot;, ngx.ctx.blah)</span><br><span class="line">        local res &#x3D; ngx.location.capture(&quot;&#x2F;sub&quot;)</span><br><span class="line">        ngx.print(res.body)</span><br><span class="line">        ngx.say(&quot;main post: &quot;, ngx.ctx.blah)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">GET &#x2F;main</span><br><span class="line">main pre: 73</span><br><span class="line">sub pre: nil</span><br><span class="line">sub post: 32</span><br><span class="line">main post: 73</span><br></pre></td></tr></table></figure>
 
 <p><a href="#top">top↑</a><br><span id="ngx.location.capture"> </span></p>
-<h2 id="ngx-location-capture"><a href="#ngx-location-capture" class="headerlink" title="* ngx.location.capture"></a><span style="color:red">*</span> ngx.location.capture</h2><blockquote>
+<h2 id="ngx-location-capture"><a href="#ngx-location-capture" class="headerlink" title="ngx.location.capture"></a>ngx.location.capture</h2><blockquote>
 <p>syntax: res = ngx.location.capture(uri, options?)<br>context: rewrite_by_lua<em>, access_by_lua</em>, content_by_lua*</p>
 </blockquote>
 <p>使用uri发出同步但仍非阻塞的Nginx子请求。</p>
