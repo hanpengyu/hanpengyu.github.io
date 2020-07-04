@@ -1,85 +1,170 @@
 <!DOCTYPE html>
-
-
-<html lang="zh-CN">
-
-
+<html lang=zh>
 <head>
-  <meta charset="utf-8" />
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="这个就是谷歌翻译的官方文档，因为英文太差，所有干脆翻译一下   ngx.argngx.var.VARIABLECore constantsHTTP method constantsHTTP status constantsNginx log level constantsprintngx.ctxngx.location.capturengx.location.capture_multingx.s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx API for Lua">
+<meta property="og:url" content="http://hanpy.cn/Nginx-API-for-Lua/index.html">
+<meta property="og:site_name" content="骑着蜗牛的蚂蚁">
+<meta property="og:description" content="这个就是谷歌翻译的官方文档，因为英文太差，所有干脆翻译一下   ngx.argngx.var.VARIABLECore constantsHTTP method constantsHTTP status constantsNginx log level constantsprintngx.ctxngx.location.capturengx.location.capture_multingx.s">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-06-27T14:29:00.000Z">
+<meta property="article:modified_time" content="2020-07-03T11:49:03.000Z">
+<meta property="article:author" content="骑着蜗牛的蚂蚁">
+<meta property="article:tag" content="Lua">
+<meta property="article:tag" content="nginx">
+<meta property="article:tag" content="openresty">
+<meta property="article:tag" content="Nginx API for Lua">
+<meta name="twitter:card" content="summary">
     
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-  <title>
-    Nginx API for Lua |  骑着蜗牛的蚂蚁
-  </title>
-  <meta name="generator" content="hexo-theme-ayer">
-  
-  <link rel="shortcut icon" href="/favicon.ico" />
-  
-  
-<link rel="stylesheet" href="/dist/main.css">
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Nginx API for Lua</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
 
-  
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
-
-  
-<link rel="stylesheet" href="/css/custom.css">
-
-  
-  
-<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
-
-  
-  
-
-  
-
-</head>
-
-</html>
-
-<body>
-  <div id="app">
+    <!-- persian styles -->
     
       
-    <main class="content on">
-      <section class="outer">
-  <article
-  id="post-Nginx-API-for-Lua"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  Nginx API for Lua
-</h1>
- 
+<link rel="stylesheet" href="/css/rtl.css">
 
-    </header>
-     
-    <div class="article-meta">
-      <a href="/Nginx-API-for-Lua/" class="article-date">
-  <time datetime="2020-06-27T14:29:00.000Z" itemprop="datePublished">2020-06-27</time>
-</a> 
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Lua/">Lua</a>
-  </div>
- 
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/Hexo-Theme/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/Iterm2-%E7%9B%B8%E5%85%B3/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://hanpy.cn/Nginx-API-for-Lua/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://hanpy.cn/Nginx-API-for-Lua/&text=Nginx API for Lua" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://hanpy.cn/Nginx-API-for-Lua/&title=Nginx API for Lua" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://hanpy.cn/Nginx-API-for-Lua/&is_video=false&description=Nginx API for Lua" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Nginx API for Lua&body=Check out this article: http://hanpy.cn/Nginx-API-for-Lua/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://hanpy.cn/Nginx-API-for-Lua/&title=Nginx API for Lua" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://hanpy.cn/Nginx-API-for-Lua/&title=Nginx API for Lua" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://hanpy.cn/Nginx-API-for-Lua/&title=Nginx API for Lua" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://hanpy.cn/Nginx-API-for-Lua/&title=Nginx API for Lua" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://hanpy.cn/Nginx-API-for-Lua/&name=Nginx API for Lua&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://hanpy.cn/Nginx-API-for-Lua/&t=Nginx API for Lua" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
     </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ngx-arg"><span class="toc-number">1.</span> <span class="toc-text">ngx.arg</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ngx-var-VARIABLE"><span class="toc-number">2.</span> <span class="toc-text">ngx.var.VARIABLE</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Core-constants"><span class="toc-number">3.</span> <span class="toc-text">Core constants</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP-method-constants"><span class="toc-number">4.</span> <span class="toc-text">HTTP method constants</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP-status-constants"><span class="toc-number">5.</span> <span class="toc-text">HTTP status constants</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx-log-level-constants"><span class="toc-number">6.</span> <span class="toc-text">Nginx log level constants</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#print"><span class="toc-number">7.</span> <span class="toc-text">print</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ngx-ctx"><span class="toc-number">8.</span> <span class="toc-text">ngx.ctx</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ngx-location-capture"><span class="toc-number">9.</span> <span class="toc-text">ngx.location.capture</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ngx-location-capture-multi"><span class="toc-number">10.</span> <span class="toc-text">ngx.location.capture_multi</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ngx-status"><span class="toc-number">11.</span> <span class="toc-text">ngx.status</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ngx-header-HEADER"><span class="toc-number">12.</span> <span class="toc-text">ngx.header.HEADER</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ngx-resp-get-headers"><span class="toc-number">13.</span> <span class="toc-text">ngx.resp.get_headers</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ngx-req-is-internal"><span class="toc-number">14.</span> <span class="toc-text">ngx.req.is_internal</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ngx-req-start-time"><span class="toc-number">15.</span> <span class="toc-text">ngx.req.start_time</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ngx-req-http-version"><span class="toc-number">16.</span> <span class="toc-text">ngx.req.http_version</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ngx-req-raw-header"><span class="toc-number">17.</span> <span class="toc-text">ngx.req.raw_header</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ngx-req-get-method"><span class="toc-number">18.</span> <span class="toc-text">ngx.req.get_method</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ngx-req-set-method"><span class="toc-number">19.</span> <span class="toc-text">ngx.req.set_method</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ngx-req-set-uri"><span class="toc-number">20.</span> <span class="toc-text">ngx.req.set_uri</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Nginx API for Lua
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">骑着蜗牛的蚂蚁</span>
+      </span>
       
-    <div class="tocbot"></div>
+    <div class="postdate">
+      
+        <time datetime="2020-06-27T14:29:00.000Z" itemprop="datePublished">2020-06-27</time>
+        
+      
+    </div>
 
 
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Lua/">Lua</a>
+    </div>
 
 
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Lua/" rel="tag">Lua</a>, <a class="tag-link" href="/tags/Nginx-API-for-Lua/" rel="tag">Nginx API for Lua</a>, <a class="tag-link" href="/tags/nginx/" rel="tag">nginx</a>, <a class="tag-link" href="/tags/openresty/" rel="tag">openresty</a>
+    </div>
+
+
+    </div>
+  </header>
   
-    <div class="article-entry" itemprop="articleBody">
-       
-  <p><span id="top"> </span></p>
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>这个就是谷歌翻译的<a href="https://github.com/openresty/lua-nginx-module#nginx-api-for-lua" target="_blank" rel="noopener">官方文档</a>，因为英文太差，所有干脆翻译一下 </p>
+</blockquote>
 <p><a href="#ngx.arg">ngx.arg</a><br><a href="#ngx.var.VARIABLE">ngx.var.VARIABLE</a><br><a href="#Core-constants">Core constants</a><br><a href="#HTTP-method-constants">HTTP method constants</a><br><a href="#HTTP-status-constants">HTTP status constants</a><br><a href="#Nginx-log-level-constants">Nginx log level constants</a><br><a href="#print">print</a><br><a href="#ngx.ctx">ngx.ctx</a><br><a href="#ngx.location.capture">ngx.location.capture</a><br><a href="#ngx.location.capture_multi">ngx.location.capture_multi</a><br><a href="#ngx.status">ngx.status</a><br><a href="#ngx.header.HEADER">ngx.header.HEADER</a><br><a href="#ngx.resp.get_headers">ngx.resp.get_headers</a><br><a href="#ngx.req.is_internal">ngx.req.is_internal</a><br><a href="#ngx.req.start_time">ngx.req.start_time</a><br><a href="#ngx.req.http_version">ngx.req.http_version</a><br><a href="#ngx.req.get_method">ngx.req.get_method</a><br><a href="#ngx.req.set_method">ngx.req.set_method</a><br><a href="#ngx.req.set_uri">ngx.req.set_uri</a>  </p>
 <p><span id="ngx.arg"> </span></p>
 <h2 id="ngx-arg"><a href="#ngx-arg" class="headerlink" title="ngx.arg"></a>ngx.arg</h2><blockquote>
@@ -87,7 +172,7 @@
 </blockquote>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">location &#x2F;foo &#123;</span><br><span class="line">    set $a 32;</span><br><span class="line">    set $b 56;</span><br><span class="line"></span><br><span class="line">    set_by_lua $sum</span><br><span class="line">        &#39;return tonumber(ngx.arg[1]) + tonumber(ngx.arg[2])&#39;</span><br><span class="line">        $a $b;</span><br><span class="line"></span><br><span class="line">    echo $sum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><a href="#top">top↑</a><br><span id="ngx.var.VARIABLE"> </span></p>
+<p><span id="ngx.var.VARIABLE"> </span></p>
 <h2 id="ngx-var-VARIABLE"><a href="#ngx-var-VARIABLE" class="headerlink" title="ngx.var.VARIABLE"></a>ngx.var.VARIABLE</h2><p>读写Nginx变量值。</p>
 <p><span style="color:blue">请注意，只能写入已经定义的Nginx变量</span></p>
 <blockquote>
@@ -100,14 +185,14 @@
 <p>上面的意思就是可能会出现内存溢出的情况，这个时候就需要把变量本地化到lua中，就想下面这样。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">local val &#x3D; ngx.var.some_var</span><br><span class="line">--- use the val repeatedly later</span><br></pre></td></tr></table></figure>
 
-<p><a href="#top">top↑</a><br><span id="Core-constants"> </span></p>
+<p><span id="Core-constants"> </span></p>
 <h2 id="Core-constants"><a href="#Core-constants" class="headerlink" title="Core constants"></a>Core constants</h2><p>核心常量</p>
 <blockquote>
 <p>context: init_by_lua<em>, set_by_lua</em>, rewrite_by_lua<em>, access_by_lua</em>, content_by_lua<em>, header_filter_by_lua</em>, body_filter_by_lua<em>, *log_by_lua</em>, ngx.timer.<em>, balancer_by_lua</em>, ssl_certificate_by_lua<em>, ssl_session_fetch_by_lua</em>, ssl_session_store_by_lua*</p>
 </blockquote>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ngx.OK (0)</span><br><span class="line">ngx.ERROR (-1)</span><br><span class="line">ngx.AGAIN (-2)</span><br><span class="line">ngx.DONE (-4)</span><br><span class="line">ngx.DECLINED (-5)</span><br></pre></td></tr></table></figure>
 
-<p><a href="#top">top↑</a><br><span id="HTTP-method-constants"> </span></p>
+<p><span id="HTTP-method-constants"> </span></p>
 <h2 id="HTTP-method-constants"><a href="#HTTP-method-constants" class="headerlink" title="HTTP method constants"></a>HTTP method constants</h2><p>http 方法常量</p>
 <p>这些常量通常在ngx.location.capture和ngx.location.capture_multi方法调用中使用。</p>
 <blockquote>
@@ -115,21 +200,21 @@
 </blockquote>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">ngx.HTTP_GET</span><br><span class="line">ngx.HTTP_HEAD</span><br><span class="line">ngx.HTTP_PUT</span><br><span class="line">ngx.HTTP_POST</span><br><span class="line">ngx.HTTP_DELETE</span><br><span class="line">ngx.HTTP_OPTIONS   (added in the v0.5.0rc24 release)</span><br><span class="line">ngx.HTTP_MKCOL     (added in the v0.8.2 release)</span><br><span class="line">ngx.HTTP_COPY      (added in the v0.8.2 release)</span><br><span class="line">ngx.HTTP_MOVE      (added in the v0.8.2 release)</span><br><span class="line">ngx.HTTP_PROPFIND  (added in the v0.8.2 release)</span><br><span class="line">ngx.HTTP_PROPPATCH (added in the v0.8.2 release)</span><br><span class="line">ngx.HTTP_LOCK      (added in the v0.8.2 release)</span><br><span class="line">ngx.HTTP_UNLOCK    (added in the v0.8.2 release)</span><br><span class="line">ngx.HTTP_PATCH     (added in the v0.8.2 release)</span><br><span class="line">ngx.HTTP_TRACE     (added in the v0.8.2 release)</span><br></pre></td></tr></table></figure>
 
-<p><a href="#top">top↑</a><br><span id="HTTP-status-constants"> </span></p>
+<p><span id="HTTP-status-constants"> </span></p>
 <h2 id="HTTP-status-constants"><a href="#HTTP-status-constants" class="headerlink" title="HTTP status constants"></a>HTTP status constants</h2><p>http 状态常量</p>
 <blockquote>
 <p>context: init_by_lua<em>, set_by_lua</em>, rewrite_by_lua<em>, access_by_lua</em>, content_by_lua<em>, header_filter_by_lua</em>, body_filter_by_lua<em>, log_by_lua</em>, ngx.timer.<em>, balancer_by_lua</em>, ssl_certificate_by_lua<em>, ssl_session_fetch_by_lua</em>, ssl_session_store_by_lua*</p>
 </blockquote>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">value &#x3D; ngx.HTTP_CONTINUE (100) (first added in the v0.9.20 release)</span><br><span class="line">value &#x3D; ngx.HTTP_SWITCHING_PROTOCOLS (101) (first added in the v0.9.20 release)</span><br><span class="line">value &#x3D; ngx.HTTP_OK (200)</span><br><span class="line">value &#x3D; ngx.HTTP_CREATED (201)</span><br><span class="line">value &#x3D; ngx.HTTP_ACCEPTED (202) (first added in the v0.9.20 release)</span><br><span class="line">value &#x3D; ngx.HTTP_NO_CONTENT (204) (first added in the v0.9.20 release)</span><br><span class="line">value &#x3D; ngx.HTTP_PARTIAL_CONTENT (206) (first added in the v0.9.20 release)</span><br><span class="line">value &#x3D; ngx.HTTP_SPECIAL_RESPONSE (300)</span><br><span class="line">value &#x3D; ngx.HTTP_MOVED_PERMANENTLY (301)</span><br><span class="line">value &#x3D; ngx.HTTP_MOVED_TEMPORARILY (302)</span><br><span class="line">value &#x3D; ngx.HTTP_SEE_OTHER (303)</span><br><span class="line">value &#x3D; ngx.HTTP_NOT_MODIFIED (304)</span><br><span class="line">value &#x3D; ngx.HTTP_TEMPORARY_REDIRECT (307) (first added in the v0.9.20 release)</span><br><span class="line">value &#x3D; ngx.HTTP_PERMANENT_REDIRECT (308)</span><br><span class="line">value &#x3D; ngx.HTTP_BAD_REQUEST (400)</span><br><span class="line">value &#x3D; ngx.HTTP_UNAUTHORIZED (401)</span><br><span class="line">value &#x3D; ngx.HTTP_PAYMENT_REQUIRED (402) (first added in the v0.9.20 release)</span><br><span class="line">value &#x3D; ngx.HTTP_FORBIDDEN (403)</span><br><span class="line">value &#x3D; ngx.HTTP_NOT_FOUND (404)</span><br><span class="line">value &#x3D; ngx.HTTP_NOT_ALLOWED (405)</span><br><span class="line">value &#x3D; ngx.HTTP_NOT_ACCEPTABLE (406) (first added in the v0.9.20 release)</span><br><span class="line">value &#x3D; ngx.HTTP_REQUEST_TIMEOUT (408) (first added in the v0.9.20 release)</span><br><span class="line">value &#x3D; ngx.HTTP_CONFLICT (409) (first added in the v0.9.20 release)</span><br><span class="line">value &#x3D; ngx.HTTP_GONE (410)</span><br><span class="line">value &#x3D; ngx.HTTP_UPGRADE_REQUIRED (426) (first added in the v0.9.20 release)</span><br><span class="line">value &#x3D; ngx.HTTP_TOO_MANY_REQUESTS (429) (first added in the v0.9.20 release)</span><br><span class="line">value &#x3D; ngx.HTTP_CLOSE (444) (first added in the v0.9.20 release)</span><br><span class="line">value &#x3D; ngx.HTTP_ILLEGAL (451) (first added in the v0.9.20 release)</span><br><span class="line">value &#x3D; ngx.HTTP_INTERNAL_SERVER_ERROR (500)</span><br><span class="line">value &#x3D; ngx.HTTP_METHOD_NOT_IMPLEMENTED (501)</span><br><span class="line">value &#x3D; ngx.HTTP_BAD_GATEWAY (502) (first added in the v0.9.20 release)</span><br><span class="line">value &#x3D; ngx.HTTP_SERVICE_UNAVAILABLE (503)</span><br><span class="line">value &#x3D; ngx.HTTP_GATEWAY_TIMEOUT (504) (first added in the v0.3.1rc38 release)</span><br><span class="line">value &#x3D; ngx.HTTP_VERSION_NOT_SUPPORTED (505) (first added in the v0.9.20 release)</span><br><span class="line">value &#x3D; ngx.HTTP_INSUFFICIENT_STORAGE (507) (first added in the v0.9.20 release)</span><br></pre></td></tr></table></figure>
 
-<p><a href="#top">top↑</a><br><span id="Nginx-log-level-constants"> </span></p>
+<p><span id="Nginx-log-level-constants"> </span></p>
 <h2 id="Nginx-log-level-constants"><a href="#Nginx-log-level-constants" class="headerlink" title="Nginx log level constants"></a>Nginx log level constants</h2><p>Nginx 错误日志级别</p>
 <blockquote>
 <p>context: init_by_lua<em>, init_worker_by_lua</em>, set_by_lua<em>, rewrite_by_lua</em>, access_by_lua<em>, content_by_lua</em>, header_filter_by_lua<em>, body_filter_by_lua</em>, log_by_lua<em>, ngx.timer.</em>, balancer_by_lua<em>, ssl_certificate_by_lua</em>, ssl_session_fetch_by_lua<em>, ssl_session_store_by_lua</em></p>
 </blockquote>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ngx.STDERR</span><br><span class="line">ngx.EMERG</span><br><span class="line">ngx.ALERT</span><br><span class="line">ngx.CRIT</span><br><span class="line">ngx.ERR</span><br><span class="line">ngx.WARN</span><br><span class="line">ngx.NOTICE</span><br><span class="line">ngx.INFO</span><br><span class="line">ngx.DEBUG</span><br></pre></td></tr></table></figure>
 
-<p><a href="#top">top↑</a><br><span id="print"> </span></p>
+<p><span id="print"> </span></p>
 <h2 id="print"><a href="#print" class="headerlink" title="print"></a>print</h2><blockquote>
 <p>syntax: print(…)<br>context: init_by_lua<em>, init_worker_by_lua</em>, set_by_lua<em>, rewrite_by_lua</em>, access_by_lua<em>, content_by_lua</em>, header_filter_by_lua<em>, body_filter_by_lua</em>, log_by_lua<em>, ngx.timer.</em>, balancer_by_lua<em>, ssl_certificate_by_lua</em>, ssl_session_fetch_by_lua<em>, ssl_session_store_by_lua</em></p>
 </blockquote>
@@ -139,7 +224,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ngx.log(ngx.NOTICE, ...)</span><br></pre></td></tr></table></figure>
 
 <p>关于日志<br>Nginx内核中的错误消息长度有一个硬编码的2048字节限制。 此限制包括尾随换行符和前置时间戳。 如果消息大小超出此限制，Nginx将相应地截断消息文本。 可以通过编辑Nginx源码中src / core / ngx_log.h文件中的NGX_MAX_ERROR_STR宏定义来手动修改此限制</p>
-<p><a href="#top">top↑</a><br><span id="ngx.ctx"> </span></p>
+<p><span id="ngx.ctx"> </span></p>
 <h2 id="ngx-ctx"><a href="#ngx-ctx" class="headerlink" title="ngx.ctx"></a>ngx.ctx</h2><p>该表可用于存储每个请求的Lua上下文数据，并且其生命周期与当前请求相同（与Nginx变量一样）。</p>
 <blockquote>
 <p>context: init_worker_by_lua<em>, set_by_lua</em>, rewrite_by_lua<em>, access_by_lua</em>, content_by_lua<em>, header_filter_by_lua</em>, body_filter_by_lua<em>, log_by_lua</em>, ngx.timer.<em>, balancer_by_lua</em></p>
@@ -150,7 +235,7 @@
 <p>每个请求（包括子请求）都有自己的表副本。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">location &#x2F;sub &#123;</span><br><span class="line">    content_by_lua_block &#123;</span><br><span class="line">        ngx.say(&quot;sub pre: &quot;, ngx.ctx.blah)</span><br><span class="line">        ngx.ctx.blah &#x3D; 32</span><br><span class="line">        ngx.say(&quot;sub post: &quot;, ngx.ctx.blah)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">location &#x2F;main &#123;</span><br><span class="line">    content_by_lua_block &#123;</span><br><span class="line">        ngx.ctx.blah &#x3D; 73</span><br><span class="line">        ngx.say(&quot;main pre: &quot;, ngx.ctx.blah)</span><br><span class="line">        local res &#x3D; ngx.location.capture(&quot;&#x2F;sub&quot;)</span><br><span class="line">        ngx.print(res.body)</span><br><span class="line">        ngx.say(&quot;main post: &quot;, ngx.ctx.blah)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">GET &#x2F;main</span><br><span class="line">main pre: 73</span><br><span class="line">sub pre: nil</span><br><span class="line">sub post: 32</span><br><span class="line">main post: 73</span><br></pre></td></tr></table></figure>
 
-<p><a href="#top">top↑</a><br><span id="ngx.location.capture"> </span></p>
+<p><span id="ngx.location.capture"> </span></p>
 <h2 id="ngx-location-capture"><a href="#ngx-location-capture" class="headerlink" title="ngx.location.capture"></a>ngx.location.capture</h2><blockquote>
 <p>syntax: res = ngx.location.capture(uri, options?)<br>context: rewrite_by_lua<em>, access_by_lua</em>, content_by_lua*</p>
 </blockquote>
@@ -202,7 +287,7 @@
 <p>也可以使用此ctx选项在当前（父）请求和子请求之间共享相同的ngx.ctx表</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">location &#x2F;sub &#123;</span><br><span class="line">    content_by_lua_block &#123;</span><br><span class="line">        ngx.ctx.foo &#x3D; &quot;bar&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">location &#x2F;lua &#123;</span><br><span class="line">    content_by_lua_block &#123;</span><br><span class="line">        res &#x3D; ngx.location.capture(&quot;&#x2F;sub&quot;, &#123; ctx &#x3D; ngx.ctx &#125;)</span><br><span class="line">        ngx.say(ngx.ctx.foo);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># &#x2F;lua</span><br><span class="line">bar</span><br></pre></td></tr></table></figure>
 
-<p><a href="#top">top↑</a><br><span id="ngx.location.capture_multi"> </span></p>
+<p><span id="ngx.location.capture_multi"> </span></p>
 <h2 id="ngx-location-capture-multi"><a href="#ngx-location-capture-multi" class="headerlink" title="ngx.location.capture_multi"></a>ngx.location.capture_multi</h2><blockquote>
 <p>syntax: res1, res2, … = ngx.location.capture_multi({ {uri, options?}, {uri, options?}, … })<br>context: rewrite_by_lua<em>, access_by_lua</em>, content_by_lua*</p>
 </blockquote>
@@ -214,7 +299,7 @@
 <p>当事先不知道要发出的子请求数时，Lua表可用于请求和响应</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">-- construct the requests table</span><br><span class="line">local reqs &#x3D; &#123;&#125;</span><br><span class="line">table.insert(reqs, &#123; &quot;&#x2F;mysql&quot; &#125;)</span><br><span class="line">table.insert(reqs, &#123; &quot;&#x2F;postgres&quot; &#125;)</span><br><span class="line">table.insert(reqs, &#123; &quot;&#x2F;redis&quot; &#125;)</span><br><span class="line">table.insert(reqs, &#123; &quot;&#x2F;memcached&quot; &#125;)</span><br><span class="line"></span><br><span class="line">-- issue all the requests at once and wait until they all return</span><br><span class="line">local resps &#x3D; &#123; ngx.location.capture_multi(reqs) &#125;</span><br><span class="line"></span><br><span class="line">-- loop over the responses table</span><br><span class="line">for i, resp in ipairs(resps) do</span><br><span class="line">    -- process the response table &quot;resp&quot;</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
 
-<p><a href="#top">top↑</a><br><span id="ngx.status"> </span></p>
+<p><span id="ngx.status"> </span></p>
 <h2 id="ngx-status"><a href="#ngx-status" class="headerlink" title="ngx.status"></a>ngx.status</h2><blockquote>
 <p>context: set_by_lua<em>, rewrite_by_lua</em>, access_by_lua<em>, content_by_lua</em>, header_filter_by_lua<em>, body_filter_by_lua</em>, log_by_lua*  </p>
 </blockquote>
@@ -224,7 +309,7 @@
 <p>发送响应头后设置ngx.status无效，但会在Nginx的错误日志文件中留下一条错误消息：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">attempt to set ngx.status after sending out response headers</span><br></pre></td></tr></table></figure>
 
-<p><a href="#top">top↑</a><br><span id="ngx.header.HEADER"> </span></p>
+<p><span id="ngx.header.HEADER"> </span></p>
 <h2 id="ngx-header-HEADER"><a href="#ngx-header-HEADER" class="headerlink" title="ngx.header.HEADER"></a>ngx.header.HEADER</h2><blockquote>
 <p>syntax: ngx.header.HEADER = VALUE<br>syntax: value = ngx.header.HEADER<br>context: rewrite_by_lua<em>, access_by_lua</em>, content_by_lua<em>, header_filter_by_lua</em>, body_filter_by_lua<em>, log_by_lua</em>  </p>
 </blockquote>
@@ -247,7 +332,7 @@
 <p>请注意，ngx.header不是普通的Lua表，因此，无法使用Lua ipairs函数对其进行迭代。</p>
 <p>注意：如果HEADER或VALUE包含不安全的字符（控制字符），则此函数将引发Lua错误。</p>
 <p>要读取请求标头，请改用ngx.req.get_headers函数。</p>
-<p><a href="#top">top↑</a><br><span id="ngx.resp.get_headers"> </span></p>
+<p><span id="ngx.resp.get_headers"> </span></p>
 <h2 id="ngx-resp-get-headers"><a href="#ngx-resp-get-headers" class="headerlink" title="ngx.resp.get_headers"></a>ngx.resp.get_headers</h2><blockquote>
 <p>syntax: headers, err = ngx.resp.get_headers(max_headers?, raw?)<br>context: set_by_lua<em>, rewrite_by_lua</em>, access_by_lua<em>, content_by_lua</em>, header_filter_by_lua<em>, body_filter_by_lua</em>, log_by_lua<em>, balancer_by_lua</em>  </p>
 </blockquote>
@@ -256,20 +341,20 @@
 
 <p>函数与ngx.req.get_headers具有相同的签名，除了获取响应标头而不是请求标头。</p>
 <p>请注意，默认情况下最多解析100个响应标头（包括具有相同名称的响应标头），并且静默丢弃其他响应标头，以防止潜在的拒绝服务攻击。 从v0.10.13开始，超过限制时，它将返回第二个值，即字符串”truncated”。</p>
-<p><a href="#top">top↑</a><br><span id="ngx.req.is_internal"> </span></p>
+<p><span id="ngx.req.is_internal"> </span></p>
 <h2 id="ngx-req-is-internal"><a href="#ngx-req-is-internal" class="headerlink" title="ngx.req.is_internal"></a>ngx.req.is_internal</h2><blockquote>
 <p>syntax: is_internal = ngx.req.is_internal()<br>context: set_by_lua<em>, rewrite_by_lua</em>, access_by_lua<em>, content_by_lua</em>, header_filter_by_lua<em>, body_filter_by_lua</em>, log_by_lua*  </p>
 </blockquote>
 <p>返回一个布尔值，指示当前请求是否为“内部请求”，即从当前Nginx服务器内部而不是客户端发起的请求。</p>
 <p>子请求都是内部请求，内部重定向之后的请求也是如此。</p>
-<p><a href="#top">top↑</a><br><span id="ngx.req.start_time"> </span></p>
+<p><span id="ngx.req.start_time"> </span></p>
 <h2 id="ngx-req-start-time"><a href="#ngx-req-start-time" class="headerlink" title="ngx.req.start_time"></a>ngx.req.start_time</h2><blockquote>
 <p>syntax: secs = ngx.req.start_time()<br>context: set_by_lua<em>, rewrite_by_lua</em>, access_by_lua<em>, content_by_lua</em>, header_filter_by_lua<em>, body_filter_by_lua</em>, log_by_lua*  </p>
 </blockquote>
 <p>时间戳</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">local request_time &#x3D; ngx.now() - ngx.req.start_time()</span><br></pre></td></tr></table></figure>
 
-<p><a href="#top">top↑</a><br><span id="ngx.req.http_version"> </span></p>
+<p><span id="ngx.req.http_version"> </span></p>
 <h2 id="ngx-req-http-version"><a href="#ngx-req-http-version" class="headerlink" title="ngx.req.http_version"></a>ngx.req.http_version</h2><blockquote>
 <p>syntax: num = ngx.req.http_version()<br>context: set_by_lua<em>, rewrite_by_lua</em>, access_by_lua<em>, content_by_lua</em>, header_filter_by_lua*  </p>
 </blockquote>
@@ -283,346 +368,159 @@
 <p>您可以将可选的no_request_line参数指定为true值，以将请求行从结果中排除</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ngx.print(ngx.req.raw_header(true))</span><br><span class="line"></span><br><span class="line">Host: localhost</span><br><span class="line">Connection: close</span><br><span class="line">Foo: bar</span><br></pre></td></tr></table></figure>
 
-<p><a href="#top">top↑</a><br><span id="ngx.req.get_method"> </span></p>
+<p><span id="ngx.req.get_method"> </span></p>
 <h2 id="ngx-req-get-method"><a href="#ngx-req-get-method" class="headerlink" title="ngx.req.get_method"></a>ngx.req.get_method</h2><blockquote>
 <p>syntax: method_name = ngx.req.get_method()<br>context: set_by_lua<em>, rewrite_by_lua</em>, access_by_lua<em>, content_by_lua</em>, header_filter_by_lua<em>, body_filter_by_lua</em>, balancer_by_lua<em>, log_by_lua</em>  </p>
 </blockquote>
 <p>检索当前请求的请求方法名称。 返回诸如“ GET”和“ POST”之类的字符串，而不是数字方法常量。<br>如果当前请求是Nginx子请求，则将返回子请求的方法名称。</p>
-<p><a href="#top">top↑</a><br><span id="ngx.req.set_method"> </span></p>
+<p><span id="ngx.req.set_method"> </span></p>
 <h2 id="ngx-req-set-method"><a href="#ngx-req-set-method" class="headerlink" title="ngx.req.set_method"></a>ngx.req.set_method</h2><blockquote>
 <p>syntax: ngx.req.set_method(method_id)<br>context: set_by_lua<em>, rewrite_by_lua</em>, access_by_lua<em>, content_by_lua</em>, header_filter_by_lua*  </p>
 </blockquote>
 <p>使用method_id参数覆盖当前请求的请求方法。 当前仅支持数字方法常量，例如ngx.HTTP_POST和ngx.HTTP_GET。<br>如果当前请求是Nginx子请求，则该子请求的方法将被覆盖。  </p>
-<p><a href="#top">top↑</a><br><span id="ngx.req.set_uri"> </span></p>
+<p><span id="ngx.req.set_uri"> </span></p>
 <h2 id="ngx-req-set-uri"><a href="#ngx-req-set-uri" class="headerlink" title="ngx.req.set_uri"></a>ngx.req.set_uri</h2><blockquote>
 <p>syntax: ngx.req.set_uri(uri, jump?)<br>context: set_by_lua<em>, rewrite_by_lua</em>, access_by_lua<em>, content_by_lua</em>, header_filter_by_lua<em>, body_filter_by_lua</em>  </p>
 </blockquote>
 <p>通过uri参数重写当前请求的（解析的）URI。 uri参数必须是Lua字符串，并且不能为零长度，否则会抛出Lua异常。</p>
 <p>可选的jump参数可以出发重新匹配，作为 ngx_http_rewrite_module 的 rewrite 指令，当jump为true（默认为false）此函数将永远不会返回，并且将告诉Nginx尝试使用 在后续的后期重写阶段使用新的URI值，然后跳转到新位置。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># nginx配置</span><br><span class="line">rewrite ^ &#x2F;foo last;</span><br><span class="line"># Lua代码</span><br><span class="line">ngx.req.set_uri(&quot;&#x2F;foo&quot;, true)</span><br><span class="line"></span><br><span class="line">- - - - - - - - - - - - - - - - - - -</span><br><span class="line"></span><br><span class="line"># nginx配置</span><br><span class="line">rewrite ^ &#x2F;foo break;</span><br><span class="line"># Lua代码</span><br><span class="line">ngx.req.set_uri(&quot;&#x2F;foo&quot;, false) 或者  ngx.req.set_uri(&quot;&#x2F;foo&quot;)</span><br></pre></td></tr></table></figure> 
-      <!-- reward -->
-      
-    </div>
-    
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Lua/" rel="tag">Lua</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx-API-for-Lua/" rel="tag">Nginx API for Lua</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/openresty/" rel="tag">openresty</a></li></ul>
-
-    </footer>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># nginx配置</span><br><span class="line">rewrite ^ &#x2F;foo last;</span><br><span class="line"># Lua代码</span><br><span class="line">ngx.req.set_uri(&quot;&#x2F;foo&quot;, true)</span><br><span class="line"></span><br><span class="line">- - - - - - - - - - - - - - - - - - -</span><br><span class="line"></span><br><span class="line"># nginx配置</span><br><span class="line">rewrite ^ &#x2F;foo break;</span><br><span class="line"># Lua代码</span><br><span class="line">ngx.req.set_uri(&quot;&#x2F;foo&quot;, false) 或者  ngx.req.set_uri(&quot;&#x2F;foo&quot;)</span><br></pre></td></tr></table></figure>
   </div>
-
-   
-  <nav class="article-nav">
-    
-      <a href="/Hexo-Theme/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            Hexo-Theme
-          
-        </div>
-      </a>
-    
-    
-      <a href="/Iterm2-%E7%9B%B8%E5%85%B3/" class="article-nav-link">
-        <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">Iterm2 相关</div>
-      </a>
-    
-  </nav>
-
-  
-     
 </article>
 
-</section>
-      <footer class="footer">
-  <div class="outer">
-    <ul>
-      <li>
-        Copyrights &copy;
-        2016-2020
-        <i class="ri-heart-fill heart_icon"></i> 骑着蜗牛的蚂蚁
-      </li>
-    </ul>
-    <ul>
-      <li>
+
+
         
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
         
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ngx-arg"><span class="toc-number">1.</span> <span class="toc-text">ngx.arg</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ngx-var-VARIABLE"><span class="toc-number">2.</span> <span class="toc-text">ngx.var.VARIABLE</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Core-constants"><span class="toc-number">3.</span> <span class="toc-text">Core constants</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP-method-constants"><span class="toc-number">4.</span> <span class="toc-text">HTTP method constants</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP-status-constants"><span class="toc-number">5.</span> <span class="toc-text">HTTP status constants</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx-log-level-constants"><span class="toc-number">6.</span> <span class="toc-text">Nginx log level constants</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#print"><span class="toc-number">7.</span> <span class="toc-text">print</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ngx-ctx"><span class="toc-number">8.</span> <span class="toc-text">ngx.ctx</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ngx-location-capture"><span class="toc-number">9.</span> <span class="toc-text">ngx.location.capture</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ngx-location-capture-multi"><span class="toc-number">10.</span> <span class="toc-text">ngx.location.capture_multi</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ngx-status"><span class="toc-number">11.</span> <span class="toc-text">ngx.status</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ngx-header-HEADER"><span class="toc-number">12.</span> <span class="toc-text">ngx.header.HEADER</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ngx-resp-get-headers"><span class="toc-number">13.</span> <span class="toc-text">ngx.resp.get_headers</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ngx-req-is-internal"><span class="toc-number">14.</span> <span class="toc-text">ngx.req.is_internal</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ngx-req-start-time"><span class="toc-number">15.</span> <span class="toc-text">ngx.req.start_time</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ngx-req-http-version"><span class="toc-number">16.</span> <span class="toc-text">ngx.req.http_version</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ngx-req-raw-header"><span class="toc-number">17.</span> <span class="toc-text">ngx.req.raw_header</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ngx-req-get-method"><span class="toc-number">18.</span> <span class="toc-text">ngx.req.get_method</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ngx-req-set-method"><span class="toc-number">19.</span> <span class="toc-text">ngx.req.set_method</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ngx-req-set-uri"><span class="toc-number">20.</span> <span class="toc-text">ngx.req.set_uri</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://hanpy.cn/Nginx-API-for-Lua/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://hanpy.cn/Nginx-API-for-Lua/&text=Nginx API for Lua" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://hanpy.cn/Nginx-API-for-Lua/&title=Nginx API for Lua" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://hanpy.cn/Nginx-API-for-Lua/&is_video=false&description=Nginx API for Lua" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Nginx API for Lua&body=Check out this article: http://hanpy.cn/Nginx-API-for-Lua/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://hanpy.cn/Nginx-API-for-Lua/&title=Nginx API for Lua" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://hanpy.cn/Nginx-API-for-Lua/&title=Nginx API for Lua" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://hanpy.cn/Nginx-API-for-Lua/&title=Nginx API for Lua" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://hanpy.cn/Nginx-API-for-Lua/&title=Nginx API for Lua" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://hanpy.cn/Nginx-API-for-Lua/&name=Nginx API for Lua&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://hanpy.cn/Nginx-API-for-Lua/&t=Nginx API for Lua" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
         
-        由 <a href="https://hexo.io" target="_blank">Hexo</a> 强力驱动
-        <span class="division">|</span>
-        主题 - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2015-2020
+    骑着蜗牛的蚂蚁
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
         
-      </li>
-    </ul>
-    <ul>
-      <li>
-        
-      </li>
-    </ul>
-    <ul>
-      
-    </ul>
-    <ul>
-      <li>
-        <!-- cnzz统计 -->
-        
-      </li>
-    </ul>
+      </ul>
+    </nav>
   </div>
 </footer>
-      <div class="float_btns">
-        <div class="totop" id="totop">
-  <i class="ri-arrow-up-line"></i>
-</div>
 
-<div class="todark" id="todark">
-  <i class="ri-moon-line"></i>
-</div>
+    </div>
+    <!-- styles -->
 
-      </div>
-    </main>
-    <aside class="sidebar on">
-      <button class="navbar-toggle"></button>
-<nav class="navbar">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
   
-  <div class="logo">
-    <a href="/"><img src="/images/log.jpg" alt="骑着蜗牛的蚂蚁"></a>
-  </div>
-  
-  <ul class="nav nav-main">
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/">主页</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/archives">归档</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/categories">分类</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/tags">标签</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/about">关于</a>
-    </li>
-    
-  </ul>
-</nav>
-<nav class="navbar navbar-bottom">
-  <ul class="nav">
-    <li class="nav-item">
-      
-      <a class="nav-item-link nav-item-search"  title="搜索">
-        <i class="ri-search-line"></i>
-      </a>
-      
-      
-    </li>
-  </ul>
-</nav>
-<div class="search-form-wrap">
-  <div class="local-search local-search-plugin">
-  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
-  <div id="local-search-result" class="local-search-result"></div>
-</div>
-</div>
-    </aside>
-    <script>
-      if (window.matchMedia("(max-width: 768px)").matches) {
-        document.querySelector('.content').classList.remove('on');
-        document.querySelector('.sidebar').classList.remove('on');
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
       }
-    </script>
-    <div id="mask"></div>
-
-<!-- #reward -->
-<div id="reward">
-  <span class="close"><i class="ri-close-line"></i></span>
-  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
-  <div class="reward-box">
-    
-    <div class="reward-item">
-      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/alipay.jpg">
-      <span class="reward-type">支付宝</span>
-    </div>
-    
-    
-    <div class="reward-item">
-      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/wechat.jpg">
-      <span class="reward-type">微信</span>
-    </div>
-    
-  </div>
-</div>
-    
-<script src="/js/jquery-2.0.3.min.js"></script>
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
 
 
-<script src="/js/lazyload.min.js"></script>
+<script src="/js/main.js"></script>
 
-<!-- Tocbot -->
+<!-- search -->
 
+<!-- Google Analytics -->
 
-<script src="/js/tocbot.min.js"></script>
+<!-- Baidu Analytics -->
 
-<script>
-  tocbot.init({
-    tocSelector: '.tocbot',
-    contentSelector: '.article-entry',
-    headingSelector: 'h1, h2, h3, h4, h5, h6',
-    hasInnerContainers: true,
-    scrollSmooth: true,
-    scrollContainer: 'main',
-    positionFixedSelector: '.tocbot',
-    positionFixedClass: 'is-position-fixed',
-    fixedSidebarOffset: 'auto'
-  });
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
-<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
-
-<script src="/dist/main.js"></script>
-
-<!-- ImageViewer -->
-
-<!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
-
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
-
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
-
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
-
-            <div class="pswp__top-bar">
-
-                <!--  Controls are self-explanatory. Order can be changed. -->
-
-                <div class="pswp__counter"></div>
-
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-
-                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
-
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                        <div class="pswp__preloader__cut">
-                            <div class="pswp__preloader__donut"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div>
-            </div>
-
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
-
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
-
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
-<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
-
-<script>
-    function viewer_init() {
-        let pswpElement = document.querySelectorAll('.pswp')[0];
-        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
-
-        $imgArr.forEach(($em, i) => {
-            $em.onclick = () => {
-                // slider展开状态
-                // todo: 这样不好，后面改成状态
-                if (document.querySelector('.left-col.show')) return
-                let items = []
-                $imgArr.forEach(($em2, i2) => {
-                    let img = $em2.getAttribute('data-idx', i2)
-                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
-                    let title = $em2.getAttribute('alt')
-                    // 获得原图尺寸
-                    const image = new Image()
-                    image.src = src
-                    items.push({
-                        src: src,
-                        w: image.width || $em2.width,
-                        h: image.height || $em2.height,
-                        title: title
-                    })
-                })
-                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
-                    index: parseInt(i)
-                });
-                gallery.init()
-            }
-        })
-    }
-    viewer_init()
-</script>
-
-<!-- MathJax -->
-
-<!-- Katex -->
-
-<!-- busuanzi  -->
-
-<!-- ClickLove -->
-
-<!-- ClickBoom1 -->
-
-<!-- ClickBoom2 -->
-
-<!-- CodeCopy -->
-
-<!-- CanvasBackground -->
+<!-- Disqus Comments -->
 
 
-    
-  </div>
 </body>
-
 </html>
