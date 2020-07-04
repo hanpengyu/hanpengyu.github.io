@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="在开发的时候使用的是虚拟机，但是使用虚拟机有一个问题，那就是每次修改文件都要下载下来，修改好再传上去，说起来都蛋疼，Samba服务为两种不同的操作系统架起了一座桥梁，使Linux系统和Windows系统之间能够实现互相通信，让在虚拟机上开发边的极为方便。  我只是简单的实现了，匿名登录的方式，输入用户验证的方式没有做，肯定是不安全的，但是考虑是公司开发，而且是在自己的虚拟机上用足够了。 samb">
+<meta property="og:type" content="article">
+<meta property="og:title" content="samba服务配置">
+<meta property="og:url" content="http://hanpy.cn/samba%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/index.html">
+<meta property="og:site_name" content="骑着蜗牛的蚂蚁">
+<meta property="og:description" content="在开发的时候使用的是虚拟机，但是使用虚拟机有一个问题，那就是每次修改文件都要下载下来，修改好再传上去，说起来都蛋疼，Samba服务为两种不同的操作系统架起了一座桥梁，使Linux系统和Windows系统之间能够实现互相通信，让在虚拟机上开发边的极为方便。  我只是简单的实现了，匿名登录的方式，输入用户验证的方式没有做，肯定是不安全的，但是考虑是公司开发，而且是在自己的虚拟机上用足够了。 samb">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-07-24T08:15:00.000Z">
+<meta property="article:modified_time" content="2020-07-04T15:05:00.514Z">
+<meta property="article:author" content="骑着蜗牛的蚂蚁">
+<meta property="article:tag" content="samba">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>samba服务配置</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/php7-%E5%AE%89%E8%A3%85memcached%E3%80%81memcache/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/Linux-rz-sz/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://hanpy.cn/samba%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://hanpy.cn/samba%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/&text=samba服务配置" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://hanpy.cn/samba%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/&title=samba服务配置" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://hanpy.cn/samba%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/&is_video=false&description=samba服务配置" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=samba服务配置&body=Check out this article: http://hanpy.cn/samba%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://hanpy.cn/samba%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/&title=samba服务配置" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://hanpy.cn/samba%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/&title=samba服务配置" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://hanpy.cn/samba%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/&title=samba服务配置" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://hanpy.cn/samba%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/&title=samba服务配置" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://hanpy.cn/samba%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/&name=samba服务配置&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://hanpy.cn/samba%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/&t=samba服务配置" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#samba的安装"><span class="toc-number">1.</span> <span class="toc-text">samba的安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#samba的配置"><span class="toc-number">2.</span> <span class="toc-text">samba的配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#samba服务的启动-centos-7"><span class="toc-number">3.</span> <span class="toc-text">samba服务的启动 | centos 7</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#selinux的问题"><span class="toc-number">4.</span> <span class="toc-text">selinux的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用"><span class="toc-number">5.</span> <span class="toc-text">使用</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        samba服务配置
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">骑着蜗牛的蚂蚁</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2017-07-24T08:15:00.000Z" itemprop="datePublished">2017-07-24</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Linux/">Linux</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/samba/" rel="tag">samba</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>在开发的时候使用的是虚拟机，但是使用虚拟机有一个问题，那就是每次修改文件都要下载下来，修改好再传上去，说起来都蛋疼，Samba服务为两种不同的操作系统架起了一座桥梁，使Linux系统和Windows系统之间能够实现互相通信，让在虚拟机上开发边的极为方便。</p>
+</blockquote>
+<p>我只是简单的实现了，匿名登录的方式，输入用户验证的方式没有做，肯定是不安全的，但是考虑是公司开发，而且是在自己的虚拟机上用足够了。</p>
+<h3 id="samba的安装"><a href="#samba的安装" class="headerlink" title="samba的安装"></a>samba的安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install samba</span><br></pre></td></tr></table></figure>
+
+<p>通过这样的安装方式就可以的，看其他的教程发现要安装好几个包，我发现并不需要，我用的系统是centos 7。</p>
+<h3 id="samba的配置"><a href="#samba的配置" class="headerlink" title="samba的配置"></a>samba的配置</h3><p>配置文件的位置 ： /etc/samba/smb.conf (修改的时候记得备份文件)<br>主要的配置项：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">[global]</span><br><span class="line">workgroup 就是Windows中显示的工作组；在这里我设置的是WORKGROUP （用大写）</span><br><span class="line">netbios name 就是在Windows中显示出来的计算机名</span><br><span class="line">server string 就是Samba服务器说明，可以自己来定义，这个不是什么重要的；</span><br><span class="line">security 这是验证和登录方式，这里用user （老的版本如果是匿名这里直接用share就可以）</span><br><span class="line">map to guest &#x3D; Bad User （加上这个就可以实现匿名访问）</span><br><span class="line">force user &#x3D; www #创建文件时候的用户</span><br><span class="line">force group &#x3D; www #创建文件时候的用户组</span><br><span class="line">create mask &#x3D; 0775</span><br><span class="line">#更改创建文档的预设权限</span><br><span class="line">directory mask &#x3D; 0775</span><br><span class="line">#创建目录的预设权限</span><br><span class="line"></span><br><span class="line">[public]</span><br><span class="line">comment &#x3D; 说明</span><br><span class="line">path &#x3D; &#x2F;samba （共享的目录）</span><br><span class="line">browseable &#x3D; yes</span><br><span class="line">writable &#x3D; yes （是否可写）</span><br><span class="line">public &#x3D; yes （是否是公共的）</span><br><span class="line">guest ok &#x3D; yes （好像和public是一个，没有具体测试）</span><br><span class="line"># 其余参数待补充，有两个在windows中创建目录的用户相关的配置</span><br></pre></td></tr></table></figure>
+
+<h3 id="samba服务的启动-centos-7"><a href="#samba服务的启动-centos-7" class="headerlink" title="samba服务的启动 | centos 7"></a>samba服务的启动 | centos 7</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable smb</span><br><span class="line">systemctl enable nmb</span><br><span class="line">systemctl restart smb</span><br><span class="line">systemctl restart nmb</span><br></pre></td></tr></table></figure>
+
+<h3 id="selinux的问题"><a href="#selinux的问题" class="headerlink" title="selinux的问题"></a>selinux的问题</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vi &#x2F;etc&#x2F;selinux&#x2F;config 修改 SELINUX&#x3D;disabled</span><br><span class="line">重启系统就会关闭</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>windows中，运行-&gt; \sambaip 就可以看到看到共享的目录了，映射一下就可以访问了。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#samba的安装"><span class="toc-number">1.</span> <span class="toc-text">samba的安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#samba的配置"><span class="toc-number">2.</span> <span class="toc-text">samba的配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#samba服务的启动-centos-7"><span class="toc-number">3.</span> <span class="toc-text">samba服务的启动 | centos 7</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#selinux的问题"><span class="toc-number">4.</span> <span class="toc-text">selinux的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用"><span class="toc-number">5.</span> <span class="toc-text">使用</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://hanpy.cn/samba%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://hanpy.cn/samba%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/&text=samba服务配置" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://hanpy.cn/samba%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/&title=samba服务配置" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://hanpy.cn/samba%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/&is_video=false&description=samba服务配置" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=samba服务配置&body=Check out this article: http://hanpy.cn/samba%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://hanpy.cn/samba%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/&title=samba服务配置" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://hanpy.cn/samba%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/&title=samba服务配置" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://hanpy.cn/samba%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/&title=samba服务配置" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://hanpy.cn/samba%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/&title=samba服务配置" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://hanpy.cn/samba%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/&name=samba服务配置&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://hanpy.cn/samba%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/&t=samba服务配置" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2015-2020
+    骑着蜗牛的蚂蚁
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
