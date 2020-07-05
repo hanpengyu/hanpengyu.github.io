@@ -4,31 +4,6 @@
   
     
     <entry>
-      <title>sprintf %s 格式化</title>
-      <link href="/sprintf-s-%E6%A0%BC%E5%BC%8F%E5%8C%96/"/>
-      <url>/sprintf-s-%E6%A0%BC%E5%BC%8F%E5%8C%96/</url>
-      
-        <content type="html"><![CDATA[<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">关于 %f 格式化输出，网上大部分资料讲解都很模糊。这里总结一下！</span><br><span class="line"></span><br><span class="line">问题1. %m.nf是什么意思？</span><br><span class="line">最笼统的回答是：总共输出 m 位，其中小数占 n 位，右对齐，总计不足 m 位则左端补空格。</span><br><span class="line"></span><br><span class="line">问题2. m 位包含小数点么？</span><br><span class="line">答：包含。C语言中，数据输出宽度包括小数点。</span><br><span class="line"></span><br><span class="line">问题3. %f 如何实现左对齐？</span><br><span class="line">答：使用 %-f。</span><br><span class="line"></span><br><span class="line">问题4. 如果不足 m 位，如何实现补零或补其他内容？</span><br><span class="line">答：可以使用 %0m.nf 格式，如果想要补其他内容，则将其他内容代替上述格式中的“0”。</span><br><span class="line"></span><br><span class="line">问题5. 我想强制 %f 输出正负号该如何实现？</span><br><span class="line">答：使用 %+f 可强制输出正负号。</span><br><span class="line"></span><br><span class="line">问题6. 我用 %6.2f 输出 float a&#x3D;123.45 为什么得到的是“123.45”而不是“_123.45”（其中“_”表示空格）？不是右对齐么？不是左端补空格么？</span><br><span class="line">答：那是因为你没有把小数点计算在内。如果将小数点计算在内“_123.45”一共是 7 位。所以，想要按这种格式输出，应当使用 %7.2f。</span><br></pre></td></tr></table></figure>]]></content>
-      
-      
-      <categories>
-          
-          <category> PHP </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> sprintf </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>Hexo Theme 使用记录</title>
       <link href="/Hexo-Theme/"/>
       <url>/Hexo-Theme/</url>
@@ -158,6 +133,31 @@
             <tag> php excel </tag>
             
             <tag> php shell </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>sprintf %s 格式化</title>
+      <link href="/sprintf-s-%E6%A0%BC%E5%BC%8F%E5%8C%96/"/>
+      <url>/sprintf-s-%E6%A0%BC%E5%BC%8F%E5%8C%96/</url>
+      
+        <content type="html"><![CDATA[<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">关于 %f 格式化输出，网上大部分资料讲解都很模糊。这里总结一下！</span><br><span class="line"></span><br><span class="line">问题1. %m.nf是什么意思？</span><br><span class="line">最笼统的回答是：总共输出 m 位，其中小数占 n 位，右对齐，总计不足 m 位则左端补空格。</span><br><span class="line"></span><br><span class="line">问题2. m 位包含小数点么？</span><br><span class="line">答：包含。C语言中，数据输出宽度包括小数点。</span><br><span class="line"></span><br><span class="line">问题3. %f 如何实现左对齐？</span><br><span class="line">答：使用 %-f。</span><br><span class="line"></span><br><span class="line">问题4. 如果不足 m 位，如何实现补零或补其他内容？</span><br><span class="line">答：可以使用 %0m.nf 格式，如果想要补其他内容，则将其他内容代替上述格式中的“0”。</span><br><span class="line"></span><br><span class="line">问题5. 我想强制 %f 输出正负号该如何实现？</span><br><span class="line">答：使用 %+f 可强制输出正负号。</span><br><span class="line"></span><br><span class="line">问题6. 我用 %6.2f 输出 float a&#x3D;123.45 为什么得到的是“123.45”而不是“_123.45”（其中“_”表示空格）？不是右对齐么？不是左端补空格么？</span><br><span class="line">答：那是因为你没有把小数点计算在内。如果将小数点计算在内“_123.45”一共是 7 位。所以，想要按这种格式输出，应当使用 %7.2f。</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> PHP </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> sprintf </tag>
             
         </tags>
       
