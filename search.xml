@@ -8,9 +8,21 @@
       <link href="/Hexo-Theme/"/>
       <url>/Hexo-Theme/</url>
       
-        <content type="html"><![CDATA[<blockquote><p>一些使用过觉得不错的Hexo主题</p></blockquote><p>Hexo-Theme-AirCloud：一个简洁轻量的 hexo 博客主题 [github](<a href="https://github.com/" target="_blank" rel="noopener">https://github.com/</a><br>aircloud/hexo-theme-aircloud)</p><p>Cactus：一个很不错的主题，有4种颜色配置可以选择 <a href="https://github.com/probberechts/hexo-theme-cactus" target="_blank" rel="noopener">github</a>  </p><p>Ayer：一个安静且优雅的 Hexo 主题 <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank" rel="noopener">github</a> <a href="https://shen-yu.gitee.io/2019/ayer/" target="_blank" rel="noopener">中文说明</a></p>]]></content>
+        <content type="html"><![CDATA[<blockquote><p>一些使用过觉得不错的Hexo主题</p></blockquote><p>Cactus：一个很不错的主题，有4种颜色配置可以选择 <a href="https://github.com/probberechts/hexo-theme-cactus" target="_blank" rel="noopener">github</a><br>Ayer：一个安静且优雅的 Hexo 主题 <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank" rel="noopener">github</a> <a href="https://shen-yu.gitee.io/2019/ayer/" target="_blank" rel="noopener">中文说明</a><br>Hexo-Theme-AirCloud：一个简洁轻量的 hexo 博客主题 <a href="https://github.com/aircloud/hexo-theme-aircloud/blob/master/readme.md" target="_blank" rel="noopener">中文说明</a><br>even：一个超级简单的主题 <a href="https://github.com/ahonn/hexo-theme-even" target="_blank" rel="noopener">github</a></p>]]></content>
       
       
+      <categories>
+          
+          <category> 其他 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Hexo theme </tag>
+            
+        </tags>
       
     </entry>
     
