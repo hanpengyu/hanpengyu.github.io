@@ -169,17 +169,15 @@
 </blockquote>
 <p><a href="#ngx.arg">ngx.arg</a><br><a href="#ngx.var.VARIABLE">ngx.var.VARIABLE</a><br><a href="#Core-constants">Core constants</a><br><a href="#HTTP-method-constants">HTTP method constants</a><br><a href="#HTTP-status-constants">HTTP status constants</a><br><a href="#Nginx-log-level-constants">Nginx log level constants</a><br><a href="#print">print</a><br><a href="#ngx.ctx">ngx.ctx</a><br><a href="#ngx.location.capture">ngx.location.capture</a><br><a href="#ngx.location.capture_multi">ngx.location.capture_multi</a><br><a href="#ngx.status">ngx.status</a><br><a href="#ngx.header.HEADER">ngx.header.HEADER</a><br><a href="#ngx.resp.get_headers">ngx.resp.get_headers</a><br><a href="#ngx.req.is_internal">ngx.req.is_internal</a><br><a href="#ngx.req.start_time">ngx.req.start_time</a><br><a href="#ngx.req.http_version">ngx.req.http_version</a><br><a href="#ngx.req.get_method">ngx.req.get_method</a><br><a href="#ngx.req.set_method">ngx.req.set_method</a><br><a href="#ngx.req.set_uri">ngx.req.set_uri</a>  </p>
 <p><span id="ngx.arg"> </span></p>
-<h2 id="ngx-arg"><a href="#ngx-arg" class="headerlink" title="ngx.arg"></a>ngx.arg</h2><blockquote>
-<p>语法: val = ngx.arg[index]<br>作用域: set_by_lua<em>, body_filter_by_lua</em></p>
-</blockquote>
+<h2 id="ngx-arg"><a href="#ngx-arg" class="headerlink" title="ngx.arg"></a>ngx.arg</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; 语法: val &#x3D; ngx.arg[index]  </span><br><span class="line">&gt; 作用域: set_by_lua*, body_filter_by_lua*</span><br></pre></td></tr></table></figure>
+
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">location &#x2F;foo &#123;</span><br><span class="line">    set $a 32;</span><br><span class="line">    set $b 56;</span><br><span class="line"></span><br><span class="line">    set_by_lua $sum</span><br><span class="line">        &#39;return tonumber(ngx.arg[1]) + tonumber(ngx.arg[2])&#39;</span><br><span class="line">        $a $b;</span><br><span class="line"></span><br><span class="line">    echo $sum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><span id="ngx.var.VARIABLE"> </span></p>
 <h2 id="ngx-var-VARIABLE"><a href="#ngx-var-VARIABLE" class="headerlink" title="ngx.var.VARIABLE"></a>ngx.var.VARIABLE</h2><p>读写Nginx变量值。</p>
 <p><span style="color:blue">请注意，只能写入已经定义的Nginx变量</span></p>
-<blockquote>
-<p>syntax: ngx.var.VAR_NAME<br>context: set_by_lua<em>, rewrite_by_lua</em>, access_by_lua<em>, content_by_lua</em>, header_filter_by_lua<em>, body_filter_by_lua</em>, log_by_lua*</p>
-</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; 语法: ngx.var.VAR_NAME  </span><br><span class="line">&gt; 作用域: set_by_lua*, rewrite_by_lua*, access_by_lua*, content_by_lua*, header_filter_by_lua*, body_filter_by_lua*, log_by_lua*</span><br></pre></td></tr></table></figure>
+
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">value &#x3D; ngx.var.some_nginx_variable_name</span><br><span class="line">ngx.var.some_nginx_variable_name &#x3D; value</span><br></pre></td></tr></table></figure>
 
 <p>可以为某些特殊的Nginx变量（例如$ args和$ limit_rate）分配一个值，而其他一些则不能，例如$query_string，$arg_PARAMETER和$http_NAME。</p>
