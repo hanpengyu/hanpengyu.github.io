@@ -211,6 +211,10 @@
             
             <tag> 缓存穿透 </tag>
             
+            <tag> 缓存击穿 </tag>
+            
+            <tag> 缓存雪崩 </tag>
+            
         </tags>
       
     </entry>
