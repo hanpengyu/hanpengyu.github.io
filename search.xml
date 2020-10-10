@@ -219,8 +219,8 @@
     
     <entry>
       <title>缓存穿透、缓存击穿、缓存雪崩</title>
-      <link href="/%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E3%80%81%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF%E3%80%81%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9/"/>
-      <url>/%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E3%80%81%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF%E3%80%81%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9/</url>
+      <link href="/cache/"/>
+      <url>/cache/</url>
       
         <content type="html"><![CDATA[<h4 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h4><h5 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h5><p>获取数据的流程是先获取缓存，如果缓存没有再去数据库。如果查询的数据在缓存和数据库中都没有，那么这个请求就会一直会请求数据库给数据库造成压力，这个就是缓存穿透。</p><h5 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h5><ol><li>缓存控制，在数据库获取数据为空的时候也缓存</li><li>采用布隆过滤器</li></ol><h4 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h4><h5 id="概念-1"><a href="#概念-1" class="headerlink" title="概念"></a>概念</h5><p>大量的请求同事请求同一个key，此时这个key刚好失效了，导致了所有的请求都直接打到后端的数据库上面。</p><h5 id="解决办法-1"><a href="#解决办法-1" class="headerlink" title="解决办法"></a>解决办法</h5><p>使用互斥锁。</p><p>在缓存失效的时候不是立即去数据库取数据， 而是加一下互斥锁，拿到锁之后再判断是否有缓存，如果没有再去数据库取数据。</p><h4 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h4><h5 id="概念-2"><a href="#概念-2" class="headerlink" title="概念"></a>概念</h5><p>缓存雪崩是指多个key在同一个时间过期，造成压力忽然增高</p><h5 id="解决办法-2"><a href="#解决办法-2" class="headerlink" title="解决办法"></a>解决办法</h5><p>解决的方法是通过给key的失效时间增加一个随机值</p>]]></content>
       
@@ -248,8 +248,8 @@
     
     <entry>
       <title>sprintf %s 格式化</title>
-      <link href="/sprintf-s-%E6%A0%BC%E5%BC%8F%E5%8C%96/"/>
-      <url>/sprintf-s-%E6%A0%BC%E5%BC%8F%E5%8C%96/</url>
+      <link href="/sprintf/"/>
+      <url>/sprintf/</url>
       
         <content type="html"><![CDATA[<blockquote><p>关于 %f 格式化输出，网上大部分资料讲解都很模糊。这里总结一下！</p></blockquote><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">问题1. %m.nf是什么意思？</span><br><span class="line">最笼统的回答是：总共输出 m 位，其中小数占 n 位，右对齐，总计不足 m 位则左端补空格。</span><br><span class="line"></span><br><span class="line">问题2. m 位包含小数点么？</span><br><span class="line">答：包含。C语言中，数据输出宽度包括小数点。</span><br><span class="line"></span><br><span class="line">问题3. %f 如何实现左对齐？</span><br><span class="line">答：使用 %-f。</span><br><span class="line"></span><br><span class="line">问题4. 如果不足 m 位，如何实现补零或补其他内容？</span><br><span class="line">答：可以使用 %0m.nf 格式，如果想要补其他内容，则将其他内容代替上述格式中的“0”。</span><br><span class="line"></span><br><span class="line">问题5. 我想强制 %f 输出正负号该如何实现？</span><br><span class="line">答：使用 %+f 可强制输出正负号。</span><br><span class="line"></span><br><span class="line">问题6. 我用 %6.2f 输出 float a&#x3D;123.45 为什么得到的是“123.45”而不是“_123.45”</span><br><span class="line">（其中“_”表示空格）？不是右对齐么？不是左端补空格么？</span><br><span class="line">答：那是因为你没有把小数点计算在内。如果将小数点计算在内“_123.45”一共是 7 位。</span><br><span class="line">所以，想要按这种格式输出，应当使用 %7.2f。</span><br></pre></td></tr></table></figure>]]></content>
       
