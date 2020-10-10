@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="写在前面：本来是一件很容易的事情，但是到了php7的版本有一些变化，折腾的……，从perl上面下载的直接安装可能会有问题，如果有问题可以从github上面找一个来使用。  参考地址：http:&#x2F;&#x2F;www.lnmp.cn&#x2F;install-memcache-and-memcached-extends-under-php7.htmlgithub地址：https:&#x2F;&#x2F;github.com&#x2F;php-mem">
+    <meta name="description" content="写在前面：本来是一件很容易的事情，但是到了php7的版本有一些变化，折腾的……，从perl上面下载的直接安装可能会有问题，如果有问题可以从github上面找一个来使用。  参考地址1http:&#x2F;&#x2F;www.lnmp.cn&#x2F;install-memcache-and-memcached-extends-under-php7.html  github地址12https:&#x2F;&#x2F;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="php7 安装memcached、memcache">
 <meta property="og:url" content="http://hanpy.cn/PHP/php7-memcached-memcache.html">
 <meta property="og:site_name" content="骑着蜗牛的蚂蚁">
-<meta property="og:description" content="写在前面：本来是一件很容易的事情，但是到了php7的版本有一些变化，折腾的……，从perl上面下载的直接安装可能会有问题，如果有问题可以从github上面找一个来使用。  参考地址：http:&#x2F;&#x2F;www.lnmp.cn&#x2F;install-memcache-and-memcached-extends-under-php7.htmlgithub地址：https:&#x2F;&#x2F;github.com&#x2F;php-mem">
+<meta property="og:description" content="写在前面：本来是一件很容易的事情，但是到了php7的版本有一些变化，折腾的……，从perl上面下载的直接安装可能会有问题，如果有问题可以从github上面找一个来使用。  参考地址1http:&#x2F;&#x2F;www.lnmp.cn&#x2F;install-memcache-and-memcached-extends-under-php7.html  github地址12https:&#x2F;&#x2F;">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2017-11-13T05:24:00.000Z">
-<meta property="article:modified_time" content="2020-10-10T08:56:30.708Z">
+<meta property="article:modified_time" content="2020-10-10T09:47:49.980Z">
 <meta property="article:author" content="骑着蜗牛的蚂蚁">
 <meta property="article:tag" content="php">
 <meta property="article:tag" content="memcache">
@@ -114,7 +114,7 @@
 
     </div>
     <div id="toc">
-      
+      <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#参考地址"><span class="toc-number">1.</span> <span class="toc-text">参考地址</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#github地址"><span class="toc-number">2.</span> <span class="toc-text">github地址</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -166,21 +166,24 @@
     <blockquote>
 <p>写在前面：<br>本来是一件很容易的事情，但是到了php7的版本有一些变化，折腾的……，从perl上面下载的直接安装可能会有问题，如果有问题可以从github上面找一个来使用。</p>
 </blockquote>
-<p>参考地址：<a href="http://www.lnmp.cn/install-memcache-and-memcached-extends-under-php7.html" target="_blank" rel="noopener">http://www.lnmp.cn/install-memcache-and-memcached-extends-under-php7.html</a><br>github地址：<br><a href="https://github.com/php-memcached-dev/php-memcached" target="_blank" rel="noopener">https://github.com/php-memcached-dev/php-memcached</a><br><a href="https://github.com/websupport-sk/pecl-memcache" target="_blank" rel="noopener">https://github.com/websupport-sk/pecl-memcache</a></p>
-<p>1、先下载libmemcached：<br>wget <a href="https://launchpad.net/libmemcached/1.0/1.0.18/+download/libmemcached-1.0.18.tar.gz" target="_blank" rel="noopener">https://launchpad.net/libmemcached/1.0/1.0.18/+download/libmemcached-1.0.18.tar.gz</a></p>
-<p>2、解包：<br>tar -zxf libmemcached-1.0.18.tar.gz</p>
-<p>3、进入解压后的包，编译：<br>./configure –prefix=/usr/local/libmemcached –with-memcached<br>注意：–with-memcached这个选项一定要加上</p>
-<p>安装完成后，开始安装memcached模块：<br>1、下载<br>wget <a href="https://github.com/php-memcached-dev/php-memcached/archive/php7.zip" target="_blank" rel="noopener">https://github.com/php-memcached-dev/php-memcached/archive/php7.zip</a></p>
-<p>2、解包<br>tar -zxf memcached-2.2.0.tgz</p>
-<p>3、进入解包后的目录，先使用phpize命令生成一个configure文件<br>phpize （多个php版本一定要到指定的版本才行）</p>
-<p>4、安装<br>./configure –with-php-config=/usr/bin/php-config –with-libmemcached-dir=/usr/local/libmemcached<br>//此处的php-config如果不知道在哪里的话可以用find / -name php-config命令找一下</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./configure --with-php-config=/usr/local/php/bin/php-config \</span><br><span class="line">--with-libmemcached-dir=/usr/lib/libmemcached \</span><br><span class="line">--disable-memcached-sasl</span><br></pre></td></tr></table></figure>
+<h5 id="参考地址"><a href="#参考地址" class="headerlink" title="参考地址"></a>参考地址</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;www.lnmp.cn&#x2F;install-memcache-and-memcached-extends-under-php7.html</span><br></pre></td></tr></table></figure>
 
-<p>with-libmemcached-dir后面就是上面安装的路径</p>
-<p>5、编译 make &amp;&amp; make install</p>
-<p>6、安装完成后需要在php.ini文件中添加一条extension=memcached.so的记录，</p>
-<p>php7 安装memcache可能也有问题：<br><a href="http://www.lnmp.cn/install-memcache-and-memcached-extends-under-php7.html" target="_blank" rel="noopener">http://www.lnmp.cn/install-memcache-and-memcached-extends-under-php7.html</a></p>
+<h5 id="github地址"><a href="#github地址" class="headerlink" title="github地址"></a>github地址</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/php-memcached-dev/php-memcached</span><br><span class="line">https://github.com/websupport-sk/pecl-memcache</span><br></pre></td></tr></table></figure>
 
+<blockquote>
+<p>安装libmemcached</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1、先下载libmemcached：</span><br><span class="line">wget https://launchpad.net/libmemcached/1.0/1.0.18/+download/libmemcached-1.0.18.tar.gz</span><br><span class="line"></span><br><span class="line">2、解包：</span><br><span class="line">tar -zxf libmemcached-1.0.18.tar.gz</span><br><span class="line"></span><br><span class="line">3、进入解压后的包，编译：</span><br><span class="line">./configure --prefix=/usr/<span class="built_in">local</span>/libmemcached --with-memcached</span><br><span class="line">注意：--with-memcached这个选项一定要加上</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>安装memcached模块</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1、下载</span></span><br><span class="line">wget https://github.com/php-memcached-dev/php-memcached/archive/php7.zip</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2、解包</span></span><br><span class="line">tar -zxf memcached-2.2.0.tgz</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3、进入解包后的目录，先使用phpize命令生成一个configure文件</span></span><br><span class="line">phpize （多个php版本一定要到指定的版本才行）</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4、安装</span></span><br><span class="line">./configure --with-php-config=/usr/<span class="built_in">local</span>/php/bin/php-config \</span><br><span class="line">--with-libmemcached-dir=/usr/lib/libmemcached \</span><br><span class="line">--<span class="built_in">disable</span>-memcached-sasl</span><br><span class="line"></span><br><span class="line"><span class="comment"># 此处的php-config如果不知道在哪里的话可以用find / -name php-config命令找一下</span></span><br><span class="line"><span class="comment"># with-libmemcached-dir后面就是上面安装的路径</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 5、编译 </span></span><br><span class="line">make &amp;&amp; make install</span><br><span class="line"></span><br><span class="line"><span class="comment"># 6、安装完成后需要在php.ini文件中添加一条记录</span></span><br><span class="line">extension=memcached.so</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>php7 安装memcache可能也有问题</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://www.lnmp.cn/install-memcache-and-memcached-extends-under-php7.html</span><br></pre></td></tr></table></figure>
   </div>
 </article>
 
@@ -209,7 +212,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      
+      <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#参考地址"><span class="toc-number">1.</span> <span class="toc-text">参考地址</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#github地址"><span class="toc-number">2.</span> <span class="toc-text">github地址</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
