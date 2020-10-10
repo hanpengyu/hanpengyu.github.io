@@ -9,7 +9,7 @@
     <meta name="description" content="关于 %f 格式化输出，网上大部分资料讲解都很模糊。这里总结一下！  12345678910111213141516171819问题1. %m.nf是什么意思？最笼统的回答是：总共输出 m 位，其中小数占 n 位，右对齐，总计不足 m 位则左端补空格。问题2. m 位包含小数点么？答：包含。C语言中，数据输出宽度包括小数点。问题3. %f 如何实现左对齐？答：使用 %-f。问题4. 如果不足 m">
 <meta property="og:type" content="article">
 <meta property="og:title" content="sprintf %s 格式化">
-<meta property="og:url" content="http://hanpy.cn/sprintf/index.html">
+<meta property="og:url" content="http://hanpy.cn/sprintf.html">
 <meta property="og:site_name" content="骑着蜗牛的蚂蚁">
 <meta property="og:description" content="关于 %f 格式化输出，网上大部分资料讲解都很模糊。这里总结一下！  12345678910111213141516171819问题1. %m.nf是什么意思？最笼统的回答是：总共输出 m 位，其中小数占 n 位，右对齐，总计不足 m 位则左端补空格。问题2. m 位包含小数点么？答：包含。C语言中，数据输出宽度包括小数点。问题3. %f 如何实现左对齐？答：使用 %-f。问题4. 如果不足 m">
 <meta property="og:locale" content="zh_CN">
@@ -81,10 +81,10 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" href="/cache/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        <li><a class="icon" href="/cache.html"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
-        <li><a class="icon" href="/Xshell-%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        <li><a class="icon" href="/xshell-color.html"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
         <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
@@ -97,17 +97,17 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://hanpy.cn/sprintf/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://hanpy.cn/sprintf/&text=sprintf %s 格式化" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://hanpy.cn/sprintf/&title=sprintf %s 格式化" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://hanpy.cn/sprintf/&is_video=false&description=sprintf %s 格式化" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=sprintf %s 格式化&body=Check out this article: http://hanpy.cn/sprintf/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://hanpy.cn/sprintf/&title=sprintf %s 格式化" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://hanpy.cn/sprintf/&title=sprintf %s 格式化" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://hanpy.cn/sprintf/&title=sprintf %s 格式化" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://hanpy.cn/sprintf/&title=sprintf %s 格式化" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://hanpy.cn/sprintf/&name=sprintf %s 格式化&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://hanpy.cn/sprintf/&t=sprintf %s 格式化" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://hanpy.cn/sprintf.html" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://hanpy.cn/sprintf.html&text=sprintf %s 格式化" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://hanpy.cn/sprintf.html&title=sprintf %s 格式化" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://hanpy.cn/sprintf.html&is_video=false&description=sprintf %s 格式化" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=sprintf %s 格式化&body=Check out this article: http://hanpy.cn/sprintf.html"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://hanpy.cn/sprintf.html&title=sprintf %s 格式化" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://hanpy.cn/sprintf.html&title=sprintf %s 格式化" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://hanpy.cn/sprintf.html&title=sprintf %s 格式化" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://hanpy.cn/sprintf.html&title=sprintf %s 格式化" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://hanpy.cn/sprintf.html&name=sprintf %s 格式化&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://hanpy.cn/sprintf.html&t=sprintf %s 格式化" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -198,17 +198,17 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://hanpy.cn/sprintf/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://hanpy.cn/sprintf/&text=sprintf %s 格式化" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://hanpy.cn/sprintf/&title=sprintf %s 格式化" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://hanpy.cn/sprintf/&is_video=false&description=sprintf %s 格式化" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=sprintf %s 格式化&body=Check out this article: http://hanpy.cn/sprintf/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://hanpy.cn/sprintf/&title=sprintf %s 格式化" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://hanpy.cn/sprintf/&title=sprintf %s 格式化" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://hanpy.cn/sprintf/&title=sprintf %s 格式化" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://hanpy.cn/sprintf/&title=sprintf %s 格式化" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://hanpy.cn/sprintf/&name=sprintf %s 格式化&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://hanpy.cn/sprintf/&t=sprintf %s 格式化" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://hanpy.cn/sprintf.html" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://hanpy.cn/sprintf.html&text=sprintf %s 格式化" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://hanpy.cn/sprintf.html&title=sprintf %s 格式化" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://hanpy.cn/sprintf.html&is_video=false&description=sprintf %s 格式化" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=sprintf %s 格式化&body=Check out this article: http://hanpy.cn/sprintf.html"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://hanpy.cn/sprintf.html&title=sprintf %s 格式化" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://hanpy.cn/sprintf.html&title=sprintf %s 格式化" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://hanpy.cn/sprintf.html&title=sprintf %s 格式化" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://hanpy.cn/sprintf.html&title=sprintf %s 格式化" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://hanpy.cn/sprintf.html&name=sprintf %s 格式化&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://hanpy.cn/sprintf.html&t=sprintf %s 格式化" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
