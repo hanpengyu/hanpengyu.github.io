@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>xargs常规使用记录</title>
+      <link href="/xargs%E5%B8%B8%E8%A7%84%E4%BD%BF%E7%94%A8/"/>
+      <url>/xargs%E5%B8%B8%E8%A7%84%E4%BD%BF%E7%94%A8/</url>
+      
+        <content type="html"><![CDATA[<h4 id="xargs命令的作用"><a href="#xargs命令的作用" class="headerlink" title="xargs命令的作用"></a>xargs命令的作用</h4><blockquote><p>xargs命令的作用，是将标准输入转为命令行参数</p></blockquote><p><code>xargs</code>命令的格式</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xargs [-options] [<span class="built_in">command</span>]</span><br></pre></td></tr></table></figure><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> <span class="string">"hello world"</span> | xargs <span class="built_in">echo</span></span><br><span class="line">hello world</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Linux </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> xargs </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Lua中正则表达式的使用</title>
       <link href="/Lua%E4%B8%AD%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E4%BD%BF%E7%94%A8/"/>
       <url>/Lua%E4%B8%AD%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
