@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="通过创建插件的形式来实现  12345678910111213import datetimeimport sublime_pluginclass AddCurrentTimeCommand(sublime_plugin.TextCommand):def run(self, edit):    self.view.run_command(&quot;insert_snippet&quot;,    &amp;#123;">
+    <meta name="description" content="通过创建插件的形式来实现12345678910111213import datetimeimport sublime_pluginclass AddCurrentTimeCommand(sublime_plugin.TextCommand):def run(self, edit):    self.view.run_command(&quot;insert_snippet&quot;,    &amp;#123;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Sublime Text实现插入当前时间">
 <meta property="og:url" content="http://hanpy.cn/IDE/Sublime/sublime-text-time.html">
 <meta property="og:site_name" content="骑着蜗牛的蚂蚁">
-<meta property="og:description" content="通过创建插件的形式来实现  12345678910111213import datetimeimport sublime_pluginclass AddCurrentTimeCommand(sublime_plugin.TextCommand):def run(self, edit):    self.view.run_command(&quot;insert_snippet&quot;,    &amp;#123;">
+<meta property="og:description" content="通过创建插件的形式来实现12345678910111213import datetimeimport sublime_pluginclass AddCurrentTimeCommand(sublime_plugin.TextCommand):def run(self, edit):    self.view.run_command(&quot;insert_snippet&quot;,    &amp;#123;">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2015-05-23T06:27:00.000Z">
-<meta property="article:modified_time" content="2020-10-10T09:13:43.912Z">
+<meta property="article:modified_time" content="2020-10-12T11:45:40.946Z">
 <meta property="article:author" content="骑着蜗牛的蚂蚁">
 <meta property="article:tag" content="Sublime">
 <meta name="twitter:card" content="summary">
@@ -110,7 +110,7 @@
 
     </div>
     <div id="toc">
-      
+      <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#通过创建插件的形式来实现"><span class="toc-number">1.</span> <span class="toc-text">通过创建插件的形式来实现</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#创建快捷键-Preference-→-Key-Bindings-User"><span class="toc-number">2.</span> <span class="toc-text">创建快捷键 Preference → Key Bindings - User</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -159,15 +159,9 @@
   
 
   <div class="content" itemprop="articleBody">
-    <blockquote>
-<p>通过创建插件的形式来实现</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">import</span> sublime_plugin</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AddCurrentTimeCommand</span><span class="params">(sublime_plugin.TextCommand)</span>:</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self, edit)</span>:</span></span><br><span class="line">    self.view.run_command(<span class="string">"insert_snippet"</span>,</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">"contents"</span>: <span class="string">"/**"</span><span class="string">"\n"</span></span><br><span class="line">        <span class="string">" * @Author:      name"</span><span class="string">"\n"</span></span><br><span class="line">        <span class="string">" * @DateTime:    "</span>  <span class="string">"%s"</span>  %datetime.datetime.now().strftime(<span class="string">"%Y-%m-%d %H:%M:%S"</span>) +<span class="string">"\n"</span></span><br><span class="line">        <span class="string">" * @Description: Description"</span><span class="string">"\n"</span></span><br><span class="line">        <span class="string">" */"</span></span><br><span class="line">    &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+    <h5 id="通过创建插件的形式来实现"><a href="#通过创建插件的形式来实现" class="headerlink" title="通过创建插件的形式来实现"></a>通过创建插件的形式来实现</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">import</span> sublime_plugin</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AddCurrentTimeCommand</span><span class="params">(sublime_plugin.TextCommand)</span>:</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self, edit)</span>:</span></span><br><span class="line">    self.view.run_command(<span class="string">"insert_snippet"</span>,</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">"contents"</span>: <span class="string">"/**"</span><span class="string">"\n"</span></span><br><span class="line">        <span class="string">" * @Author:      name"</span><span class="string">"\n"</span></span><br><span class="line">        <span class="string">" * @DateTime:    "</span>  <span class="string">"%s"</span>  %datetime.datetime.now().strftime(<span class="string">"%Y-%m-%d %H:%M:%S"</span>) +<span class="string">"\n"</span></span><br><span class="line">        <span class="string">" * @Description: Description"</span><span class="string">"\n"</span></span><br><span class="line">        <span class="string">" */"</span></span><br><span class="line">    &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 <p>保存为Sublime Text 2\Packages\User\addInfo.py</p>
-<blockquote>
-<p>创建快捷键 Preference → Key Bindings - User</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;command&quot;: &quot;add_Info&quot;,</span><br><span class="line">        &quot;keys&quot;: [</span><br><span class="line">            &quot;ctrl+shift+,&quot;</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<h5 id="创建快捷键-Preference-→-Key-Bindings-User"><a href="#创建快捷键-Preference-→-Key-Bindings-User" class="headerlink" title="创建快捷键 Preference → Key Bindings - User"></a>创建快捷键 Preference → Key Bindings - User</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;command&quot;: &quot;add_Info&quot;,</span><br><span class="line">        &quot;keys&quot;: [</span><br><span class="line">            &quot;ctrl+shift+,&quot;</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
   </div>
 </article>
 
@@ -196,7 +190,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      
+      <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#通过创建插件的形式来实现"><span class="toc-number">1.</span> <span class="toc-text">通过创建插件的形式来实现</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#创建快捷键-Preference-→-Key-Bindings-User"><span class="toc-number">2.</span> <span class="toc-text">创建快捷键 Preference → Key Bindings - User</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
