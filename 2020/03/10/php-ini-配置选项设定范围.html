@@ -9,7 +9,7 @@
     
     <title>
         
-            归档: 2022 |
+            php.ini 配置选项设定范围 |
         
         Hanpy&#39;s blog
     </title>
@@ -89,7 +89,7 @@
                         </li>
                     
                         <li class="menu-item">
-                            <a class="active"
+                            <a class=""
                                href="/archives"
                             >
                                 归档
@@ -143,7 +143,7 @@
                 </li>
             
                 <li class="drawer-menu-item flex-center">
-                    <a class="active"
+                    <a class=""
                        href="/archives">归档</a>
                 </li>
             
@@ -173,48 +173,184 @@
 
                 
                     <div class="fade-in-down-animation">
-    <div class="archive-container ">
+    <div class="post-page-container">
+        <div class="article-content-container">
+
+            <div class="article-title">
+                <span class="title-hover-animation">php.ini 配置选项设定范围</span>
+            </div>
+
+            
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="/images/tz.jpeg">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">这么大个豆泥丸</span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            
+<div class="article-meta-info">
+    <span class="article-date article-meta-item">
         
-<div class="archive-list-container">
+            <i class="fa-regular fa-calendar-plus"></i>&nbsp;
+        
+        <span class="pc">2020-03-10 22:55:51</span>
+        <span class="mobile">2020-03-10 22:55</span>
+    </span>
     
-        <section class="archive-item">
-            <div class="archive-item-header">
-                <span class="archive-year">2022</span>
-                <span class="archive-year-post-count">[1]</span>
-            </div>
-            <ul class="article-list">
+        <span class="article-update-date article-meta-item">
+        <i class="fas fa-file-pen"></i>&nbsp;
+        <span class="pc">2020-03-10 22:55:51</span>
+    </span>
+    
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
                 
-                    <li class="article-item">
-                        <a class="article-title"
-                           href="/2022/10/10/slice%E5%92%8Carray.html"
-                        >slice和array</a>
-                        <span class="article-date">10-10</span>
+                    <li>
+                        <a href="/categories/PHP/">PHP</a>&nbsp;
                     </li>
                 
             </ul>
-        </section>
+        </span>
     
-        <section class="archive-item">
-            <div class="archive-item-header">
-                <span class="archive-year">2020</span>
-                <span class="archive-year-post-count">[1]</span>
-            </div>
-            <ul class="article-list">
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
                 
-                    <li class="article-item">
-                        <a class="article-title"
-                           href="/2020/03/10/php-ini-%E9%85%8D%E7%BD%AE%E9%80%89%E9%A1%B9%E8%AE%BE%E5%AE%9A%E8%8C%83%E5%9B%B4.html"
-                        >php.ini 配置选项设定范围</a>
-                        <span class="article-date">03-10</span>
+                    <li>
+                        <a href="/tags/%E9%85%8D%E7%BD%AE/">配置</a>&nbsp;
                     </li>
                 
             </ul>
-        </section>
+        </span>
+    
+
+    
+    
+    
     
 </div>
 
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="article-content keep-markdown-body">
+                
+
+                <p>记录一个同事给挖的坑~<br>php中的<code>ini_set</code>函数可以为一个配置选项设置值，但是并不是所有的配置都可以在代码中使用该函数设置</p>
+<span id="more"></span>
+
+<p>事情的起因是需要修改一下上传文件最大的限制，从8M修改为20M，因为同事写的代码没有测试就去做别的项目并且代码已经提交到git，所以在我接手的时候就以为是可以使用的，看到他在代码中写了类似下面的代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">ini_set</span>(<span class="string">&quot;post_max_size&quot;</span>, <span class="string">&quot;20M&quot;</span>);</span><br><span class="line"><span class="title function_ invoke__">ini_set</span>(<span class="string">&quot;upload_max_filesize&quot;</span>, <span class="string">&quot;20M&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UploadClass</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	<span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>折腾就是死活不生效，nginx的<code>client_max_body_size</code>配置也修改了，容器也销毁重建了…..,最后仔细一想就是下面的限制.</p>
+<p><strong>配置可被设定范围</strong></p>
+<p>一个配置选项是否可以在ini_set中进行设置，主要是取决于该设置是什么模式，手册中的每个指令都有其所属的模式。</p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PHP_INI_USER</td>
+<td>可在用户脚本以及 .user.ini 中设定</td>
+</tr>
+<tr>
+<td>PHP_INI_PERDIR</td>
+<td>可在 php.ini，.htaccess 或 httpd.conf 中设定</td>
+</tr>
+<tr>
+<td>PHP_INI_SYSTEM</td>
+<td>可在 php.ini 或 httpd.conf 中设定</td>
+</tr>
+<tr>
+<td>PHP_INI_ALL</td>
+<td>可在任何地方设定</td>
+</tr>
+</tbody></table>
+<p>上面两个配置的模式是<code>PHP_INI_PERDIR</code>，所以必须在<code>php.ini</code>中修改才是会生效的</p>
+<table>
+<thead>
+<tr>
+<th>名字</th>
+<th>默认</th>
+<th>可修改范围</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>upload_max_filesize</td>
+<td>“2M”</td>
+<td>PHP_INI_PERDIR</td>
+</tr>
+<tr>
+<td>post_max_size</td>
+<td>“8M”</td>
+<td>PHP_INI_PERDIR</td>
+</tr>
+</tbody></table>
+<p><a class="link"   target="_blank" rel="noopener" href="https://www.php.net/manual/zh/ini.list.php" >PHP: php.ini 配置选项列表 - Manual<i class="fas fa-external-link-alt"></i></a></p>
+
+            </div>
+
+            
+
+            
+                <ul class="post-tags-box">
+                    
+                        <li class="tag-item">
+                            <a href="/tags/%E9%85%8D%E7%BD%AE/">#配置</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            
+
+            
+                <div class="article-nav">
+                    
+                        <div class="article-prev">
+                            <a class="prev"
+                               rel="prev"
+                               href="/2022/10/10/slice%E5%92%8Carray.html"
+                            >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                                <span class="title flex-center">
+                                <span class="post-nav-title-item">slice和array</span>
+                                <span class="post-nav-item">上一篇</span>
+                            </span>
+                            </a>
+                        </div>
+                    
+                    
+                </div>
+            
+
+            
+        </div>
+
+        
+            <div class="toc-content-container">
+                <div class="post-toc-wrap">
+    <div class="post-toc">
+        
     </div>
 </div>
+
+            </div>
+        
+    </div>
+</div>
+
 
                 
             </div>
@@ -259,6 +395,23 @@
         </div>
     </div>
 
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
     
 
     <div class="right-bottom-side-tools">
@@ -325,6 +478,14 @@
 
 
 <div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/post-helper.js"></script>
+        
+            <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/libs/anime.min.js"></script>
+        
+        
+            <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/toc.js"></script>
+        
     
 </div>
 
