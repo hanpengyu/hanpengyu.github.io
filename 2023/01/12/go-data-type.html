@@ -1,0 +1,56 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="不积跬步，无以至千里。不积小流，以成江海"><title>Golang学习-数据类型 | Hanpy's blog</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/latest/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/latest/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/latest/grids-responsive-min.min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/latest/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script type="text/javascript" src="//lib.baomitu.com/clipboard.js/latest/clipboard.min.js"></script><script type="text/javascript" src="//lib.baomitu.com/toastr.js/latest/toastr.min.js"></script><link rel="stylesheet" href="//lib.baomitu.com/toastr.js/latest/toastr.min.css"><meta name="generator" content="Hexo 5.4.2"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Golang学习-数据类型</h1><a id="logo" href="/.">Hanpy's blog</a><p class="description"></p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/tags/"><i class="fa fa-tags"> 标签</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">Golang学习-数据类型</h1><div class="post-meta">2023-01-12<span> | </span><span class="category"><a href="/categories/Golang/">Golang</a></span></div><div class="clear"><div class="toc-article" id="toc"><div class="toc-title">文章目录</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">基本数据类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%8D%E5%90%88%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.</span> <span class="toc-text">复合数据类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B4%E5%9E%8B"><span class="toc-number">3.</span> <span class="toc-text">整型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%AE%E7%82%B9%E5%9E%8B"><span class="toc-number">4.</span> <span class="toc-text">浮点型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">5.</span> <span class="toc-text">字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6"><span class="toc-number">6.</span> <span class="toc-text">字符</span></a></li></ol></div></div><div class="post-content"><p>在<code>Go</code>语言中，有基本数据类型（原生数据类型）和复合数据类型（派生数据类型）</p>
+<span id="more"></span>
+
+<h2 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h2><p>基本类型包括：整型(<em>int</em>)、浮点型(<em>float</em>)、复数型(<em>complex</em>)、布尔型(<em>bool</em>)、字符串(<em>string</em>)、字符（<em>byte、rune</em>）</p>
+<h2 id="复合数据类型"><a href="#复合数据类型" class="headerlink" title="复合数据类型"></a>复合数据类型</h2><p>数组（<em>array</em>）、切片（<em>slice</em>）、映射（<em>map</em>）、函数（<em>function</em>）、结构体（<em>struct</em>）、通道（<em>channel</em>）、接口（<em>interface</em>）、指针（<em>pointer</em>）</p>
+<img src="https://raw.githubusercontent.com/hanpengyu/blogimg/main/img/image-20230312011345552.png" alt="image-20230312011345552" style="zoom:67%;" />
+
+<h2 id="整型"><a href="#整型" class="headerlink" title="整型"></a>整型</h2><p>有符号整型：int8、int16、int32(别名:rune)、int64、int<br>无符号整型：uint8(别名:byte)、uint16、uint32、uint64、uint</p>
+<p>整型的取值范围</p>
+<p>重点需要记住常用的几个：int32（4字节），int64（8字节）</p>
+<p><img src="https://raw.githubusercontent.com/hanpengyu/blogimg/main/img/image-20230312012115736.png" alt="image-20230312012115736"></p>
+<h2 id="浮点型"><a href="#浮点型" class="headerlink" title="浮点型"></a>浮点型</h2><p>浮点型表示存储的数据是实数,浮点类型分: <code>float32</code> 和<code>float64</code> 两种，默认是<code>float64</code></p>
+<table>
+<thead>
+<tr>
+<th align="left">类型</th>
+<th align="left">字节</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>float32</code></td>
+<td align="left">4</td>
+<td align="left">32位的浮点型</td>
+</tr>
+<tr>
+<td align="left"><code>float64</code></td>
+<td align="left">8</td>
+<td align="left">64位的浮点型</td>
+</tr>
+</tbody></table>
+<h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><p>Go语言中的字符串是基本类型，这一点和C语言是不一样的，使用字符串就像使用其他原生基本数据类型int、float32、float64、bool一样。</p>
+<p>字符串都是采用UTF-8字符集编码。字符串是用一对双引号（””）或反引号（<code> </code>）括起来定义,字符串不可变，可以用 + 操作符 连接两个字符串</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 简单使用</span></span><br><span class="line"><span class="keyword">var</span> s <span class="type">string</span></span><br><span class="line">s1 := <span class="string">&quot;hello&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 多行</span></span><br><span class="line">s2 := <span class="string">`</span></span><br><span class="line"><span class="string">	var a int = 1</span></span><br><span class="line"><span class="string">	var b int = 2 </span></span><br><span class="line"><span class="string">`</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="字符"><a href="#字符" class="headerlink" title="字符"></a>字符</h2><p>字符串中的每一个元素叫作“字符”，定义字符时使用单引号</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>字节</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>byte</td>
+<td>1</td>
+<td>表示<code>UTF8</code>字符串中的单个字节的值,别名:<code>unit8</code></td>
+</tr>
+<tr>
+<td>rune</td>
+<td>4</td>
+<td>表示单个<code>unicode</code>字符，别名:<code>int32</code></td>
+</tr>
+</tbody></table>
+</div><div class="tags"></div><div class="post-nav"><a class="pre" href="/2023/01/13/go-slice.html">Golang学习-切片</a><a class="next" href="/2023/01/11/go-source-code.html">Golang学习-命令源码文件</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><div class="author-info"><a class="info-avatar" href="/about/" title="关于"><img class="nofancybox" src="/img/avatar.jpeg"/></a><p>道虽迩,不行不至；事虽小,不为不成</p><a class="info-icon" href="mailto:han.pengyu@foxmail.com" title="Email" target="_blank" style="margin-inline:5px"> <i class="fa fa-envelope-square" style="margin-inline:5px"></i></a><a class="info-icon" href="https://github.com/hanpengyu" title="Github" target="_blank" style="margin-inline:5px"> <i class="fa fa-github-square" style="margin-inline:5px"></i></a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Golang/">Golang</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%8F%E6%89%8B%E8%AE%B0/">随手记</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/">面试题</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/PHP/">PHP</a><span class="category-list-count">2</span></li></ul></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2023/02/13/go-defer.html">Golang学习-defer延迟调用</a></li><li class="post-list-item"><a class="post-list-link" href="/2023/01/13/go-slice.html">Golang学习-切片</a></li><li class="post-list-item"><a class="post-list-link" href="/2023/01/12/go-data-type.html">Golang学习-数据类型</a></li><li class="post-list-item"><a class="post-list-link" href="/2023/01/11/go-source-code.html">Golang学习-命令源码文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/06/01/%E7%BB%88%E7%AB%AF%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86.html">终端配置代理</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/10/php-ini-%E9%85%8D%E7%BD%AE%E9%80%89%E9%A1%B9%E8%AE%BE%E5%AE%9A%E8%8C%83%E5%9B%B4.html">php.ini 配置选项设定范围</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/11/PHP%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86.html">PHP面试题整理</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/24/IE8%E4%B8%8D%E6%94%AF%E6%8C%81indexOf%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95.html">IE8不支持indexOf的解决办法</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/12/PHP%E5%B8%B8%E8%A7%81%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95.html">PHP常见排序算法</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="http://pygroos.com/" title="皮格鲁斯" target="_blank">皮格鲁斯</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2016-2023 <a href="/." rel="nofollow">Hanpy's blog | </a> 京ICP备16043183号</div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script><script type="text/javascript" src="//lib.baomitu.com/fancybox/latest/jquery.fancybox.min.js"></script><script type="text/javascript" src="/js/fancybox.js?v=1.0.0"></script><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/fancybox/latest/jquery.fancybox.min.css"><script type="text/javascript" src="/js/copycode.js?v=1.0.0" successtext="复制成功！"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css?v=1.0.0"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div></body></html>
