@@ -24,7 +24,7 @@
     <script id="hexo-configurations">
     let KEEP = window.KEEP || {}
     KEEP.hexo_config = {"hostname":"hanpy.cn","root":"/","language":"zh-CN"}
-    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066cc","favicon":"/images/favicon.ico","avatar":"/images/logo.png","font_size":null,"font_family":"STHeiti","hover":{"shadow":true,"scale":true},"first_screen":{"enable":false,"header_transparent":false,"background_img":"/images/cup-7832358_1280.png","font_color":null,"hitokoto":false},"scroll":{"progress_bar":true,"percent":false}},"local_search":{"enable":false,"preload":false},"code_copy":{},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"side_tools":{},"pjax":{"enable":false},"lazyload":{"enable":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.8"},"waline":{"server_url":null,"reaction":false,"version":2}},"post":{"author_label":{"enable":false,"auto":true,"custom_label_list":["Trainee","Engineer","Architect"]},"word_count":{"enable":false,"wordcount":false,"min2read":false},"img_align":"center","copyright_info":false},"version":"3.6.1"}
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#ffaf40","favicon":"/images/favicon.ico","avatar":"/images/logo.png","font_size":null,"font_family":"STHeiti","hover":{"shadow":true,"scale":true},"first_screen":{"enable":false,"header_transparent":false,"background_img":"/images/cup-7832358_1280.png","font_color":null,"hitokoto":false},"scroll":{"progress_bar":true,"percent":true}},"local_search":{"enable":false,"preload":false},"code_copy":{},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"side_tools":{},"pjax":{"enable":false},"lazyload":{"enable":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.8"},"waline":{"server_url":null,"reaction":false,"version":2}},"post":{"author_label":{"enable":false,"auto":true,"custom_label_list":["Trainee","Engineer","Architect"]},"word_count":{"enable":false,"wordcount":false,"min2read":false},"img_align":"center","copyright_info":false},"version":"3.6.1"}
     KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
     KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
     KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
@@ -332,38 +332,67 @@
         </div>
 
         <div class="page-main-content-bottom">
-            
+            <%
+const {
+  since: f_since,
+  icp: f_icp,
+  site_deploy: f_site_deploy
+} = theme.footer
+const { author: bi_author } = theme.base_info
+const { author: hexo_author } = config
+const { site_uv: bsz_site_uv, site_pv: bsz_site_pv, enable: bsz_enable } = theme.website_count.busuanzi_count
+%>
 <footer class="footer">
     <div class="info-container">
         <div class="copyright-info info-item">
             &copy;
-            
-                <span>2016</span> -
-            
-            2023
-            
-                <!-- &nbsp;<i class="fas fa-heart icon-animate"></i> -->
-                <!-- &nbsp;<a href="/">hanpy</a> -->
-                &nbsp;<a href="/">HANPY</a>
-            
+            <% if (f_since) { %>
+                <span><%= f_since %></span> -
+            <% } %>
+            <%= date(new Date(), 'YYYY') %>
+            <% if (bi_author || hexo_author) { %>
+                &nbsp;<i class="fas fa-heart icon-animate"></i>
+                &nbsp;<a href="/"><%= bi_author || hexo_author %></a>
+            <% } %>
         </div>
-        
-        
+        <% if (bsz_enable === true) { %>
+            <script async <%= theme.pjax.enable === true ? 'data-pjax' : '' %>
+                    src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                <% if (bsz_site_uv) { %>
+                    <%- __('site_uv') %>&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                <% } %>
+                <% if (bsz_site_pv) { %>
+                    <%- __('site_pv') %>&nbsp;<span id="busuanzi_value_site_pv"></span>
+                <% } %>
+            </div>
+        <% } %>
+        <div class="theme-info info-item">
+            <%- __('powered_by', '<a target="_blank" href="https://hexo.io">Hexo</a>') %>&nbsp;|&nbsp;<%- __('theme') %>&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.6.1</a>
+        </div>
+        <% if (f_icp) { %>
             <div class="icp-info info-item">
                 <a target="_blank" rel="nofollow"
                    href="https://beian.miit.gov.cn"
                 >
-                    京ICP备16043183号
+                    <%= f_icp %>
                 </a>
             </div>
-        
-        
+        <% } %>
+        <% if (f_site_deploy?.enable === true && f_site_deploy?.provider !== '') { %>
             <div class="deploy-info info-item">
-                
-                    本站由 <span class="tooltip" data-content="GitHub Pages"><img src="/images/deploy-provider/github.png"></span> 提供部署服务
-                
+                <% if (f_site_deploy?.url) { %>
+                    <a target="_blank" rel="nofollow" href="<%= f_site_deploy?.url %>">
+                <% } %>
+                    <%- __(
+                            'footer_deploy',
+                            '<span class="tooltip" data-content="' + __('deploy_provider.' + f_site_deploy?.provider) + '"><img src="/images/deploy-provider/' + f_site_deploy?.provider + '.png"></span>'
+                    ) %>
+                <% if (f_site_deploy?.url) { %>
+                    </a>
+                <% } %>
             </div>
-        
+        <% } %>
     </div>
 </footer>
 
@@ -408,10 +437,6 @@
         
 
         
-            <li class="tools-item tool-scroll-to-top flex-center">
-                <i class="fas fa-arrow-up"></i>
-            </li>
-        
 
         <li class="tools-item tool-scroll-to-bottom flex-center">
             <i class="fas fa-arrow-down"></i>
@@ -422,6 +447,11 @@
         <li class="tools-item tool-toggle-show flex-center">
             <i class="fas fa-cog fa-spin"></i>
         </li>
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
         
     </ul>
 </div>
