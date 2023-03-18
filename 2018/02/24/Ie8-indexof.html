@@ -9,7 +9,7 @@
     
     <title>
         
-            PHP面试题整理 |
+            IE8不支持indexOf的解决办法 |
         
         Hanpy&#39;s blog
     </title>
@@ -177,7 +177,7 @@
         <div class="article-content-container">
 
             <div class="article-title">
-                <span class="title-hover-animation">PHP面试题整理</span>
+                <span class="title-hover-animation">IE8不支持indexOf的解决办法</span>
             </div>
 
             
@@ -197,13 +197,13 @@
         
             <i class="fa-regular fa-calendar-plus"></i>&nbsp;
         
-        <span class="pc">2018-03-11 10:38:41</span>
-        <span class="mobile">2018-03-11 10:38</span>
+        <span class="pc">2018-02-24 22:59:00</span>
+        <span class="mobile">2018-02-24 22:59</span>
     </span>
     
         <span class="article-update-date article-meta-item">
         <i class="fas fa-file-pen"></i>&nbsp;
-        <span class="pc">2018-03-11 10:38:41</span>
+        <span class="pc">2018-02-24 22:59:00</span>
     </span>
     
     
@@ -212,11 +212,7 @@
             <ul>
                 
                     <li>
-                        <a href="/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/">面试题</a>&nbsp;
-                    </li>
-                
-                    <li>
-                        &gt; <a href="/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/PHP/">PHP</a>&nbsp;
+                        <a href="/categories/%E9%9A%8F%E6%89%8B%E8%AE%B0/">随手记</a>&nbsp;
                     </li>
                 
             </ul>
@@ -228,7 +224,7 @@
             <ul>
                 
                     <li>
-                        <a href="/tags/%E9%9D%A2%E8%AF%95/">面试</a>&nbsp;
+                        <a href="/tags/IE/">IE</a>&nbsp;
                     </li>
                 
             </ul>
@@ -249,20 +245,11 @@
             <div class="article-content keep-markdown-body">
                 
 
-                <p>常见的面试题整理，来源是各个地方…</p>
+                <p>在IE8版本以下（含IE8）IE浏览都不支持数组的Indexof()方法，在使用indexOf方法前，执行一下下面的js就可以解决。 原理就是如果发现数组没有indexOf方法，会添加上这个方法。</p>
 <span id="more"></span>
 
-<h2 id="基础篇"><a href="#基础篇" class="headerlink" title="基础篇"></a>基础篇</h2><h4 id="1-表单提交中的Get和Post的异同点"><a href="#1-表单提交中的Get和Post的异同点" class="headerlink" title="1. 表单提交中的Get和Post的异同点"></a>1. 表单提交中的Get和Post的异同点</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">语义不同：</span><br><span class="line">get请求一般情况多用于请求数据，post请求一般多用于新增或者修改数据</span><br><span class="line"></span><br><span class="line">传输大小限制：</span><br><span class="line">get传参是在url上，有大小限制，post请求是在请求体中没有大小限制</span><br><span class="line"></span><br><span class="line">安全性:</span><br><span class="line">post安全性相对高一下</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-用PHP写出显示客户端IP与服务器IP的代码"><a href="#2-用PHP写出显示客户端IP与服务器IP的代码" class="headerlink" title="2. 用PHP写出显示客户端IP与服务器IP的代码"></a>2. 用PHP写出显示客户端IP与服务器IP的代码</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用超全局变量$_SERVER</span></span><br><span class="line"><span class="variable">$_SERVER</span>[<span class="string">&#x27;REMOTE_ADDR&#x27;</span>]	<span class="comment">// 客户端</span></span><br><span class="line"><span class="variable">$_SERVER</span>[<span class="string">&#x27;SERVER_ADDR&#x27;</span>]	<span class="comment">// 服务器IP</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="3-include和require的区别是什么"><a href="#3-include和require的区别是什么" class="headerlink" title="3. include和require的区别是什么?"></a>3. include和require的区别是什么?</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">两个函数都是包含引入的文件</span><br><span class="line">include在引入不存在的文件时，产生一个警告且脚本还会继续执行</span><br><span class="line">require则会导致一个致命性错误且脚本停止执行</span><br></pre></td></tr></table></figure>
-
-<h4 id="4-PHP-不使用第三个变量实现交换两个变量的值"><a href="#4-PHP-不使用第三个变量实现交换两个变量的值" class="headerlink" title="4. PHP 不使用第三个变量实现交换两个变量的值"></a>4. PHP 不使用第三个变量实现交换两个变量的值</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$a</span> = <span class="number">1</span>;</span><br><span class="line"><span class="variable">$b</span> = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">list</span>(<span class="variable">$a</span>, <span class="variable">$b</span>) = [<span class="variable">$b</span>, <span class="variable">$a</span>];</span><br></pre></td></tr></table></figure>
-
-<h4 id="5-取文件的扩展名"><a href="#5-取文件的扩展名" class="headerlink" title="5. 取文件的扩展名"></a>5. 取文件的扩展名</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getExt1</span>(<span class="params"><span class="variable">$fileName</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="variable">$ext</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">empty</span>(<span class="variable">$fileName</span>)) <span class="keyword">return</span> <span class="variable">$ext</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_ invoke__">pathinfo</span>(<span class="variable">$fileName</span>, PATHINFO_EXTENSION);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getExt2</span>(<span class="params"><span class="variable">$fileName</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="variable">$ext</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="variable">$pathArr</span> = <span class="title function_ invoke__">explode</span>(<span class="string">&quot;.&quot;</span>, <span class="variable">$fileName</span>);</span><br><span class="line">    <span class="keyword">if</span> (<span class="title function_ invoke__">count</span>(<span class="variable">$pathArr</span>) == <span class="number">1</span>) <span class="keyword">return</span> <span class="variable">$ext</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_ invoke__">end</span>(<span class="variable">$pathArr</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getExt3</span>(<span class="params"><span class="variable">$fileName</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_ invoke__">substr</span>(<span class="title function_ invoke__">strrchr</span>(<span class="variable">$fileName</span>, <span class="string">&#x27;.&#x27;</span>), <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="6-用PHP-header-函数实现页面404错误提示功能"><a href="#6-用PHP-header-函数实现页面404错误提示功能" class="headerlink" title="6. 用PHP header()函数实现页面404错误提示功能"></a>6. 用PHP header()函数实现页面404错误提示功能</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">Header</span>(<span class="string">&quot;HTTP/1.1 404 Not Found&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>放在脚本的上面即可</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Production steps of ECMA-262, Edition 5, 15.4.4.14</span></span><br><span class="line"><span class="comment">// Reference: http://es5.github.io/#x15.4.4.14</span></span><br><span class="line"><span class="keyword">if</span> (!<span class="title class_">Array</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">indexOf</span>) &#123;</span><br><span class="line">  <span class="title class_">Array</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">indexOf</span> = <span class="keyword">function</span>(<span class="params">searchElement, fromIndex</span>) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> k;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 1. Let o be the result of calling ToObject passing</span></span><br><span class="line">    <span class="comment">//    the this value as the argument.</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="variable language_">this</span> == <span class="literal">null</span>) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">TypeError</span>(<span class="string">&#x27;&quot;this&quot; is null or not defined&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> o = <span class="title class_">Object</span>(<span class="variable language_">this</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2. Let lenValue be the result of calling the Get</span></span><br><span class="line">    <span class="comment">//    internal method of o with the argument &quot;length&quot;.</span></span><br><span class="line">    <span class="comment">// 3. Let len be ToUint32(lenValue).</span></span><br><span class="line">    <span class="keyword">var</span> len = o.<span class="property">length</span> &gt;&gt;&gt; <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 4. If len is 0, return -1.</span></span><br><span class="line">    <span class="keyword">if</span> (len === <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 5. If argument fromIndex was passed let n be</span></span><br><span class="line">    <span class="comment">//    ToInteger(fromIndex); else let n be 0.</span></span><br><span class="line">    <span class="keyword">var</span> n = fromIndex | <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 6. If n &gt;= len, return -1.</span></span><br><span class="line">    <span class="keyword">if</span> (n &gt;= len) &#123;</span><br><span class="line">      <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 7. If n &gt;= 0, then Let k be n.</span></span><br><span class="line">    <span class="comment">// 8. Else, n&lt;0, Let k be len - abs(n).</span></span><br><span class="line">    <span class="comment">//    If k is less than 0, then let k be 0.</span></span><br><span class="line">    k = <span class="title class_">Math</span>.<span class="title function_">max</span>(n &gt;= <span class="number">0</span> ? n : len - <span class="title class_">Math</span>.<span class="title function_">abs</span>(n), <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 9. Repeat, while k &lt; len</span></span><br><span class="line">    <span class="keyword">while</span> (k &lt; len) &#123;</span><br><span class="line">      <span class="comment">// a. Let Pk be ToString(k).</span></span><br><span class="line">      <span class="comment">//   This is implicit for LHS operands of the in operator</span></span><br><span class="line">      <span class="comment">// b. Let kPresent be the result of calling the</span></span><br><span class="line">      <span class="comment">//    HasProperty internal method of o with argument Pk.</span></span><br><span class="line">      <span class="comment">//   This step can be combined with c</span></span><br><span class="line">      <span class="comment">// c. If kPresent is true, then</span></span><br><span class="line">      <span class="comment">//    i.  Let elementK be the result of calling the Get</span></span><br><span class="line">      <span class="comment">//        internal method of o with the argument ToString(k).</span></span><br><span class="line">      <span class="comment">//   ii.  Let same be the result of applying the</span></span><br><span class="line">      <span class="comment">//        Strict Equality Comparison Algorithm to</span></span><br><span class="line">      <span class="comment">//        searchElement and elementK.</span></span><br><span class="line">      <span class="comment">//  iii.  If same is true, return k.</span></span><br><span class="line">      <span class="keyword">if</span> (k <span class="keyword">in</span> o &amp;&amp; o[k] === searchElement) &#123;</span><br><span class="line">        <span class="keyword">return</span> k;</span><br><span class="line">      &#125;</span><br><span class="line">      k++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
             </div>
@@ -273,7 +260,7 @@
                 <ul class="post-tags-box">
                     
                         <li class="tag-item">
-                            <a href="/tags/%E9%9D%A2%E8%AF%95/">#面试</a>&nbsp;
+                            <a href="/tags/IE/">#IE</a>&nbsp;
                         </li>
                     
                 </ul>
@@ -285,13 +272,13 @@
                         <div class="article-prev">
                             <a class="prev"
                                rel="prev"
-                               href="/2019/07/25/cache-notion.html"
+                               href="/2018/03/11/php-exam-list.html"
                             >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                                 <span class="title flex-center">
-                                <span class="post-nav-title-item">几个缓存概念</span>
+                                <span class="post-nav-title-item">PHP面试题整理</span>
                                 <span class="post-nav-item">上一篇</span>
                             </span>
                             </a>
@@ -301,10 +288,10 @@
                         <div class="article-next">
                             <a class="next"
                                rel="next"
-                               href="/2018/02/24/IE8%E4%B8%8D%E6%94%AF%E6%8C%81indexOf%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95.html"
+                               href="/2018/01/12/php-sort.html"
                             >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">IE8不支持indexOf的解决办法</span>
+                                <span class="post-nav-title-item">PHP常见排序算法</span>
                                 <span class="post-nav-item">下一篇</span>
                             </span>
                                 <span class="right arrow-icon flex-center">
@@ -319,6 +306,15 @@
             
         </div>
 
+        
+            <div class="toc-content-container">
+                <div class="post-toc-wrap">
+    <div class="post-toc">
+        
+    </div>
+</div>
+
+            </div>
         
     </div>
 </div>
@@ -340,8 +336,9 @@
             
             2023
             
-                &nbsp;<i class="fas fa-heart icon-animate"></i>
-                &nbsp;<a href="/">hanpy</a>
+                <!-- &nbsp;<i class="fas fa-heart icon-animate"></i> -->
+                <!-- &nbsp;<a href="/">hanpy</a> -->
+                &nbsp;<a href="/">HANPY</a>
             
         </div>
         
