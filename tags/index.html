@@ -176,7 +176,7 @@
     <div class="fade-in-down-animation">
         <div class="tagcloud-container">
             <div class="tagcloud-content">
-                <a href="/tags/IE/" style="font-size: 1rem;">IE</a> <a href="/tags/Lua/" style="font-size: 1rem;">Lua</a> <a href="/tags/SDS/" style="font-size: 1rem;">SDS</a> <a href="/tags/String/" style="font-size: 1rem;">String</a> <a href="/tags/array/" style="font-size: 1rem;">array</a> <a href="/tags/channel/" style="font-size: 1rem;">channel</a> <a href="/tags/context/" style="font-size: 1rem;">context</a> <a href="/tags/defer/" style="font-size: 1rem;">defer</a> <a href="/tags/go/" style="font-size: 1.6rem;">go</a> <a href="/tags/interface/" style="font-size: 1rem;">interface</a> <a href="/tags/iterm2/" style="font-size: 1.2rem;">iterm2</a> <a href="/tags/map/" style="font-size: 1rem;">map</a> <a href="/tags/method/" style="font-size: 1rem;">method</a> <a href="/tags/nginx/" style="font-size: 1rem;">nginx</a> <a href="/tags/openrety/" style="font-size: 1rem;">openrety</a> <a href="/tags/proxy/" style="font-size: 1rem;">proxy</a> <a href="/tags/slice/" style="font-size: 1rem;">slice</a> <a href="/tags/strconv/" style="font-size: 1rem;">strconv</a> <a href="/tags/struct/" style="font-size: 1rem;">struct</a> <a href="/tags/vagrant/" style="font-size: 1rem;">vagrant</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 1rem;">排序</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 1rem;">算法</a> <a href="/tags/%E9%85%8D%E7%BD%AE/" style="font-size: 1rem;">配置</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 1.4rem;">面试</a>
+                <a href="/tags/IE/" style="font-size: 1rem;">IE</a> <a href="/tags/Lua/" style="font-size: 1rem;">Lua</a> <a href="/tags/SDS/" style="font-size: 1rem;">SDS</a> <a href="/tags/String/" style="font-size: 1.2rem;">String</a> <a href="/tags/array/" style="font-size: 1rem;">array</a> <a href="/tags/channel/" style="font-size: 1rem;">channel</a> <a href="/tags/context/" style="font-size: 1rem;">context</a> <a href="/tags/defer/" style="font-size: 1rem;">defer</a> <a href="/tags/go/" style="font-size: 1.6rem;">go</a> <a href="/tags/interface/" style="font-size: 1rem;">interface</a> <a href="/tags/iterm2/" style="font-size: 1.2rem;">iterm2</a> <a href="/tags/map/" style="font-size: 1rem;">map</a> <a href="/tags/method/" style="font-size: 1rem;">method</a> <a href="/tags/nginx/" style="font-size: 1rem;">nginx</a> <a href="/tags/openrety/" style="font-size: 1rem;">openrety</a> <a href="/tags/proxy/" style="font-size: 1rem;">proxy</a> <a href="/tags/slice/" style="font-size: 1rem;">slice</a> <a href="/tags/strconv/" style="font-size: 1rem;">strconv</a> <a href="/tags/struct/" style="font-size: 1rem;">struct</a> <a href="/tags/vagrant/" style="font-size: 1rem;">vagrant</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 1rem;">排序</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 1rem;">算法</a> <a href="/tags/%E9%85%8D%E7%BD%AE/" style="font-size: 1rem;">配置</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 1.4rem;">面试</a>
             </div>
         </div>
     </div>
@@ -189,38 +189,67 @@
         </div>
 
         <div class="page-main-content-bottom">
-            
+            <%
+const {
+  since: f_since,
+  icp: f_icp,
+  site_deploy: f_site_deploy
+} = theme.footer
+const { author: bi_author } = theme.base_info
+const { author: hexo_author } = config
+const { site_uv: bsz_site_uv, site_pv: bsz_site_pv, enable: bsz_enable } = theme.website_count.busuanzi_count
+%>
 <footer class="footer">
     <div class="info-container">
         <div class="copyright-info info-item">
             &copy;
-            
-                <span>2018</span> -
-            
-            2023
-            
-                <!-- &nbsp;<i class="fas fa-heart icon-animate"></i> -->
-                <!-- &nbsp;<a href="/">hanpy</a> -->
-                &nbsp;<a href="/">HANPY</a>
-            
+            <% if (f_since) { %>
+                <span><%= f_since %></span> -
+            <% } %>
+            <%= date(new Date(), 'YYYY') %>
+            <% if (bi_author || hexo_author) { %>
+                &nbsp;<i class="fas fa-heart icon-animate"></i>
+                &nbsp;<a href="/"><%= bi_author || hexo_author %></a>
+            <% } %>
         </div>
-        
-        
+        <% if (bsz_enable === true) { %>
+            <script async <%= theme.pjax.enable === true ? 'data-pjax' : '' %>
+                    src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                <% if (bsz_site_uv) { %>
+                    <%- __('site_uv') %>&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                <% } %>
+                <% if (bsz_site_pv) { %>
+                    <%- __('site_pv') %>&nbsp;<span id="busuanzi_value_site_pv"></span>
+                <% } %>
+            </div>
+        <% } %>
+        <div class="theme-info info-item">
+            <%- __('powered_by', '<a target="_blank" href="https://hexo.io">Hexo</a>') %>&nbsp;|&nbsp;<%- __('theme') %>&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.6.1</a>
+        </div>
+        <% if (f_icp) { %>
             <div class="icp-info info-item">
                 <a target="_blank" rel="nofollow"
                    href="https://beian.miit.gov.cn"
                 >
-                    京ICP备16043183号
+                    <%= f_icp %>
                 </a>
             </div>
-        
-        
+        <% } %>
+        <% if (f_site_deploy?.enable === true && f_site_deploy?.provider !== '') { %>
             <div class="deploy-info info-item">
-                
-                    本站由 <span class="tooltip" data-content="GitHub Pages"><img src="/images/deploy-provider/github.png"></span> 提供部署服务
-                
+                <% if (f_site_deploy?.url) { %>
+                    <a target="_blank" rel="nofollow" href="<%= f_site_deploy?.url %>">
+                <% } %>
+                    <%- __(
+                            'footer_deploy',
+                            '<span class="tooltip" data-content="' + __('deploy_provider.' + f_site_deploy?.provider) + '"><img src="/images/deploy-provider/' + f_site_deploy?.provider + '.png"></span>'
+                    ) %>
+                <% if (f_site_deploy?.url) { %>
+                    </a>
+                <% } %>
             </div>
-        
+        <% } %>
     </div>
 </footer>
 

@@ -249,8 +249,31 @@
             <div class="article-content keep-markdown-body">
                 
 
-                <p>摘要</p>
+                <p>Go没有沿袭传统面向对象编程中的诸多概念，也没有提供类<code>(class)</code>，但是它提供了结构体<code>(struct)</code>，方法<code>(method)</code>可以在结构体上添加。与类相似，结构体提供了捆绑数据和方法的行为。</p>
 <span id="more"></span>
+
+
+
+<p>结构体类型也可以不包含任何字段，可以为类型关联上一些方法，方法需要有名字，不能被当作值来看待，最重要的是，它必须隶属于某一个类型。方法所属的类型会通过其声明中的接收者（receiver）声明体现出来。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> People <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p People)</span></span> GetName() <span class="type">string</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="方法的基本语法和使用"><a href="#方法的基本语法和使用" class="headerlink" title="方法的基本语法和使用"></a>方法的基本语法和使用</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> People <span class="keyword">struct</span> &#123;</span><br><span class="line">    Name <span class="type">string</span></span><br><span class="line">    Age  <span class="type">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p People)</span></span> GetName() <span class="type">string</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> p.Name</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    p := People&#123;</span><br><span class="line">        Name: <span class="string">&quot;hanpy&quot;</span>,</span><br><span class="line">        Age:  <span class="number">31</span>,</span><br><span class="line">    &#125;</span><br><span class="line">    name := p.GetName()</span><br><span class="line">    fmt.Println(name)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="值接收者和指针接收者"><a href="#值接收者和指针接收者" class="headerlink" title="值接收者和指针接收者"></a>值接收者和指针接收者</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Person <span class="keyword">struct</span> &#123;</span><br><span class="line">    age <span class="type">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p Person)</span></span> howOld() <span class="type">int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> p.age</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p *Person)</span></span> growUp() &#123;</span><br><span class="line">    p.age += <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// qcrao 是值类型</span></span><br><span class="line">    qcrao := Person&#123;age: <span class="number">18</span>&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 值类型 调用接收者也是值类型的方法</span></span><br><span class="line">    fmt.Println(qcrao.howOld())</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 值类型 调用接收者是指针类型的方法</span></span><br><span class="line">    qcrao.growUp()</span><br><span class="line">    fmt.Println(qcrao.howOld())</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ----------------------</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// stefno 是指针类型</span></span><br><span class="line">    stefno := &amp;Person&#123;age: <span class="number">100</span>&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 指针类型 调用接收者是值类型的方法</span></span><br><span class="line">    fmt.Println(stefno.howOld())</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 指针类型 调用接收者也是指针类型的方法</span></span><br><span class="line">    stefno.growUp()</span><br><span class="line">    fmt.Println(stefno.howOld())</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 18</span></span><br><span class="line"><span class="comment">// 19</span></span><br><span class="line"><span class="comment">// 100</span></span><br><span class="line"><span class="comment">// 101</span></span><br></pre></td></tr></table></figure>
+
+<p><code>不管方法的接收者是什么类型，该类型的值和指针都可以调用，不必严格符合接收者的类型。</code></p>
+<h3 id="两者分别在何时使用"><a href="#两者分别在何时使用" class="headerlink" title="两者分别在何时使用"></a>两者分别在何时使用</h3><p>如果方法的接收者是值类型，无论调用者是对象还是对象指针，修改的都是对象的副本，不影响调用者；如果方法的接收者是指针类型，则调用者修改的是指针指向的对象本身。</p>
+<p><strong>使用指针作为方法的接收者的理由：</strong></p>
+<ol>
+<li>方法能够修改接收者指向的值。</li>
+<li>避免在每次调用方法时复制该值，在值的类型为大型结构体时，这样做会更加高效。</li>
+</ol>
+<h3 id="方法继承"><a href="#方法继承" class="headerlink" title="方法继承"></a>方法继承</h3><p>匿名字段实现了一个方法，那么包含这个匿名字段的struct也能调用该匿名字段中的方法。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> People <span class="keyword">struct</span> &#123;</span><br><span class="line">    Name <span class="type">string</span></span><br><span class="line">    Age  <span class="type">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p People)</span></span> Hello() &#123;</span><br><span class="line">    fmt.Printf(<span class="string">&quot;Hello Name is %s,Age is %d&quot;</span>, p.Name, p.Age)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Student <span class="keyword">struct</span> &#123;</span><br><span class="line">    People</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> Teacher <span class="keyword">struct</span> &#123;</span><br><span class="line">    People</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    s := Student&#123;People&#123;<span class="string">&quot;张学生&quot;</span>, <span class="number">15</span>&#125;&#125;</span><br><span class="line">    t := Teacher&#123;People&#123;<span class="string">&quot;李老师&quot;</span>, <span class="number">35</span>&#125;&#125;</span><br><span class="line">    <span class="comment">// 调用父类方法</span></span><br><span class="line">    s.Hello()</span><br><span class="line">    t.Hello()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Hello Name is 张学生,Age is 15</span></span><br><span class="line"><span class="comment">// Hello Name is 李老师,Age is 35</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="方法重写"><a href="#方法重写" class="headerlink" title="方法重写"></a>方法重写</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> People <span class="keyword">struct</span> &#123;</span><br><span class="line">    Name <span class="type">string</span></span><br><span class="line">    Age  <span class="type">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p People)</span></span> Hello() &#123;</span><br><span class="line">    fmt.Printf(<span class="string">&quot;Hello Name is %s,Age is %d&quot;</span>, p.Name, p.Age)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Student <span class="keyword">struct</span> &#123;</span><br><span class="line">    People</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s Student)</span></span> Hello() &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;子类的方法-Hello&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Teacher <span class="keyword">struct</span> &#123;</span><br><span class="line">    People</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t Teacher)</span></span> Hello() &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;子类的方法-Hello&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    s := Student&#123;People&#123;<span class="string">&quot;张学生&quot;</span>, <span class="number">15</span>&#125;&#125;</span><br><span class="line">    t := Teacher&#123;People&#123;<span class="string">&quot;李老师&quot;</span>, <span class="number">35</span>&#125;&#125;</span><br><span class="line">    <span class="comment">// 调用方法(继承父类)</span></span><br><span class="line">    s.Hello()</span><br><span class="line">    t.Hello()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 子类的方法-Hello</span></span><br><span class="line"><span class="comment">// 子类的方法-Hello</span></span><br></pre></td></tr></table></figure>
+
+
             </div>
 
             
@@ -313,7 +336,7 @@
             <div class="toc-content-container">
                 <div class="post-toc-wrap">
     <div class="post-toc">
-        
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E7%9A%84%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95%E5%92%8C%E4%BD%BF%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">方法的基本语法和使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%80%BC%E6%8E%A5%E6%94%B6%E8%80%85%E5%92%8C%E6%8C%87%E9%92%88%E6%8E%A5%E6%94%B6%E8%80%85"><span class="nav-number">2.</span> <span class="nav-text">值接收者和指针接收者</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%A4%E8%80%85%E5%88%86%E5%88%AB%E5%9C%A8%E4%BD%95%E6%97%B6%E4%BD%BF%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">两者分别在何时使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E7%BB%A7%E6%89%BF"><span class="nav-number">4.</span> <span class="nav-text">方法继承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E9%87%8D%E5%86%99"><span class="nav-number">5.</span> <span class="nav-text">方法重写</span></a></li></ol>
     </div>
 </div>
 
@@ -329,38 +352,67 @@
         </div>
 
         <div class="page-main-content-bottom">
-            
+            <%
+const {
+  since: f_since,
+  icp: f_icp,
+  site_deploy: f_site_deploy
+} = theme.footer
+const { author: bi_author } = theme.base_info
+const { author: hexo_author } = config
+const { site_uv: bsz_site_uv, site_pv: bsz_site_pv, enable: bsz_enable } = theme.website_count.busuanzi_count
+%>
 <footer class="footer">
     <div class="info-container">
         <div class="copyright-info info-item">
             &copy;
-            
-                <span>2018</span> -
-            
-            2023
-            
-                <!-- &nbsp;<i class="fas fa-heart icon-animate"></i> -->
-                <!-- &nbsp;<a href="/">hanpy</a> -->
-                &nbsp;<a href="/">HANPY</a>
-            
+            <% if (f_since) { %>
+                <span><%= f_since %></span> -
+            <% } %>
+            <%= date(new Date(), 'YYYY') %>
+            <% if (bi_author || hexo_author) { %>
+                &nbsp;<i class="fas fa-heart icon-animate"></i>
+                &nbsp;<a href="/"><%= bi_author || hexo_author %></a>
+            <% } %>
         </div>
-        
-        
+        <% if (bsz_enable === true) { %>
+            <script async <%= theme.pjax.enable === true ? 'data-pjax' : '' %>
+                    src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                <% if (bsz_site_uv) { %>
+                    <%- __('site_uv') %>&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                <% } %>
+                <% if (bsz_site_pv) { %>
+                    <%- __('site_pv') %>&nbsp;<span id="busuanzi_value_site_pv"></span>
+                <% } %>
+            </div>
+        <% } %>
+        <div class="theme-info info-item">
+            <%- __('powered_by', '<a target="_blank" href="https://hexo.io">Hexo</a>') %>&nbsp;|&nbsp;<%- __('theme') %>&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.6.1</a>
+        </div>
+        <% if (f_icp) { %>
             <div class="icp-info info-item">
                 <a target="_blank" rel="nofollow"
                    href="https://beian.miit.gov.cn"
                 >
-                    京ICP备16043183号
+                    <%= f_icp %>
                 </a>
             </div>
-        
-        
+        <% } %>
+        <% if (f_site_deploy?.enable === true && f_site_deploy?.provider !== '') { %>
             <div class="deploy-info info-item">
-                
-                    本站由 <span class="tooltip" data-content="GitHub Pages"><img src="/images/deploy-provider/github.png"></span> 提供部署服务
-                
+                <% if (f_site_deploy?.url) { %>
+                    <a target="_blank" rel="nofollow" href="<%= f_site_deploy?.url %>">
+                <% } %>
+                    <%- __(
+                            'footer_deploy',
+                            '<span class="tooltip" data-content="' + __('deploy_provider.' + f_site_deploy?.provider) + '"><img src="/images/deploy-provider/' + f_site_deploy?.provider + '.png"></span>'
+                    ) %>
+                <% if (f_site_deploy?.url) { %>
+                    </a>
+                <% } %>
             </div>
-        
+        <% } %>
     </div>
 </footer>
 
