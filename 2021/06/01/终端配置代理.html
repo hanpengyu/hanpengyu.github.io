@@ -254,7 +254,7 @@
 
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">proxy_on</span></span>() &#123;</span><br><span class="line">    <span class="built_in">export</span> http_proxy=http://127.0.0.1:xxxx</span><br><span class="line">    <span class="built_in">export</span> https_proxy=http://127.0.0.1:xxxx</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;已开启代理&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">proxy_off</span></span>() &#123;</span><br><span class="line">    <span class="built_in">unset</span> http_proxy</span><br><span class="line">    <span class="built_in">unset</span> https_proxy</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;已关闭代理&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><strong>使用方法</strong><br>在终端直接运行(<code>source ~/.zshrc</code>)<br>proxy_on 即可打开终端 http 代理<br>proxy_off 关闭代理</p>
+<p><strong>使用方法</strong><br>在终端直接运行下面的命令(要先执行 <code>source ~/.zshrc</code> )<br><code>proxy_on</code>  即可打开终端http代理<br><code>proxy_off</code>  关闭终端http代理</p>
 
             </div>
 
@@ -280,13 +280,13 @@
                         <div class="article-prev">
                             <a class="prev"
                                rel="prev"
-                               href="/2023/01/11/go-source-code.html"
+                               href="/2021/08/16/iterm2-op.html"
                             >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                                 <span class="title flex-center">
-                                <span class="post-nav-title-item">Golang学习-命令源码文件</span>
+                                <span class="post-nav-title-item">iterm2常用操作</span>
                                 <span class="post-nav-item">上一篇</span>
                             </span>
                             </a>

@@ -9,7 +9,7 @@
     
     <title>
         
-            Redis 数据结构（一）字符串 |
+            Golang学习-struct |
         
         Hanpy
     </title>
@@ -177,7 +177,7 @@
         <div class="article-content-container">
 
             <div class="article-title">
-                <span class="title-hover-animation">Redis 数据结构（一）字符串</span>
+                <span class="title-hover-animation">Golang学习-struct</span>
             </div>
 
             
@@ -197,13 +197,13 @@
         
             <i class="fa-regular fa-calendar-plus"></i>&nbsp;
         
-        <span class="pc">2023-03-18 01:54:42</span>
-        <span class="mobile">2023-03-18 01:54</span>
+        <span class="pc">2023-01-18 10:15:16</span>
+        <span class="mobile">2023-01-18 10:15</span>
     </span>
     
         <span class="article-update-date article-meta-item">
         <i class="fas fa-file-pen"></i>&nbsp;
-        <span class="pc">2023-03-18 01:54:42</span>
+        <span class="pc">2023-01-18 10:15:16</span>
     </span>
     
     
@@ -212,7 +212,7 @@
             <ul>
                 
                     <li>
-                        <a href="/categories/Redis/">Redis</a>&nbsp;
+                        <a href="/categories/Golang/">Golang</a>&nbsp;
                     </li>
                 
             </ul>
@@ -224,11 +224,11 @@
             <ul>
                 
                     <li>
-                        <a href="/tags/String/">String</a>&nbsp;
+                        <a href="/tags/go/">go</a>&nbsp;
                     </li>
                 
                     <li>
-                        | <a href="/tags/SDS/">SDS</a>&nbsp;
+                        | <a href="/tags/struct/">struct</a>&nbsp;
                     </li>
                 
             </ul>
@@ -249,14 +249,33 @@
             <div class="article-content keep-markdown-body">
                 
 
-                <p>SDS正是在Redis中被广泛使用的字符串结构，它的全称是Simple Dynamic String</p>
+                <p>Go 语言提供了结构体来定义复杂的数据类型。结构体是由一系列相同类型或不同类型的数据构成的数据集合。</p>
 <span id="more"></span>
 
-<blockquote>
-<p>内容来只<a class="link"   target="_blank" rel="noopener" href="http://redisbook.com/index.html" >《Redis设计与实现》<i class="fas fa-external-link-alt"></i></a>和其他网络资料，<a class="link"   target="_blank" rel="noopener" href="https://github.com/huangz1990/redis-3.0-annotated" >Redis3.0源码-注释版<i class="fas fa-external-link-alt"></i></a></p>
-</blockquote>
-<h3 id="SDS的定义"><a href="#SDS的定义" class="headerlink" title="SDS的定义"></a>SDS的定义</h3><p><a target="_blank" rel="noopener" href="https://github.com/huangz1990/redis-3.0-annotated/blob/unstable/src/sds.h#L45"><code>redis-3.0-annotated/src/sds.h</code></a></p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="type">char</span> *sds;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sdshdr</span> &#123;</span></span><br><span class="line">    <span class="comment">// buf 中已占用空间的长度</span></span><br><span class="line">    <span class="type">int</span> len;</span><br><span class="line">    <span class="comment">// buf 中剩余可用空间的长度</span></span><br><span class="line">    <span class="type">int</span> <span class="built_in">free</span>;</span><br><span class="line">    <span class="comment">// 数据空间</span></span><br><span class="line">    <span class="type">char</span> buf[];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="定义和实例化"><a href="#定义和实例化" class="headerlink" title="定义和实例化"></a>定义和实例化</h3><h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>结构体的定义使用关键字<code>type</code>和<code>struct</code>来进行</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> 类型名称 <span class="keyword">struct</span> &#123;</span><br><span class="line">    field <span class="keyword">type</span></span><br><span class="line">    field <span class="keyword">type</span> </span><br><span class="line">    field1,field2,field3 <span class="keyword">type</span> <span class="comment">// 同类型变量可以写在一行</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>需要注意几点</strong></p>
+<ol>
+<li>类型名在包内是唯一的</li>
+<li>在同一个结构体中字段也是唯一的</li>
+<li>相同类型的字段可以写在一行</li>
+<li>实例化之后才能使用结构体的字段</li>
+</ol>
+<h4 id="实例化"><a href="#实例化" class="headerlink" title="实例化"></a>实例化</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> People <span class="keyword">struct</span> &#123;</span><br><span class="line">    Name <span class="type">string</span></span><br><span class="line">    Age  <span class="type">int</span></span><br><span class="line">    Like []<span class="type">string</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>使用var</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> p People</span><br><span class="line">    p.Name = <span class="string">&quot;hanpy&quot;</span></span><br><span class="line">    p.Age = <span class="number">30</span></span><br><span class="line">    p.Like = []<span class="type">string</span>&#123;<span class="string">&quot;basketball&quot;</span>&#125;</span><br><span class="line">    <span class="comment">// 变量p,类型: main.People 值: &#123;hanpy 30 [basketball]&#125; </span></span><br><span class="line">    fmt.Printf(<span class="string">&quot;变量p,类型: %T 值: %v \n&quot;</span>,p,p)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>使用:=</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>  &#123;</span><br><span class="line">    <span class="comment">// 1. 分开赋值</span></span><br><span class="line">    p1 := People&#123;&#125;</span><br><span class="line">    p1.Name = <span class="string">&quot;zhangsan&quot;</span></span><br><span class="line">    p1.Age = <span class="number">20</span></span><br><span class="line">    p1.Like = []<span class="type">string</span>&#123;<span class="string">&quot;basketball&quot;</span>&#125;</span><br><span class="line">    <span class="comment">// 变量p,类型: main.People 值: &#123;zhangsan 20 [basketball]&#125;</span></span><br><span class="line">    fmt.Printf(<span class="string">&quot;变量p,类型: %T 值: %v \n&quot;</span>,p1,p1)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2. 直接赋值</span></span><br><span class="line">    p2:= People&#123;</span><br><span class="line">        Name: <span class="string">&quot;hanpy&quot;</span>,</span><br><span class="line">        Age:  <span class="number">30</span>,</span><br><span class="line">        Like: []<span class="type">string</span>&#123;<span class="string">&quot;football&quot;</span>&#125;,</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//变量p,类型: main.People 值: &#123;hanpy 30 [football]&#125;</span></span><br><span class="line">    fmt.Printf(<span class="string">&quot;变量p,类型: %T 值: %v \n&quot;</span>,p2,p2)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>new</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>  &#123;</span><br><span class="line">    p := <span class="built_in">new</span>(People)</span><br><span class="line">    fmt.Printf(<span class="string">&quot; 变量p,类型: %T 值: %v \n&quot;</span>,p,p)</span><br><span class="line">    <span class="comment">// 给属性赋值</span></span><br><span class="line">    (*p).Name = <span class="string">&quot;lisi&quot;</span></span><br><span class="line">    (*p).Age = <span class="number">20</span></span><br><span class="line">    (*p).Like = []<span class="type">string</span>&#123;<span class="string">&quot;daze&quot;</span>&#125;</span><br><span class="line">    fmt.Printf(<span class="string">&quot; 变量p,类型: %T 值: %v \n&quot;</span>,p,p)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 语法糖写法</span></span><br><span class="line">    p.Name = <span class="string">&quot;wangwu&quot;</span></span><br><span class="line">    p.Age = <span class="number">99</span></span><br><span class="line">    p.Like = []<span class="type">string</span>&#123;<span class="string">&quot;sleep&quot;</span>&#125;</span><br><span class="line">    fmt.Printf(<span class="string">&quot; 变量p,类型: %T 值: %v \n&quot;</span>,p,p)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="匿名结构体"><a href="#匿名结构体" class="headerlink" title="匿名结构体"></a>匿名结构体</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>  &#123;</span><br><span class="line">    <span class="comment">// 声明初始化匿名结构体</span></span><br><span class="line">    p := <span class="keyword">struct</span> &#123;</span><br><span class="line">        Name <span class="type">string</span></span><br><span class="line">        Age <span class="type">int</span></span><br><span class="line">        Like []<span class="type">string</span></span><br><span class="line">    &#125;&#123;</span><br><span class="line">        Name: <span class="string">&quot;zhaoliu&quot;</span>,</span><br><span class="line">        Age:  <span class="number">40</span>,</span><br><span class="line">        Like: []<span class="type">string</span>&#123;<span class="string">&quot;eat&quot;</span>&#125;,</span><br><span class="line">    &#125;</span><br><span class="line">    fmt.Printf(<span class="string">&quot; 变量p,类型: %T 值: %v \n&quot;</span>,p,p)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="匿名字段"><a href="#匿名字段" class="headerlink" title="匿名字段"></a>匿名字段</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
 
 
             </div>
@@ -267,11 +286,11 @@
                 <ul class="post-tags-box">
                     
                         <li class="tag-item">
-                            <a href="/tags/String/">#String</a>&nbsp;
+                            <a href="/tags/go/">#go</a>&nbsp;
                         </li>
                     
                         <li class="tag-item">
-                            <a href="/tags/SDS/">#SDS</a>&nbsp;
+                            <a href="/tags/struct/">#struct</a>&nbsp;
                         </li>
                     
                 </ul>
@@ -280,14 +299,29 @@
             
                 <div class="article-nav">
                     
+                        <div class="article-prev">
+                            <a class="prev"
+                               rel="prev"
+                               href="/2023/02/13/go-defer.html"
+                            >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                                <span class="title flex-center">
+                                <span class="post-nav-title-item">Golang学习-defer延迟调用</span>
+                                <span class="post-nav-item">上一篇</span>
+                            </span>
+                            </a>
+                        </div>
+                    
                     
                         <div class="article-next">
                             <a class="next"
                                rel="next"
-                               href="/2023/02/18/go-context.html"
+                               href="/2023/01/14/go-map.html"
                             >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">Golang学习-Context</span>
+                                <span class="post-nav-title-item">Golang学习-Map</span>
                                 <span class="post-nav-item">下一篇</span>
                             </span>
                                 <span class="right arrow-icon flex-center">
@@ -306,7 +340,7 @@
             <div class="toc-content-container">
                 <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#SDS%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-number">1.</span> <span class="nav-text">SDS的定义</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E5%92%8C%E5%AE%9E%E4%BE%8B%E5%8C%96"><span class="nav-number">1.</span> <span class="nav-text">定义和实例化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89"><span class="nav-number">1.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%E5%8C%96"><span class="nav-number">1.2.</span> <span class="nav-text">实例化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8C%BF%E5%90%8D%E7%BB%93%E6%9E%84%E4%BD%93"><span class="nav-number">2.</span> <span class="nav-text">匿名结构体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8C%BF%E5%90%8D%E5%AD%97%E6%AE%B5"><span class="nav-number">3.</span> <span class="nav-text">匿名字段</span></a></li></ol>
     </div>
 </div>
 
