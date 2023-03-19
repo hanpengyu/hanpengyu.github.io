@@ -9,7 +9,7 @@
     
     <title>
         
-            Golang学习-切片 |
+            Golang学习-切片(slice) |
         
         Hanpy&#39;s blog
     </title>
@@ -177,7 +177,7 @@
         <div class="article-content-container">
 
             <div class="article-title">
-                <span class="title-hover-animation">Golang学习-切片</span>
+                <span class="title-hover-animation">Golang学习-切片(slice)</span>
             </div>
 
             
@@ -253,7 +253,7 @@
             <div class="article-content keep-markdown-body">
                 
 
-                <p>Go语言中数组和切片都属于集合类的类型，它们的值也都可以用来存储某一种类型的值（或者说元素）。数组类型的值的长度是固定的，而切片类型的值（以下简称切片）是可变长的。数组的长度在声明它的时候就必须给定，并且之后不会再改变。而切片的类型字面量中只有元素的类型，而没有长度。切片的长度可以自动地随着其中元素数量的增长而增长，但不会随着元素数量的减少而减小。</p>
+                <p>Go 语言中数组和切片都属于集合类的类型，它们的值也都可以用来存储某一种类型的值（或者说元素）。数组类型的值的长度是固定的，而切片类型的值（以下简称切片）是可变长的。数组的长度在声明它的时候就必须给定，并且之后不会再改变。而切片的类型字面量中只有元素的类型，而没有长度。切片的长度可以自动地随着其中元素数量的增长而增长，但不会随着元素数量的减少而减小。</p>
 <span id="more"></span>
 
 <h3 id="切片的底层数据结构"><a href="#切片的底层数据结构" class="headerlink" title="切片的底层数据结构"></a>切片的底层数据结构</h3><p>数组就是一片连续的内存， slice 实际上是一个结构体，包含三个字段：长度、容量、底层数组。<br><code>go/src/runtime/slice.go</code></p>
@@ -334,7 +334,7 @@
                               <i class="fas fa-chevron-left"></i>
                             </span>
                                 <span class="title flex-center">
-                                <span class="post-nav-title-item">Golang学习-Map</span>
+                                <span class="post-nav-title-item">Golang学习-字典(Map)</span>
                                 <span class="post-nav-item">上一篇</span>
                             </span>
                             </a>

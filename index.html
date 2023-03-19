@@ -241,7 +241,7 @@
 
                 <h3 class="home-article-title">
                     <a href="/2023/02/18/go-context.html">
-                        Golang学习-Context
+                        Golang学习-上下文(context.Context类型)
                     </a>
                 </h3>
 
@@ -303,13 +303,13 @@
 
                 <h3 class="home-article-title">
                     <a href="/2023/02/16/go-channel.html">
-                        Golang学习-通道
+                        Golang学习-通道(channel)
                     </a>
                 </h3>
 
                 <div class="home-article-content keep-markdown-body">
                     
-                        <p>通道类型是Go语言自带的唯一一个可以满足并发安全性的类型，一个通道相当于一个先进先出的队列，各个元素值都是严格按照发送的顺序排列的，先被发送到通道的元素值一定会先被接收。</p>
+                        <p>通道类型是 Go 语言自带的唯一一个可以满足并发安全性的类型，一个通道相当于一个先进先出的队列，各个元素值都是严格按照发送的顺序排列的，先被发送到通道的元素值一定会先被接收。</p>
                     
                 </div>
 
@@ -371,7 +371,7 @@
 
                 <div class="home-article-content keep-markdown-body">
                     
-                        <p>Go 语言的 <code>defer</code> 会在当前函数返回前执行传入的函数，它会经常被用于关闭文件描述符、关闭数据库连接以及解锁资源。</p>
+                        <p>Go 语言的 defer 会在当前函数返回前执行传入的函数，它会经常被用于关闭文件描述符、关闭数据库连接以及解锁资源。</p>
                     
                 </div>
 
@@ -427,13 +427,13 @@
 
                 <h3 class="home-article-title">
                     <a href="/2023/01/21/go-interface.html">
-                        Golang学习-接口
+                        Golang学习-接口(interface)
                     </a>
                 </h3>
 
                 <div class="home-article-content keep-markdown-body">
                     
-                        <p>摘要</p>
+                        <p>interface 是 Go 语言的基础特性之一，可以理解为一种类型的规范或者约定。</p>
                     
                 </div>
 
@@ -495,7 +495,7 @@
 
                 <div class="home-article-content keep-markdown-body">
                     
-                        <p>Go没有沿袭传统面向对象编程中的诸多概念，也没有提供类<code>(class)</code>，但是它提供了结构体<code>(struct)</code>，方法<code>(method)</code>可以在结构体上添加。与类相似，结构体提供了捆绑数据和方法的行为。</p>
+                        <p>Go 没有沿袭传统面向对象编程中的诸多概念，也没有提供类( class )，但是它提供了结构体( struc)，方法( method )可以在结构体上添加。与类相似，结构体提供了捆绑数据和方法的行为。</p>
                     
                 </div>
 
@@ -551,7 +551,7 @@
 
                 <h3 class="home-article-title">
                     <a href="/2023/01/18/go-struct.html">
-                        Golang学习-struct
+                        Golang学习-结构体(struct)
                     </a>
                 </h3>
 
@@ -613,13 +613,13 @@
 
                 <h3 class="home-article-title">
                     <a href="/2023/01/14/go-map.html">
-                        Golang学习-Map
+                        Golang学习-字典(Map)
                     </a>
                 </h3>
 
                 <div class="home-article-content keep-markdown-body">
                     
-                        <p>map的底层实现是通过hash表来进行的，map中所有的key都有相同的类型，所有的value也有着相同的类型，但是key和value之间可以是不同的数据类型。其中K对应的key必须是支持==比较运算符的数据类型。</p>
+                        <p>Map 的底层实现是通过 Hash 表来进行的，Map 中所有的 key 都有相同的类型，所有的 value 也有着相同的类型，但是 key 和 value 之间可以是不同的数据类型。</p>
                     
                 </div>
 
@@ -675,13 +675,13 @@
 
                 <h3 class="home-article-title">
                     <a href="/2023/01/13/go-slice.html">
-                        Golang学习-切片
+                        Golang学习-切片(slice)
                     </a>
                 </h3>
 
                 <div class="home-article-content keep-markdown-body">
                     
-                        <p>Go语言中数组和切片都属于集合类的类型，它们的值也都可以用来存储某一种类型的值（或者说元素）。数组类型的值的长度是固定的，而切片类型的值（以下简称切片）是可变长的。数组的长度在声明它的时候就必须给定，并且之后不会再改变。而切片的类型字面量中只有元素的类型，而没有长度。切片的长度可以自动地随着其中元素数量的增长而增长，但不会随着元素数量的减少而减小。</p>
+                        <p>Go 语言中数组和切片都属于集合类的类型，它们的值也都可以用来存储某一种类型的值（或者说元素）。数组类型的值的长度是固定的，而切片类型的值（以下简称切片）是可变长的。数组的长度在声明它的时候就必须给定，并且之后不会再改变。而切片的类型字面量中只有元素的类型，而没有长度。切片的长度可以自动地随着其中元素数量的增长而增长，但不会随着元素数量的减少而减小。</p>
                     
                 </div>
 
@@ -748,7 +748,7 @@
 
                 <div class="home-article-content keep-markdown-body">
                     
-                        <p>在<code>Go</code>语言中，有基本数据类型（原生数据类型）和复合数据类型（派生数据类型）</p>
+                        <p>在 Go 语言中，有基本数据类型（原生数据类型）和复合数据类型（派生数据类型）</p>
                     
                 </div>
 
