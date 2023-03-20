@@ -9,6 +9,8 @@
     
     <title>
         
+            Golang学习 - 反射（reflect） |
+        
         Hanpy&#39;s blog
     </title>
     
@@ -95,7 +97,7 @@
                         </li>
                     
                         <li class="menu-item">
-                            <a class="active"
+                            <a class=""
                                href="/about"
                             >
                                 关于
@@ -146,7 +148,7 @@
                 </li>
             
                 <li class="drawer-menu-item flex-center">
-                    <a class="active"
+                    <a class=""
                        href="/about">关于</a>
                 </li>
             
@@ -170,17 +172,143 @@
             <div class="main-content">
 
                 
-                    
-<div class="fade-in-down-animation">
-    <div class="page-template-container">
-        
-        
-        <div class="page-template-content keep-markdown-body">
+                    <div class="fade-in-down-animation">
+    <div class="post-page-container">
+        <div class="article-content-container">
+
+            <div class="article-title">
+                <span class="title-hover-animation">Golang学习 - 反射（reflect）</span>
+            </div>
+
             
-                <p>在这个鼓吹所有的小草都应该成为大树，所有一米六的矮个子都应该去NBA打球，所有的人只要努力，就能成功。所有的人只要没有成功，就是不努力。所有在雨天被蛮横的宝马车溅过一身泥的穷光蛋都应该发愤图强努力赚钱，然后溅别人一身泥的励志观念大行其道的今天。作为一个三流程序员，应该做点什么呢？还是写写博客吧，于是就有了这个。</p>
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="/images/logo.png">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">hanpy</span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            
+<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        
+            <i class="fa-regular fa-calendar-plus"></i>&nbsp;
+        
+        <span class="pc">2023-03-20 21:34:59</span>
+        <span class="mobile">2023-03-20 21:34</span>
+    </span>
+    
+        <span class="article-update-date article-meta-item">
+        <i class="fas fa-file-pen"></i>&nbsp;
+        <span class="pc">2023-03-20 21:34:59</span>
+    </span>
+    
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/Golang/">Golang</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/go/">go</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/reflect/">reflect</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="article-content keep-markdown-body">
+                
+
+                <p><code>reflect</code> 实现了运行时的反射能力，能够让程序操作不同类型的对象，是 Go 语言很重要的一个特性。</p>
+<span id="more"></span>
+
+
+            </div>
+
+            
+
+            
+                <ul class="post-tags-box">
+                    
+                        <li class="tag-item">
+                            <a href="/tags/go/">#go</a>&nbsp;
+                        </li>
+                    
+                        <li class="tag-item">
+                            <a href="/tags/reflect/">#reflect</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            
+
+            
+                <div class="article-nav">
+                    
+                    
+                        <div class="article-next">
+                            <a class="next"
+                               rel="next"
+                               href="/2023/03/19/go-package-validator.html"
+                            >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Golang常用包 - validator</span>
+                                <span class="post-nav-item">下一篇</span>
+                            </span>
+                                <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                            </a>
+                        </div>
+                    
+                </div>
+            
 
             
         </div>
+
+        
+            <div class="toc-content-container">
+                <div class="post-toc-wrap">
+    <div class="post-toc">
+        
+    </div>
+</div>
+
+            </div>
         
     </div>
 </div>
@@ -237,6 +365,23 @@
         </div>
     </div>
 
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
     
 
     <div class="right-bottom-side-tools">
@@ -305,6 +450,14 @@
 
 
 <div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/post-helper.js"></script>
+        
+            <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/libs/anime.min.js"></script>
+        
+        
+            <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/toc.js"></script>
+        
     
 </div>
 

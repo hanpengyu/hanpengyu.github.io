@@ -9,7 +9,7 @@
     
     <title>
         
-            Golang学习-上下文(context.Context类型) |
+            Golang学习 - 上下文（context.Context类型） |
         
         Hanpy&#39;s blog
     </title>
@@ -177,7 +177,7 @@
         <div class="article-content-container">
 
             <div class="article-title">
-                <span class="title-hover-animation">Golang学习-上下文(context.Context类型)</span>
+                <span class="title-hover-animation">Golang学习 - 上下文（context.Context类型）</span>
             </div>
 
             
@@ -239,6 +239,10 @@
     
     
     
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
 </div>
 
                         </div>
@@ -249,7 +253,7 @@
             <div class="article-content keep-markdown-body">
                 
 
-                <p>context 主要用来在 goroutine 之间传递上下文信息，包括：取消信号、超时时间、截止时间、k-v 等</p>
+                <p><code>context</code> 主要用来在 <code>goroutine</code> 之间传递上下文信息，包括：取消信号、超时时间、截止时间、k-v 等</p>
 <span id="more"></span>
 
 <h3 id="context接口"><a href="#context接口" class="headerlink" title="context接口"></a>context接口</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Context <span class="keyword">interface</span> &#123;</span><br><span class="line">    Deadline() (deadline time.Time, ok <span class="type">bool</span>)</span><br><span class="line">    Done() &lt;-<span class="keyword">chan</span> <span class="keyword">struct</span>&#123;&#125;</span><br><span class="line">    Err() <span class="type">error</span></span><br><span class="line">    Value(key <span class="keyword">interface</span>&#123;&#125;) <span class="keyword">interface</span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -318,7 +322,7 @@
                                href="/2023/02/16/go-channel.html"
                             >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">Golang学习-通道(channel)</span>
+                                <span class="post-nav-title-item">Golang学习 - 通道（channel）</span>
                                 <span class="post-nav-item">下一篇</span>
                             </span>
                                 <span class="right arrow-icon flex-center">
@@ -368,6 +372,13 @@
                 &nbsp;<a href="/">HANPY</a>
             
         </div>
+        
+            <script async 
+                    src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                
+            </div>
         
         
             <div class="icp-info info-item">
