@@ -256,9 +256,9 @@
                 <p>Mac配置了Vpn，在浏览器中访问可以，但是在命令行中就不可以，需要配置<code>http_proxy</code>每次重新打开都要输入一下命令，太麻烦，写两个函数扔到<code>.zshrc</code>中</p>
 <span id="more"></span>
 
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">proxy_on</span></span>() &#123;</span><br><span class="line">    <span class="built_in">export</span> http_proxy=http://127.0.0.1:xxxx</span><br><span class="line">    <span class="built_in">export</span> https_proxy=http://127.0.0.1:xxxx</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;已开启代理&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">proxy_off</span></span>() &#123;</span><br><span class="line">    <span class="built_in">unset</span> http_proxy</span><br><span class="line">    <span class="built_in">unset</span> https_proxy</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;已关闭代理&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="设置代理函数"><a href="#设置代理函数" class="headerlink" title="设置代理函数"></a>设置代理函数</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">proxy_on</span></span>() &#123;</span><br><span class="line">    <span class="built_in">export</span> http_proxy=http://127.0.0.1:xxxx</span><br><span class="line">    <span class="built_in">export</span> https_proxy=http://127.0.0.1:xxxx</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;已开启代理&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">proxy_off</span></span>() &#123;</span><br><span class="line">    <span class="built_in">unset</span> http_proxy</span><br><span class="line">    <span class="built_in">unset</span> https_proxy</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;已关闭代理&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看IP来源</span></span><br><span class="line"><span class="built_in">alias</span> ip_info=<span class="string">&quot;curl http://www.cip.cc/&quot;</span></span><br></pre></td></tr></table></figure>
 
-<p><strong>使用方法</strong><br>在终端直接运行下面的命令(要先执行 <code>source ~/.zshrc</code> )<br><code>proxy_on</code>  即可打开终端http代理<br><code>proxy_off</code>  关闭终端http代理</p>
+<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><p>在终端直接运行下面的命令(要先执行 <code>source ~/.zshrc</code> )<br><code>proxy_on</code>  即可打开终端http代理<br><code>proxy_off</code>  关闭终端http代理<br><code>ip_info</code> 查看IP来源信息</p>
 
             </div>
 
@@ -322,7 +322,7 @@
             <div class="toc-content-container">
                 <div class="post-toc-wrap">
     <div class="post-toc">
-        
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86%E5%87%BD%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">设置代理函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">使用方法</span></a></li></ol>
     </div>
 </div>
 
@@ -338,45 +338,67 @@
         </div>
 
         <div class="page-main-content-bottom">
-            
+            <%
+const {
+  since: f_since,
+  icp: f_icp,
+  site_deploy: f_site_deploy
+} = theme.footer
+const { author: bi_author } = theme.base_info
+const { author: hexo_author } = config
+const { site_uv: bsz_site_uv, site_pv: bsz_site_pv, enable: bsz_enable } = theme.website_count.busuanzi_count
+%>
 <footer class="footer">
     <div class="info-container">
         <div class="copyright-info info-item">
             &copy;
-            
-                <span>2018</span> -
-            
-            2023
-            
-                <!-- &nbsp;<i class="fas fa-heart icon-animate"></i> -->
-                <!-- &nbsp;<a href="/">hanpy</a> -->
-                &nbsp;<a href="/">HANPY</a>
-            
+            <% if (f_since) { %>
+                <span><%= f_since %></span> -
+            <% } %>
+            <%= date(new Date(), 'YYYY') %>
+            <% if (bi_author || hexo_author) { %>
+                &nbsp;<i class="fas fa-heart icon-animate"></i>
+                &nbsp;<a href="/"><%= bi_author || hexo_author %></a>
+            <% } %>
         </div>
-        
-            <script async 
+        <% if (bsz_enable === true) { %>
+            <script async <%= theme.pjax.enable === true ? 'data-pjax' : '' %>
                     src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
             <div class="website-count info-item">
-                
-                
+                <% if (bsz_site_uv) { %>
+                    <%- __('site_uv') %>&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                <% } %>
+                <% if (bsz_site_pv) { %>
+                    <%- __('site_pv') %>&nbsp;<span id="busuanzi_value_site_pv"></span>
+                <% } %>
             </div>
-        
-        
+        <% } %>
+        <div class="theme-info info-item">
+            <%- __('powered_by', '<a target="_blank" href="https://hexo.io">Hexo</a>') %>&nbsp;|&nbsp;<%- __('theme') %>&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.6.1</a>
+        </div>
+        <% if (f_icp) { %>
             <div class="icp-info info-item">
                 <a target="_blank" rel="nofollow"
                    href="https://beian.miit.gov.cn"
                 >
-                    京ICP备16043183号
+                    <%= f_icp %>
                 </a>
             </div>
-        
-        
+        <% } %>
+        <% if (f_site_deploy?.enable === true && f_site_deploy?.provider !== '') { %>
             <div class="deploy-info info-item">
-                
-                    本站由 <span class="tooltip" data-content="GitHub Pages"><img src="/images/deploy-provider/github.png"></span> 提供部署服务
-                
+                <% if (f_site_deploy?.url) { %>
+                    <a target="_blank" rel="nofollow" href="<%= f_site_deploy?.url %>">
+                <% } %>
+                    <%- __(
+                            'footer_deploy',
+                            '<span class="tooltip" data-content="' + __('deploy_provider.' + f_site_deploy?.provider) + '"><img src="/images/deploy-provider/' + f_site_deploy?.provider + '.png"></span>'
+                    ) %>
+                <% if (f_site_deploy?.url) { %>
+                    </a>
+                <% } %>
             </div>
-        
+        <% } %>
     </div>
 </footer>
 
