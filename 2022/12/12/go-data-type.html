@@ -9,7 +9,7 @@
     
     <title>
         
-            Golang标准库学习 - Strings |
+            Golang学习 - 数据类型 |
         
         Hanpy&#39;s blog
     </title>
@@ -177,7 +177,7 @@
         <div class="article-content-container">
 
             <div class="article-title">
-                <span class="title-hover-animation">Golang标准库学习 - Strings</span>
+                <span class="title-hover-animation">Golang学习 - 数据类型</span>
             </div>
 
             
@@ -197,13 +197,13 @@
         
             <i class="fa-regular fa-calendar-plus"></i>&nbsp;
         
-        <span class="pc">2022-11-18 23:17:43</span>
-        <span class="mobile">2022-11-18 23:17</span>
+        <span class="pc">2022-12-12 20:58:54</span>
+        <span class="mobile">2022-12-12 20:58</span>
     </span>
     
         <span class="article-update-date article-meta-item">
         <i class="fas fa-file-pen"></i>&nbsp;
-        <span class="pc">2022-11-18 23:17:43</span>
+        <span class="pc">2022-12-12 20:58:54</span>
     </span>
     
     
@@ -213,10 +213,6 @@
                 
                     <li>
                         <a href="/categories/Golang/">Golang</a>&nbsp;
-                    </li>
-                
-                    <li>
-                        &gt; <a href="/categories/Golang/%E6%A0%87%E5%87%86%E5%BA%93/">标准库</a>&nbsp;
                     </li>
                 
             </ul>
@@ -229,10 +225,6 @@
                 
                     <li>
                         <a href="/tags/go/">go</a>&nbsp;
-                    </li>
-                
-                    <li>
-                        | <a href="/tags/string/">string</a>&nbsp;
                     </li>
                 
             </ul>
@@ -253,11 +245,71 @@
             <div class="article-content keep-markdown-body">
                 
 
-                <p>摘要</p>
+                <p>在 Go 语言中，有基本数据类型（原生数据类型）和复合数据类型（派生数据类型）</p>
 <span id="more"></span>
 
+<h2 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h2><p>基本类型包括：整型(<em>int</em>)、浮点型(<em>float</em>)、复数型(<em>complex</em>)、布尔型(<em>bool</em>)、字符串(<em>string</em>)、字符（<em>byte、rune</em>）</p>
+<h2 id="复合数据类型"><a href="#复合数据类型" class="headerlink" title="复合数据类型"></a>复合数据类型</h2><p>数组（<em>array</em>）、切片（<em>slice</em>）、映射（<em>map</em>）、函数（<em>function</em>）、结构体（<em>struct</em>）、通道（<em>channel</em>）、接口（<em>interface</em>）、指针（<em>pointer</em>）</p>
+<img  
+                     lazyload
+                     alt="image"
+                     data-src="https://raw.githubusercontent.com/hanpengyu/blogimg/main/img/image-20230312011345552.png"
+                      alt="image-20230312011345552" style="zoom:67%;" 
+                >
 
+<h2 id="整型"><a href="#整型" class="headerlink" title="整型"></a>整型</h2><p>有符号整型：int8、int16、int32(别名:rune)、int64、int<br>无符号整型：uint8(别名:byte)、uint16、uint32、uint64、uint</p>
+<p>整型的取值范围</p>
+<p>重点需要记住常用的几个：int32（4字节），int64（8字节）</p>
+<p><img  
+                     lazyload
+                     alt="image"
+                     data-src="https://raw.githubusercontent.com/hanpengyu/blogimg/main/img/image-20230312012115736.png"
+                      alt="image-20230312012115736"
+                ></p>
+<h2 id="浮点型"><a href="#浮点型" class="headerlink" title="浮点型"></a>浮点型</h2><p>浮点型表示存储的数据是实数,浮点类型分: <code>float32</code> 和<code>float64</code> 两种，默认是<code>float64</code></p>
+<table>
+<thead>
+<tr>
+<th align="left">类型</th>
+<th align="left">字节</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>float32</code></td>
+<td align="left">4</td>
+<td align="left">32位的浮点型</td>
+</tr>
+<tr>
+<td align="left"><code>float64</code></td>
+<td align="left">8</td>
+<td align="left">64位的浮点型</td>
+</tr>
+</tbody></table>
+<h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><p>Go语言中的字符串是基本类型，这一点和C语言是不一样的，使用字符串就像使用其他原生基本数据类型int、float32、float64、bool一样。</p>
+<p>字符串都是采用UTF-8字符集编码。字符串是用一对双引号（””）或反引号（<code> </code>）括起来定义,字符串不可变，可以用 + 操作符 连接两个字符串</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 简单使用</span></span><br><span class="line"><span class="keyword">var</span> s <span class="type">string</span></span><br><span class="line">s1 := <span class="string">&quot;hello&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 多行</span></span><br><span class="line">s2 := <span class="string">`</span></span><br><span class="line"><span class="string">	var a int = 1</span></span><br><span class="line"><span class="string">	var b int = 2 </span></span><br><span class="line"><span class="string">`</span></span><br></pre></td></tr></table></figure>
 
+<h2 id="字符"><a href="#字符" class="headerlink" title="字符"></a>字符</h2><p>字符串中的每一个元素叫作“字符”，定义字符时使用单引号</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>字节</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>byte</td>
+<td>1</td>
+<td>表示<code>UTF8</code>字符串中的单个字节的值,别名:<code>unit8</code></td>
+</tr>
+<tr>
+<td>rune</td>
+<td>4</td>
+<td>表示单个<code>unicode</code>字符，别名:<code>int32</code></td>
+</tr>
+</tbody></table>
 
             </div>
 
@@ -270,10 +322,6 @@
                             <a href="/tags/go/">#go</a>&nbsp;
                         </li>
                     
-                        <li class="tag-item">
-                            <a href="/tags/string/">#string</a>&nbsp;
-                        </li>
-                    
                 </ul>
             
 
@@ -283,13 +331,13 @@
                         <div class="article-prev">
                             <a class="prev"
                                rel="prev"
-                               href="/2023/01/11/go-source-code.html"
+                               href="/2022/12/13/go-slice.html"
                             >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                                 <span class="title flex-center">
-                                <span class="post-nav-title-item">Golang学习 - 命令源码文件</span>
+                                <span class="post-nav-title-item">Golang学习 - 切片（slice）</span>
                                 <span class="post-nav-item">上一篇</span>
                             </span>
                             </a>
@@ -299,10 +347,10 @@
                         <div class="article-next">
                             <a class="next"
                                rel="next"
-                               href="/2022/11/18/go-standard-strconv.html"
+                               href="/2022/12/11/go-source-code.html"
                             >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">Golang标准库学习 - strconv</span>
+                                <span class="post-nav-title-item">Golang学习 - 命令源码文件</span>
                                 <span class="post-nav-item">下一篇</span>
                             </span>
                                 <span class="right arrow-icon flex-center">
@@ -321,7 +369,7 @@
             <div class="toc-content-container">
                 <div class="post-toc-wrap">
     <div class="post-toc">
-        
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">基本数据类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%8D%E5%90%88%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text">复合数据类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B4%E5%9E%8B"><span class="nav-number">3.</span> <span class="nav-text">整型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%AE%E7%82%B9%E5%9E%8B"><span class="nav-number">4.</span> <span class="nav-text">浮点型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-number">5.</span> <span class="nav-text">字符串</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6"><span class="nav-number">6.</span> <span class="nav-text">字符</span></a></li></ol>
     </div>
 </div>
 

@@ -9,7 +9,7 @@
     
     <title>
         
-            Redis 数据结构（一）字符串 |
+            Golang学习 - 反射（reflect）简单使用 |
         
         Hanpy&#39;s blog
     </title>
@@ -177,7 +177,7 @@
         <div class="article-content-container">
 
             <div class="article-title">
-                <span class="title-hover-animation">Redis 数据结构（一）字符串</span>
+                <span class="title-hover-animation">Golang学习 - 反射（reflect）简单使用</span>
             </div>
 
             
@@ -197,13 +197,13 @@
         
             <i class="fa-regular fa-calendar-plus"></i>&nbsp;
         
-        <span class="pc">2023-03-18 01:54:42</span>
-        <span class="mobile">2023-03-18 01:54</span>
+        <span class="pc">2023-02-25 21:34:59</span>
+        <span class="mobile">2023-02-25 21:34</span>
     </span>
     
         <span class="article-update-date article-meta-item">
         <i class="fas fa-file-pen"></i>&nbsp;
-        <span class="pc">2023-03-18 01:54:42</span>
+        <span class="pc">2023-02-25 21:34:59</span>
     </span>
     
     
@@ -212,7 +212,7 @@
             <ul>
                 
                     <li>
-                        <a href="/categories/Redis/">Redis</a>&nbsp;
+                        <a href="/categories/Golang/">Golang</a>&nbsp;
                     </li>
                 
             </ul>
@@ -224,11 +224,11 @@
             <ul>
                 
                     <li>
-                        <a href="/tags/string/">string</a>&nbsp;
+                        <a href="/tags/go/">go</a>&nbsp;
                     </li>
                 
                     <li>
-                        | <a href="/tags/SDS/">SDS</a>&nbsp;
+                        | <a href="/tags/reflect/">reflect</a>&nbsp;
                     </li>
                 
             </ul>
@@ -249,32 +249,79 @@
             <div class="article-content keep-markdown-body">
                 
 
-                <p><code>SDS</code> 是在 Redis 中被广泛使用的字符串结构，它的全称是 <code>Simple Dynamic String</code>。</p>
+                <p>Go 中的反射是用 <code>reflect</code>  包实现，<code>reflect</code>  包实现了运行时的反射能力，能够让程序操作不同的对象。反射是 Go 语言很重要的一个特性</p>
 <span id="more"></span>
 
-<blockquote>
-<p>内容来只<a class="link"   target="_blank" rel="noopener" href="http://redisbook.com/index.html" >《Redis设计与实现》<i class="fas fa-external-link-alt"></i></a>和其他网络资料，<a class="link"   target="_blank" rel="noopener" href="https://github.com/huangz1990/redis-3.0-annotated" >Redis3.0源码-注释版<i class="fas fa-external-link-alt"></i></a></p>
-</blockquote>
-<h3 id="SDS的定义"><a href="#SDS的定义" class="headerlink" title="SDS的定义"></a>SDS的定义</h3><p><a target="_blank" rel="noopener" href="https://github.com/huangz1990/redis-3.0-annotated/blob/unstable/src/sds.h#L45"><code>redis-3.0-annotated/src/sds.h</code></a></p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="type">char</span> *sds;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sdshdr</span> &#123;</span></span><br><span class="line">    <span class="comment">// buf 中已占用空间的长度</span></span><br><span class="line">    <span class="type">int</span> len;</span><br><span class="line">    <span class="comment">// buf 中剩余可用空间的长度</span></span><br><span class="line">    <span class="type">int</span> <span class="built_in">free</span>;</span><br><span class="line">    <span class="comment">// 数据空间</span></span><br><span class="line">    <span class="type">char</span> buf[];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="反射的两种基本类型"><a href="#反射的两种基本类型" class="headerlink" title="反射的两种基本类型"></a>反射的两种基本类型</h3><p>反射包中有两对非常重要的函数和类型</p>
+<table>
+<thead>
+<tr>
+<th><strong>方法名</strong></th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>reflect.TypeOf</td>
+<td>可以获得任意值的类型对象,返回类型: <strong>reflect.Type</strong></td>
+</tr>
+<tr>
+<td>reflect.ValueOf</td>
+<td>可以获得任意值的值对象,返回类型: <strong>reflect.Value</strong></td>
+</tr>
+</tbody></table>
+<p>这两个函数的参数都是空接口 <code>interface&#123;&#125;</code> ，内部存储了即将被反射的变量。</p>
+<p>可以将 <code>reflect.Value</code> 看作反射的值，<code>reflect.Type</code> 看作反射的实际类型。其中，reflect.Type是一个接口，包含和类型有关的许多方法签名。<code>reflect.Value</code> 是一个结构体，其内部包含了很多方法。</p>
+<h3 id="reflect-TypeOf"><a href="#reflect-TypeOf" class="headerlink" title="reflect.TypeOf"></a>reflect.TypeOf</h3><p><a target="_blank" rel="noopener" href="https://studygolang.com/static/pkgdoc/pkg/reflect.htm#Type"><strong>reflect.Type</strong></a> 接口具体方法列表</p>
+<h4 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a>常用方法</h4><table>
+<thead>
+<tr>
+<th><strong>方法</strong></th>
+<th><strong>描述</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Kind() Kind</code></td>
+<td>返回该变量的的具体分类</td>
+</tr>
+<tr>
+<td><code>Name() string</code></td>
+<td>返回该类型在自身包内的类型名，如果是未命名类型会返回””</td>
+</tr>
+<tr>
+<td><code>NumField() int</code></td>
+<td>返回struct类型的字段数（匿名字段算作一个字段），如非结构体类型将 <strong>panic</strong></td>
+</tr>
+<tr>
+<td><code>Field(i int) StructField</code></td>
+<td>返回struct类型的第i个字段的类型，如非结构体或者i不在[0, NumField())内将会 <strong>panic</strong></td>
+</tr>
+<tr>
+<td><code>Implements(u Type) bool</code></td>
+<td>如果该类型实现了u代表的接口，会返回真</td>
+</tr>
+<tr>
+<td><code>Len() int</code></td>
+<td>返回array类型的长度，如非数组类型将 <strong>panic</strong></td>
+</tr>
+<tr>
+<td><code>Elem() Type</code></td>
+<td>返回该类型的元素类型，如果该类型的Kind不是 <code>Array</code>、<code>Chan</code>、<code>Map</code>、<code>Ptr</code> 或 <code>Slice</code>，会 <strong>panic</strong></td>
+</tr>
+<tr>
+<td><code>Key() Type</code></td>
+<td>返回map类型的键的类型。如非映射类型将 <strong>panic</strong></td>
+</tr>
+</tbody></table>
+<h4 id="常见的两个结构体和类型"><a href="#常见的两个结构体和类型" class="headerlink" title="常见的两个结构体和类型"></a>常见的两个结构体和类型</h4><p><code>StructField</code> 类型描述结构体中的一个字段的信息。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> StructField <span class="keyword">struct</span> &#123;</span><br><span class="line">    <span class="comment">// Name是字段的名字。PkgPath是非导出字段的包路径，对导出字段该字段为&quot;&quot;。</span></span><br><span class="line">    <span class="comment">// 参见http://golang.org/ref/spec#Uniqueness_of_identifiers</span></span><br><span class="line">    Name    <span class="type">string</span></span><br><span class="line">    PkgPath <span class="type">string</span></span><br><span class="line">    Type      Type      <span class="comment">// 字段的类型</span></span><br><span class="line">    Tag       StructTag <span class="comment">// 字段的标签</span></span><br><span class="line">    Offset    <span class="type">uintptr</span>   <span class="comment">// 字段在结构体中的字节偏移量</span></span><br><span class="line">    Index     []<span class="type">int</span>     <span class="comment">// 用于Type.FieldByIndex时的索引切片</span></span><br><span class="line">    Anonymous <span class="type">bool</span>      <span class="comment">// 是否匿名字段</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="SDS与C字符串的区别"><a href="#SDS与C字符串的区别" class="headerlink" title="SDS与C字符串的区别"></a>SDS与C字符串的区别</h3><p>C 语言使用长度为 <code>N+1</code> 的字符数组来表示长度为 <code>N</code> 的字符串， 并且字符数组的最后一个元素总是空字符 <code>&#39;\0&#39;</code>，C 语言使用的这种简单的字符串表示方式， 并不能满足 Redis 对字符串在安全性、效率、以及功能方面的要求</p>
-<h4 id="常数复杂度获取字符串长度"><a href="#常数复杂度获取字符串长度" class="headerlink" title="常数复杂度获取字符串长度"></a>常数复杂度获取字符串长度</h4><p>C 字符串并不记录自身的长度信息， 所以为了获取一个 C 字符串的长度， 程序必须遍历整个字符串， 对遇到的每个字符进行计数， 直到遇到代表字符串结尾的空字符为止。</p>
-<p>SDS 在 <code>len</code> 属性中记录了 SDS 本身的长度， 所以获取一个 SDS 长度的复杂度仅为 O(1) </p>
-<h4 id="杜绝缓冲区溢出"><a href="#杜绝缓冲区溢出" class="headerlink" title="杜绝缓冲区溢出"></a>杜绝缓冲区溢出</h4><p>C 字符串不记录自身长度带来的另一个问题是容易造成缓冲区溢出（buffer overflow）。</p>
-<p>修改两个相邻的字符串的时候，需要修改前一个没有重新分配内存就有可能覆盖后一个字符串的内容。</p>
-<p>SDS 的空间分配策略完全杜绝了发生缓冲区溢出的可能性： 当 SDS API 需要对 SDS 进行修改时， API 会先检查 SDS 的空间是否满足修改所需的要求， 如果不满足的话， API 会自动将 SDS 的空间扩展至执行修改所需的大小， 然后才执行实际的修改操作， 所以使用 SDS 既不需要手动修改 SDS 的空间大小， 也不会出现前面所说的缓冲区溢出问题。</p>
-<h3 id="减少修改字符串时带来的内存重分配次数"><a href="#减少修改字符串时带来的内存重分配次数" class="headerlink" title="减少修改字符串时带来的内存重分配次数"></a>减少修改字符串时带来的内存重分配次数</h3><p>C 字符串底层是一个字符数组，每次增长或者缩短一个 C 字符串， 程序都总要对保存这个 C 字符串的数组进行一次内存重分配操作，无论是增加、拼接、截取都得先通过内存重分配来扩展底层数组的空间大小，否则就可能造成溢出的情况</p>
-<h4 id="SDS空间预分配"><a href="#SDS空间预分配" class="headerlink" title="SDS空间预分配"></a>SDS空间预分配</h4><p>内存重分配涉及复杂的算法，并且可能需要执行系统调用是一个比较耗时的操作。SDS通过空间预分配的方式来减少系统调用从而加快执行的速度。</p>
-<p>当 SDS 的 API 对一个 SDS 进行修改， 并且需要对 SDS 进行空间扩展的时候， 程序不仅会为 SDS 分配修改所必须要的空间， 还会为 SDS 分配额外的未使用空间</p>
-<p><strong>额外分配的未使用空间数量由以下公式决定</strong></p>
-<ol>
-<li>如果对SDS进行修改之后，SDS的长度（也即是 <code>len</code> 属性的值）将小于<code>1 MB</code>，那么程序分配和 <code>len</code> 属性同样大小的未使用空间，这时SDS的<code>len</code>属性的值将和 <code>free</code> 属性的值相同。<br>举个例子， 如果进行修改之后， SDS 的 <code>len</code> 将变成 <code>13</code> 字节， 那么程序也会分配 <code>13</code> 字节的未使用空间， SDS 的 <code>buf</code> 数组的实际长度将变成 <code>13 + 13 + 1 = 27</code> 字节（额外的一字节用于保存空字符）</li>
-<li>如果对 SDS 进行修改之后， SDS 的长度将大于等于 <code>1 MB</code> ， 那么程序会分配 <code>1 MB</code> 的未使用空间。<br>举个例子， 如果进行修改之后， SDS 的 <code>len</code> 将变成 <code>30 MB</code> ， 那么程序会分配 <code>1 MB</code> 的未使用空间， SDS 的 <code>buf</code> 数组的实际长度将为 <code>30 MB + 1 MB + 1 byte</code> 。</li>
-</ol>
-<h4 id="惰性空间释放"><a href="#惰性空间释放" class="headerlink" title="惰性空间释放"></a>惰性空间释放</h4><p>惰性空间释放用于优化SDS的字符串缩短操作： 当SDS的API需要缩短 SDS 保存的字符串时， 程序并不立即使用内存重分配来回收缩短后多出来的字节， 而是使用 <code>free</code> 属性将这些字节的数量记录起来， 并等待将来使用。</p>
-<h4 id="SDS是二进制安全的"><a href="#SDS是二进制安全的" class="headerlink" title="SDS是二进制安全的"></a>SDS是二进制安全的</h4><p>C字符串中的字符必须符合某种编码（比如 ASCII），并且除了字符串的末尾之外，字符串里面不能包含空字符，否则最先被程序读入的空字符将被误认为是字符串结尾 —— 这些限制使得C字符串只能保存文本数据，而不能保存像图片、音频、视频、压缩文件这样的二进制数据。</p>
-<p>SDS使用 <code>len</code> 属性的值而不是空字符来判断字符串是否结束，因此SDS的API都是二进制安全的（binary-safe）。</p>
+<p><code>StructTag</code>  是结构体字段的标签。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> StructTag <span class="type">string</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Get方法返回标签字符串中键key对应的值。如果标签中没有该键，会返回&quot;&quot;。如果标签不符合标准格式，Get的返回值是不确定的。</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(tag StructTag)</span></span> Get(key <span class="type">string</span>) <span class="type">string</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">    <span class="string">&quot;reflect&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> User <span class="keyword">struct</span> &#123;</span><br><span class="line">    Name <span class="type">string</span></span><br><span class="line">    Age  <span class="type">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    user := User&#123;<span class="string">&quot;zhangsan&quot;</span>, <span class="number">30</span>&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 通过反射的方式获取user的类型信息</span></span><br><span class="line">    userTypeOf := reflect.TypeOf(user)</span><br><span class="line">    <span class="comment">// Kind:返回该变量的的具体分类</span></span><br><span class="line">    fmt.Printf(<span class="string">&quot;%v \n&quot;</span>, userTypeOf.Kind().String()) <span class="comment">// struct</span></span><br><span class="line">    <span class="comment">// Name 返回该类型在自身包内的类型名，如果是未命名类型会返回&quot;&quot;</span></span><br><span class="line">    fmt.Println(userTypeOf.Name())                    <span class="comment">// User</span></span><br><span class="line">    fmt.Printf(<span class="string">&quot;user有%d个字段\n&quot;</span>, userTypeOf.NumField()) <span class="comment">// user有2个字段</span></span><br><span class="line">    fmt.Printf(<span class="string">&quot;user的第一个字段的类型是是%v\n&quot;</span>, userTypeOf.Field(<span class="number">0</span>).Name)</span><br><span class="line"></span><br><span class="line">    arr := [...]<span class="type">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;</span><br><span class="line">    arrTypeOf := reflect.TypeOf(arr)</span><br><span class="line">    <span class="comment">// 返回array类型的长度，如非数组类型将 panic</span></span><br><span class="line">    fmt.Printf(<span class="string">&quot;数组arr的长度是%d\n&quot;</span>, arrTypeOf.Len()) <span class="comment">// 数组arr的长度是5</span></span><br><span class="line">    <span class="comment">// 返回该类型的元素类型，如果该类型的Kind不是 `Array`、`Chan`、`Map`、`Ptr` 或 `Slice`，会 panic</span></span><br><span class="line">    fmt.Printf(<span class="string">&quot;数组arr的类型是%s\n&quot;</span>, arrTypeOf.Elem().Kind().String()) <span class="comment">// 数组arr的类型是int</span></span><br><span class="line"></span><br><span class="line">    m := <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">string</span>&#123;</span><br><span class="line">        <span class="string">&quot;name&quot;</span>: <span class="string">&quot;zhangsan&quot;</span>,</span><br><span class="line">    &#125;</span><br><span class="line">    mTypeOf := reflect.TypeOf(m)</span><br><span class="line">    <span class="comment">// 返回map类型的键的类型。如非映射类型将 panic</span></span><br><span class="line">    fmt.Printf(<span class="string">&quot;Map m的key的类型是%s\n&quot;</span>, mTypeOf.Key().Kind().String()) <span class="comment">// Map m的key的类型是string</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="reflect-Value"><a href="#reflect-Value" class="headerlink" title="reflect.Value"></a>reflect.Value</h3><todo>
+
 
             </div>
 
@@ -284,11 +331,11 @@
                 <ul class="post-tags-box">
                     
                         <li class="tag-item">
-                            <a href="/tags/string/">#string</a>&nbsp;
+                            <a href="/tags/go/">#go</a>&nbsp;
                         </li>
                     
                         <li class="tag-item">
-                            <a href="/tags/SDS/">#SDS</a>&nbsp;
+                            <a href="/tags/reflect/">#reflect</a>&nbsp;
                         </li>
                     
                 </ul>
@@ -300,13 +347,13 @@
                         <div class="article-prev">
                             <a class="prev"
                                rel="prev"
-                               href="/2023/03/21/material-collect.html"
+                               href="/2023/03/18/redis-sds.html"
                             >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                                 <span class="title flex-center">
-                                <span class="post-nav-title-item">各种资料汇总</span>
+                                <span class="post-nav-title-item">Redis 数据结构（一）字符串</span>
                                 <span class="post-nav-item">上一篇</span>
                             </span>
                             </a>
@@ -316,10 +363,10 @@
                         <div class="article-next">
                             <a class="next"
                                rel="next"
-                               href="/2023/02/25/go-reflect.html"
+                               href="/2023/02/19/go-package-validator.html"
                             >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">Golang学习 - 反射（reflect）简单使用</span>
+                                <span class="post-nav-title-item">Golang常用包 - validator</span>
                                 <span class="post-nav-item">下一篇</span>
                             </span>
                                 <span class="right arrow-icon flex-center">
@@ -338,7 +385,7 @@
             <div class="toc-content-container">
                 <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#SDS%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-number">1.</span> <span class="nav-text">SDS的定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SDS%E4%B8%8EC%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">2.</span> <span class="nav-text">SDS与C字符串的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E6%95%B0%E5%A4%8D%E6%9D%82%E5%BA%A6%E8%8E%B7%E5%8F%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%95%BF%E5%BA%A6"><span class="nav-number">2.1.</span> <span class="nav-text">常数复杂度获取字符串长度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9D%9C%E7%BB%9D%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA"><span class="nav-number">2.2.</span> <span class="nav-text">杜绝缓冲区溢出</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%8F%E5%B0%91%E4%BF%AE%E6%94%B9%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%97%B6%E5%B8%A6%E6%9D%A5%E7%9A%84%E5%86%85%E5%AD%98%E9%87%8D%E5%88%86%E9%85%8D%E6%AC%A1%E6%95%B0"><span class="nav-number">3.</span> <span class="nav-text">减少修改字符串时带来的内存重分配次数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#SDS%E7%A9%BA%E9%97%B4%E9%A2%84%E5%88%86%E9%85%8D"><span class="nav-number">3.1.</span> <span class="nav-text">SDS空间预分配</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%83%B0%E6%80%A7%E7%A9%BA%E9%97%B4%E9%87%8A%E6%94%BE"><span class="nav-number">3.2.</span> <span class="nav-text">惰性空间释放</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SDS%E6%98%AF%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8%E7%9A%84"><span class="nav-number">3.3.</span> <span class="nav-text">SDS是二进制安全的</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84%E7%9A%84%E4%B8%A4%E7%A7%8D%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">反射的两种基本类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reflect-TypeOf"><span class="nav-number">2.</span> <span class="nav-text">reflect.TypeOf</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-number">2.1.</span> <span class="nav-text">常用方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E4%B8%A4%E4%B8%AA%E7%BB%93%E6%9E%84%E4%BD%93%E5%92%8C%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.2.</span> <span class="nav-text">常见的两个结构体和类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8"><span class="nav-number">2.3.</span> <span class="nav-text">简单使用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reflect-Value"><span class="nav-number">3.</span> <span class="nav-text">reflect.Value</span></a></li></ol>
     </div>
 </div>
 
