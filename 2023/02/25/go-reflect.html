@@ -280,35 +280,35 @@
 </tr>
 </thead>
 <tbody><tr>
-<td><code>Kind() Kind</code></td>
+<td>Kind() Kind</td>
 <td>返回该变量的的具体分类</td>
 </tr>
 <tr>
-<td><code>Name() string</code></td>
+<td>Name() string</td>
 <td>返回该类型在自身包内的类型名，如果是未命名类型会返回””</td>
 </tr>
 <tr>
-<td><code>NumField() int</code></td>
+<td>NumField() int</td>
 <td>返回struct类型的字段数（匿名字段算作一个字段），如非结构体类型将 <strong>panic</strong></td>
 </tr>
 <tr>
-<td><code>Field(i int) StructField</code></td>
+<td>Field(i int) StructField</td>
 <td>返回struct类型的第i个字段的类型，如非结构体或者i不在[0, NumField())内将会 <strong>panic</strong></td>
 </tr>
 <tr>
-<td><code>Implements(u Type) bool</code></td>
+<td>Implements(u Type) bool</td>
 <td>如果该类型实现了u代表的接口，会返回真</td>
 </tr>
 <tr>
-<td><code>Len() int</code></td>
+<td>Len() int</td>
 <td>返回array类型的长度，如非数组类型将 <strong>panic</strong></td>
 </tr>
 <tr>
-<td><code>Elem() Type</code></td>
+<td>Elem() Type</td>
 <td>返回该类型的元素类型，如果该类型的Kind不是 <code>Array</code>、<code>Chan</code>、<code>Map</code>、<code>Ptr</code> 或 <code>Slice</code>，会 <strong>panic</strong></td>
 </tr>
 <tr>
-<td><code>Key() Type</code></td>
+<td>Key() Type</td>
 <td>返回map类型的键的类型。如非映射类型将 <strong>panic</strong></td>
 </tr>
 </tbody></table>
@@ -320,7 +320,36 @@
 
 <h4 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">    <span class="string">&quot;reflect&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> User <span class="keyword">struct</span> &#123;</span><br><span class="line">    Name <span class="type">string</span></span><br><span class="line">    Age  <span class="type">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    user := User&#123;<span class="string">&quot;zhangsan&quot;</span>, <span class="number">30</span>&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 通过反射的方式获取user的类型信息</span></span><br><span class="line">    userTypeOf := reflect.TypeOf(user)</span><br><span class="line">    <span class="comment">// Kind:返回该变量的的具体分类</span></span><br><span class="line">    fmt.Printf(<span class="string">&quot;%v \n&quot;</span>, userTypeOf.Kind().String()) <span class="comment">// struct</span></span><br><span class="line">    <span class="comment">// Name 返回该类型在自身包内的类型名，如果是未命名类型会返回&quot;&quot;</span></span><br><span class="line">    fmt.Println(userTypeOf.Name())                    <span class="comment">// User</span></span><br><span class="line">    fmt.Printf(<span class="string">&quot;user有%d个字段\n&quot;</span>, userTypeOf.NumField()) <span class="comment">// user有2个字段</span></span><br><span class="line">    fmt.Printf(<span class="string">&quot;user的第一个字段的类型是是%v\n&quot;</span>, userTypeOf.Field(<span class="number">0</span>).Name)</span><br><span class="line"></span><br><span class="line">    arr := [...]<span class="type">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;</span><br><span class="line">    arrTypeOf := reflect.TypeOf(arr)</span><br><span class="line">    <span class="comment">// 返回array类型的长度，如非数组类型将 panic</span></span><br><span class="line">    fmt.Printf(<span class="string">&quot;数组arr的长度是%d\n&quot;</span>, arrTypeOf.Len()) <span class="comment">// 数组arr的长度是5</span></span><br><span class="line">    <span class="comment">// 返回该类型的元素类型，如果该类型的Kind不是 `Array`、`Chan`、`Map`、`Ptr` 或 `Slice`，会 panic</span></span><br><span class="line">    fmt.Printf(<span class="string">&quot;数组arr的类型是%s\n&quot;</span>, arrTypeOf.Elem().Kind().String()) <span class="comment">// 数组arr的类型是int</span></span><br><span class="line"></span><br><span class="line">    m := <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">string</span>&#123;</span><br><span class="line">        <span class="string">&quot;name&quot;</span>: <span class="string">&quot;zhangsan&quot;</span>,</span><br><span class="line">    &#125;</span><br><span class="line">    mTypeOf := reflect.TypeOf(m)</span><br><span class="line">    <span class="comment">// 返回map类型的键的类型。如非映射类型将 panic</span></span><br><span class="line">    fmt.Printf(<span class="string">&quot;Map m的key的类型是%s\n&quot;</span>, mTypeOf.Key().Kind().String()) <span class="comment">// Map m的key的类型是string</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="reflect-Value"><a href="#reflect-Value" class="headerlink" title="reflect.Value"></a>reflect.Value</h3><todo>
+<h3 id="reflect-Value"><a href="#reflect-Value" class="headerlink" title="reflect.Value"></a>reflect.Value</h3><p><code>reflect.ValueOf()</code> 获取数据信息，返回 <a class="link"   target="_blank" rel="noopener" href="https://studygolang.com/static/pkgdoc/pkg/reflect.htm#Value" >Value<i class="fas fa-external-link-alt"></i></a> 类型。<code>Value</code>被声明成了结构体。这个结构体没有对外暴露的字段，但是提供了获取或者写入数据的方法</p>
+<h4 id="常用方法-1"><a href="#常用方法-1" class="headerlink" title="常用方法"></a>常用方法</h4><table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Field(i int) StructField</td>
+<td>返回结构体的第i个字段（的Value封装）。如果v的Kind不是Struct或i出界会panic</td>
+</tr>
+<tr>
+<td>FieldByName(name string) Value</td>
+<td>返回该类型名为name的字段（的Value封装）（会查找匿名字段及其子字段）</td>
+</tr>
+<tr>
+<td>Index(i int) Value</td>
+<td>返回第 <code>i</code> 个元素,主要用于遍历,不能越界。<br/>前提类型是<code>Array, Slice, String</code>之一，</td>
+</tr>
+<tr>
+<td>Set(x Value)</td>
+<td>通过反射修改值。</td>
+</tr>
+<tr>
+<td>Type() Type</td>
+<td>获取值的类型</td>
+</tr>
+</tbody></table>
+<h4 id="简单使用-1"><a href="#简单使用-1" class="headerlink" title="简单使用"></a>简单使用</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">ValueOf</span><span class="params">()</span></span> &#123;</span><br><span class="line">    user := User&#123;<span class="string">&quot;hanpy&quot;</span>, <span class="number">32</span>&#125;</span><br><span class="line"></span><br><span class="line">    userValueOf := reflect.ValueOf(user)</span><br><span class="line">    <span class="comment">// 返回struct 类型的第 i 个字段的值，不是struct 会 panic，越界也会panic</span></span><br><span class="line">    fmt.Printf(<span class="string">&quot;结构体user第1个字段值是: %v\n&quot;</span>, userValueOf.Field(<span class="number">0</span>)) <span class="comment">// 结构体user第1个字段值: hanpy</span></span><br><span class="line">    <span class="comment">// 根据属性名获取值</span></span><br><span class="line">    fmt.Printf(<span class="string">&quot;结构体user字段%s的值是: %v\n&quot;</span>, <span class="string">&quot;Name&quot;</span>, userValueOf.FieldByName(<span class="string">&quot;Name&quot;</span>)) <span class="comment">// 结构体user字段Name的值是: hanpy</span></span><br><span class="line"></span><br><span class="line">    strSlice := []<span class="type">string</span>&#123;<span class="string">&quot;你&quot;</span>, <span class="string">&quot;我&quot;</span>, <span class="string">&quot;他&quot;</span>, <span class="string">&quot;!&quot;</span>&#125;</span><br><span class="line">    strSliceValOf := reflect.ValueOf(strSlice)</span><br><span class="line">    fmt.Printf(<span class="string">&quot;打印字符串第%d个元素值v: %v\n&quot;</span>, <span class="number">0</span>, strSliceValOf.Index(<span class="number">0</span>)) <span class="comment">// 打印字符串第0个元素值v: 你</span></span><br><span class="line">    fmt.Printf(<span class="string">&quot;打印字符串第%d个元素值v: %v\n&quot;</span>, <span class="number">1</span>, strSliceValOf.Index(<span class="number">1</span>)) <span class="comment">// 打印字符串第1个元素值v: 我</span></span><br><span class="line">    fmt.Printf(<span class="string">&quot;打印字符串第%d个元素值v: %v\n&quot;</span>, <span class="number">3</span>, strSliceValOf.Index(<span class="number">2</span>)) <span class="comment">// 打印字符串第3个元素值v: 他</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 修改值</span></span><br><span class="line">    num := <span class="number">10</span></span><br><span class="line">    numValOf := reflect.ValueOf(&amp;num) <span class="comment">//注意这里需要传地址</span></span><br><span class="line">    fmt.Printf(<span class="string">&quot;修改前的值: %v \n&quot;</span>, num)</span><br><span class="line">    numValOf.Set(reflect.ValueOf(<span class="number">100</span>))</span><br><span class="line">    fmt.Printf(<span class="string">&quot;修改后的值: %v \n&quot;</span>, num)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
             </div>
@@ -385,7 +414,7 @@
             <div class="toc-content-container">
                 <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84%E7%9A%84%E4%B8%A4%E7%A7%8D%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">反射的两种基本类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reflect-TypeOf"><span class="nav-number">2.</span> <span class="nav-text">reflect.TypeOf</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-number">2.1.</span> <span class="nav-text">常用方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E4%B8%A4%E4%B8%AA%E7%BB%93%E6%9E%84%E4%BD%93%E5%92%8C%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.2.</span> <span class="nav-text">常见的两个结构体和类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8"><span class="nav-number">2.3.</span> <span class="nav-text">简单使用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reflect-Value"><span class="nav-number">3.</span> <span class="nav-text">reflect.Value</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84%E7%9A%84%E4%B8%A4%E7%A7%8D%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">反射的两种基本类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reflect-TypeOf"><span class="nav-number">2.</span> <span class="nav-text">reflect.TypeOf</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-number">2.1.</span> <span class="nav-text">常用方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E4%B8%A4%E4%B8%AA%E7%BB%93%E6%9E%84%E4%BD%93%E5%92%8C%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.2.</span> <span class="nav-text">常见的两个结构体和类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8"><span class="nav-number">2.3.</span> <span class="nav-text">简单使用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reflect-Value"><span class="nav-number">3.</span> <span class="nav-text">reflect.Value</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95-1"><span class="nav-number">3.1.</span> <span class="nav-text">常用方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8-1"><span class="nav-number">3.2.</span> <span class="nav-text">简单使用</span></a></li></ol></li></ol>
     </div>
 </div>
 
