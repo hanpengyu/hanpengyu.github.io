@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="技术博客，个人博客">
+    <meta name="description" content="不积跬步，无以至千里。不积小流，以成江海">
+    <meta name="author" content="hanpy">
+    
+    <title>
+        
+            PHP面试题整理 |
+        
+        Hanpy&#39;s blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/fontawesome.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/regular.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/solid.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/brands.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"hanpy.cn","root":"/","language":"zh-CN"}
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#ffaf40","favicon":"/images/favicon.ico","avatar":"/images/logo.png","font_size":null,"font_family":"STHeiti","hover":{"shadow":true,"scale":true},"first_screen":{"enable":false,"header_transparent":false,"background_img":"/images/cup-7832358_1280.png","font_color":null,"hitokoto":false},"scroll":{"progress_bar":true,"percent":true}},"local_search":{"enable":false,"preload":false},"code_copy":{},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"side_tools":{},"pjax":{"enable":false},"lazyload":{"enable":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.8"},"waline":{"server_url":null,"reaction":false,"version":2}},"post":{"author_label":{"enable":false,"auto":true,"custom_label_list":["Trainee","Engineer","Architect"]},"word_count":{"enable":false,"wordcount":false,"min2read":false},"img_align":"center","copyright_info":false},"version":"3.6.1"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+               Hanpy&#39;s blog
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                首页
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >
+                                分类
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >
+                                标签
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                归档
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                关于
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >
+                                友链
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">首页</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories">分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags">标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">关于</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links">友链</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="post-page-container">
+        <div class="article-content-container">
+
+            <div class="article-title">
+                <span class="title-hover-animation">PHP面试题整理</span>
+            </div>
+
+            
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="/images/logo.png">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">hanpy</span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            
+<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        
+            <i class="fa-regular fa-calendar-plus"></i>&nbsp;
+        
+        <span class="pc">2018-03-11 10:38:41</span>
+        <span class="mobile">2018-03-11 10:38</span>
+    </span>
+    
+        <span class="article-update-date article-meta-item">
+        <i class="fas fa-file-pen"></i>&nbsp;
+        <span class="pc">2018-03-11 10:38:41</span>
+    </span>
+    
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/">面试题</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        &gt; <a href="/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/PHP/">PHP</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E9%9D%A2%E8%AF%95/">面试</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="article-content keep-markdown-body">
+                
+
+                <p>常见的面试题整理，来源是各个地方…</p>
+<span id="more"></span>
+
+<h2 id="基础篇"><a href="#基础篇" class="headerlink" title="基础篇"></a>基础篇</h2><h4 id="1-表单提交中的Get和Post的异同点"><a href="#1-表单提交中的Get和Post的异同点" class="headerlink" title="1. 表单提交中的Get和Post的异同点"></a>1. 表单提交中的Get和Post的异同点</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">语义不同：</span><br><span class="line">get请求一般情况多用于请求数据，post请求一般多用于新增或者修改数据</span><br><span class="line"></span><br><span class="line">传输大小限制：</span><br><span class="line">get传参是在url上，有大小限制，post请求是在请求体中没有大小限制</span><br><span class="line"></span><br><span class="line">安全性:</span><br><span class="line">post安全性相对高一下</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-用PHP写出显示客户端IP与服务器IP的代码"><a href="#2-用PHP写出显示客户端IP与服务器IP的代码" class="headerlink" title="2. 用PHP写出显示客户端IP与服务器IP的代码"></a>2. 用PHP写出显示客户端IP与服务器IP的代码</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用超全局变量$_SERVER</span></span><br><span class="line"><span class="variable">$_SERVER</span>[<span class="string">&#x27;REMOTE_ADDR&#x27;</span>]	<span class="comment">// 客户端</span></span><br><span class="line"><span class="variable">$_SERVER</span>[<span class="string">&#x27;SERVER_ADDR&#x27;</span>]	<span class="comment">// 服务器IP</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-include和require的区别是什么"><a href="#3-include和require的区别是什么" class="headerlink" title="3. include和require的区别是什么?"></a>3. include和require的区别是什么?</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">两个函数都是包含引入的文件</span><br><span class="line">include在引入不存在的文件时，产生一个警告且脚本还会继续执行</span><br><span class="line">require则会导致一个致命性错误且脚本停止执行</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-PHP-不使用第三个变量实现交换两个变量的值"><a href="#4-PHP-不使用第三个变量实现交换两个变量的值" class="headerlink" title="4. PHP 不使用第三个变量实现交换两个变量的值"></a>4. PHP 不使用第三个变量实现交换两个变量的值</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$a</span> = <span class="number">1</span>;</span><br><span class="line"><span class="variable">$b</span> = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">list</span>(<span class="variable">$a</span>, <span class="variable">$b</span>) = [<span class="variable">$b</span>, <span class="variable">$a</span>];</span><br></pre></td></tr></table></figure>
+
+<h4 id="5-取文件的扩展名"><a href="#5-取文件的扩展名" class="headerlink" title="5. 取文件的扩展名"></a>5. 取文件的扩展名</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getExt1</span>(<span class="params"><span class="variable">$fileName</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="variable">$ext</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">empty</span>(<span class="variable">$fileName</span>)) <span class="keyword">return</span> <span class="variable">$ext</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_ invoke__">pathinfo</span>(<span class="variable">$fileName</span>, PATHINFO_EXTENSION);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getExt2</span>(<span class="params"><span class="variable">$fileName</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="variable">$ext</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="variable">$pathArr</span> = <span class="title function_ invoke__">explode</span>(<span class="string">&quot;.&quot;</span>, <span class="variable">$fileName</span>);</span><br><span class="line">    <span class="keyword">if</span> (<span class="title function_ invoke__">count</span>(<span class="variable">$pathArr</span>) == <span class="number">1</span>) <span class="keyword">return</span> <span class="variable">$ext</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_ invoke__">end</span>(<span class="variable">$pathArr</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getExt3</span>(<span class="params"><span class="variable">$fileName</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_ invoke__">substr</span>(<span class="title function_ invoke__">strrchr</span>(<span class="variable">$fileName</span>, <span class="string">&#x27;.&#x27;</span>), <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="6-用PHP-header-函数实现页面404错误提示功能"><a href="#6-用PHP-header-函数实现页面404错误提示功能" class="headerlink" title="6. 用PHP header()函数实现页面404错误提示功能"></a>6. 用PHP header()函数实现页面404错误提示功能</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">Header</span>(<span class="string">&quot;HTTP/1.1 404 Not Found&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h4 id="7-约瑟夫环-n-只猴子-数m踢出一只，最后的就是大王"><a href="#7-约瑟夫环-n-只猴子-数m踢出一只，最后的就是大王" class="headerlink" title="7. 约瑟夫环  n 只猴子,数m踢出一只，最后的就是大王"></a>7. 约瑟夫环  n 只猴子,数m踢出一只，最后的就是大王</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">king</span>(<span class="params"><span class="variable">$n</span>, <span class="variable">$m</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="variable">$monkey</span> = <span class="title function_ invoke__">range</span>(<span class="number">1</span>, <span class="variable">$n</span>);</span><br><span class="line"></span><br><span class="line">    <span class="variable">$i</span> = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (<span class="title function_ invoke__">count</span>(<span class="variable">$monkey</span>) &gt; <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="variable">$i</span>++;</span><br><span class="line">        <span class="variable">$head</span> = <span class="title function_ invoke__">array_shift</span>(<span class="variable">$monkey</span>);</span><br><span class="line">        <span class="keyword">if</span> (<span class="variable">$i</span> % <span class="variable">$m</span> != <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="title function_ invoke__">array_push</span>(<span class="variable">$monkey</span>, <span class="variable">$head</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="title function_ invoke__">current</span>(<span class="variable">$monkey</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="8-文件加锁写入"><a href="#8-文件加锁写入" class="headerlink" title="8. 文件加锁写入"></a>8. 文件加锁写入</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// w+ : 读写方式打开</span></span><br><span class="line"><span class="comment">// LOCK_EX 写锁，LOCK_SH 读锁</span></span><br><span class="line"><span class="comment">// 文件加锁</span></span><br><span class="line"><span class="variable">$file</span> = <span class="title function_ invoke__">fopen</span>(<span class="string">&#x27;test.log&#x27;</span>, <span class="string">&#x27;w+&#x27;</span>);</span><br><span class="line"><span class="keyword">if</span> (<span class="title function_ invoke__">flock</span>(<span class="variable">$file</span>, LOCK_EX)) &#123;</span><br><span class="line">    <span class="title function_ invoke__">fwrite</span>(<span class="variable">$file</span>, <span class="string">&#x27;test content&#x27;</span>);</span><br><span class="line">    <span class="title function_ invoke__">flock</span>(<span class="variable">$file</span>, LOCK_UN);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// 文件已经被锁定</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_ invoke__">fclose</span>(<span class="variable">$file</span>);</span><br></pre></td></tr></table></figure>
+
+<h4 id="9-遍历文件夹"><a href="#9-遍历文件夹" class="headerlink" title="9. 遍历文件夹"></a>9. 遍历文件夹</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myDir</span>(<span class="params"><span class="variable">$path</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="variable">$files</span> = [];</span><br><span class="line">    <span class="keyword">if</span> (<span class="title function_ invoke__">is_dir</span>(<span class="variable">$path</span>)) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="variable">$handle</span> = <span class="title function_ invoke__">opendir</span>(<span class="variable">$path</span>) ) &#123;</span><br><span class="line">            <span class="keyword">while</span> ((<span class="variable">$file</span> = <span class="title function_ invoke__">readdir</span>(<span class="variable">$handle</span>)) !== <span class="literal">false</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (<span class="variable">$file</span> != <span class="string">&#x27;.&#x27;</span> &amp;&amp; <span class="variable">$file</span> != <span class="string">&#x27;..&#x27;</span>) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (<span class="title function_ invoke__">is_dir</span>(<span class="variable">$path</span> . <span class="string">&#x27;/&#x27;</span> . <span class="variable">$file</span>)) &#123;</span><br><span class="line">                        <span class="variable">$files</span>[<span class="variable">$file</span>] = <span class="title function_ invoke__">myDir</span>(<span class="variable">$path</span> . <span class="string">&#x27;/&#x27;</span> . <span class="variable">$file</span>);</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        <span class="variable">$files</span>[] = <span class="variable">$path</span> . <span class="string">&#x27;/&#x27;</span> . <span class="variable">$file</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$files</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="10-单例模式"><a href="#10-单例模式" class="headerlink" title="10. 单例模式"></a>10. 单例模式</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DB</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">static</span> <span class="variable">$db</span> = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="comment">// 连接数据库</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">__clone</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getDb</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!<span class="built_in">self</span>::<span class="variable constant_">db</span> <span class="keyword">instanceof</span> <span class="built_in">self</span>) &#123;</span><br><span class="line">            <span class="built_in">self</span>::<span class="variable constant_">db</span> = <span class="keyword">new</span> <span class="built_in">self</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">self</span>::<span class="variable constant_">db</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+            </div>
+
+            
+
+            
+                <ul class="post-tags-box">
+                    
+                        <li class="tag-item">
+                            <a href="/tags/%E9%9D%A2%E8%AF%95/">#面试</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            
+
+            
+                <div class="article-nav">
+                    
+                        <div class="article-prev">
+                            <a class="prev"
+                               rel="prev"
+                               href="/2018/03/22/hexo.html"
+                            >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                                <span class="title flex-center">
+                                <span class="post-nav-title-item">hexo相关整理</span>
+                                <span class="post-nav-item">上一篇</span>
+                            </span>
+                            </a>
+                        </div>
+                    
+                    
+                        <div class="article-next">
+                            <a class="next"
+                               rel="next"
+                               href="/2018/02/24/Ie8-indexof.html"
+                            >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">IE8不支持indexOf的解决办法</span>
+                                <span class="post-nav-item">下一篇</span>
+                            </span>
+                                <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                            </a>
+                        </div>
+                    
+                </div>
+            
+
+            
+        </div>
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            
+<footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+                <span>2018</span> -
+            
+            2023
+            
+                <!-- &nbsp;<i class="fas fa-heart icon-animate"></i> -->
+                <!-- &nbsp;<a href="/">hanpy</a> -->
+                &nbsp;<a href="/">HANPY</a>
+            
+        </div>
+        
+        
+            <div class="icp-info info-item">
+                <a target="_blank" rel="nofollow"
+                   href="https://beian.miit.gov.cn"
+                >
+                    京ICP备16043183号
+                </a>
+            </div>
+        
+        
+            <div class="deploy-info info-item">
+                
+                    本站由 <span class="tooltip" data-content="GitHub Pages"><img src="/images/deploy-provider/github.png"></span> 提供部署服务
+                
+            </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    
+
+</main>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/code-block.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/lazyload.js"></script>
+
+
+<div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/post-helper.js"></script>
+        
+            <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/libs/anime.min.js"></script>
+        
+        
+            <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/toc.js"></script>
+        
+    
+</div>
+
+
+
+</body>
+</html>

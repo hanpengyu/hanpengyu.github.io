@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="技术博客，个人博客">
+    <meta name="description" content="不积跬步，无以至千里。不积小流，以成江海">
+    <meta name="author" content="hanpy">
+    
+    <title>
+        
+            Golang标准库学习 - flag |
+        
+        Hanpy&#39;s blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/fontawesome.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/regular.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/solid.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/brands.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"hanpy.cn","root":"/","language":"zh-CN"}
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#ffaf40","favicon":"/images/favicon.ico","avatar":"/images/logo.png","font_size":null,"font_family":"STHeiti","hover":{"shadow":true,"scale":true},"first_screen":{"enable":false,"header_transparent":false,"background_img":"/images/cup-7832358_1280.png","font_color":null,"hitokoto":false},"scroll":{"progress_bar":true,"percent":true}},"local_search":{"enable":false,"preload":false},"code_copy":{},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"side_tools":{},"pjax":{"enable":false},"lazyload":{"enable":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.8"},"waline":{"server_url":null,"reaction":false,"version":2}},"post":{"author_label":{"enable":false,"auto":true,"custom_label_list":["Trainee","Engineer","Architect"]},"word_count":{"enable":false,"wordcount":false,"min2read":false},"img_align":"center","copyright_info":false},"version":"3.6.1"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+               Hanpy&#39;s blog
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                首页
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >
+                                分类
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >
+                                标签
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                归档
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                关于
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >
+                                友链
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">首页</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories">分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags">标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">关于</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links">友链</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="post-page-container">
+        <div class="article-content-container">
+
+            <div class="article-title">
+                <span class="title-hover-animation">Golang标准库学习 - flag</span>
+            </div>
+
+            
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="/images/logo.png">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">hanpy</span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            
+<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        
+            <i class="fa-regular fa-calendar-plus"></i>&nbsp;
+        
+        <span class="pc">2023-03-22 09:33:38</span>
+        <span class="mobile">2023-03-22 09:33</span>
+    </span>
+    
+        <span class="article-update-date article-meta-item">
+        <i class="fas fa-file-pen"></i>&nbsp;
+        <span class="pc">2023-03-22 09:33:38</span>
+    </span>
+    
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/Golang/">Golang</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        &gt; <a href="/categories/Golang/%E6%A0%87%E5%87%86%E5%BA%93/">标准库</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/flag/">flag</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="article-content keep-markdown-body">
+                
+
+                <p><code>flag</code> 包实现了命令行参数的解析。</p>
+<span id="more"></span>
+
+<h3 id="命令行选项格式"><a href="#命令行选项格式" class="headerlink" title="命令行选项格式"></a>命令行选项格式</h3><p><code>flag</code> 库支持三种命令行选项格式。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-flag</span><br><span class="line">-flag=x</span><br><span class="line">-flag x</span><br></pre></td></tr></table></figure>
+
+<p><code>-</code>和<code>--</code>都可以使用，它们的作用是一样的。<br>第一种形式只支持布尔类型的选项，出现即为<code>true</code>，不出现为默认值。 <mark>第三种形式不支持布尔类型的选项</mark>。因为这种形式的布尔选项在类 Unix 系统中可能会出现意想不到的行为。</p>
+<h3 id="接收参数"><a href="#接收参数" class="headerlink" title="接收参数"></a>接收参数</h3><h4 id="flag-Type-的方式"><a href="#flag-Type-的方式" class="headerlink" title="flag.Type 的方式"></a>flag.Type 的方式</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;flag&quot;</span></span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> (</span><br><span class="line">    stringflag *<span class="type">string</span></span><br><span class="line">    intflag    *<span class="type">int</span></span><br><span class="line">    boolflag   *<span class="type">bool</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">init</span><span class="params">()</span></span> &#123;</span><br><span class="line">    stringflag = flag.String(<span class="string">&quot;stringflag&quot;</span>, <span class="string">&quot;default&quot;</span>, <span class="string">&quot;提示: stringflag&quot;</span>)</span><br><span class="line">    intflag = flag.Int(<span class="string">&quot;intflag&quot;</span>, <span class="number">10</span>, <span class="string">&quot;提示: intflag&quot;</span>)</span><br><span class="line">    boolflag = flag.Bool(<span class="string">&quot;boolflag&quot;</span>, <span class="literal">false</span>, <span class="string">&quot;提示: boolflag&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    flag.Parse()</span><br><span class="line"></span><br><span class="line">    fmt.Println(<span class="string">&quot;int flag:&quot;</span>, *intflag)</span><br><span class="line">    fmt.Println(<span class="string">&quot;bool flag:&quot;</span>, *boolflag)</span><br><span class="line">    fmt.Println(<span class="string">&quot;string flag:&quot;</span>, *stringflag)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 编译</span></span><br><span class="line">➜ go build -o main -v main.go</span><br><span class="line"></span><br><span class="line"><span class="comment"># 无参数运行</span></span><br><span class="line">➜ ./main </span><br><span class="line">int flag: 10</span><br><span class="line">bool flag: <span class="literal">false</span></span><br><span class="line">string flag: default</span><br><span class="line"></span><br><span class="line"><span class="comment"># 有参数运行</span></span><br><span class="line">➜ ./main -stringflag=han -intflag=10 -boolflag</span><br><span class="line">int flag: 10</span><br><span class="line">bool flag: <span class="literal">true</span></span><br><span class="line">string flag: han</span><br><span class="line"></span><br><span class="line"><span class="comment"># 帮助命令</span></span><br><span class="line">➜ ./main -h</span><br><span class="line">Usage of ./main:</span><br><span class="line">  -boolflag</span><br><span class="line">        提示: boolflag</span><br><span class="line">  -intflag int</span><br><span class="line">        提示: intflag (default 10)</span><br><span class="line">  -stringflag string</span><br><span class="line">        提示: stringflag (default <span class="string">&quot;default&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="flag-TypeVar方式"><a href="#flag-TypeVar方式" class="headerlink" title="flag.TypeVar方式"></a>flag.TypeVar方式</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;flag&quot;</span></span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> (</span><br><span class="line">    stringflag <span class="type">string</span></span><br><span class="line">    intflag    <span class="type">int</span></span><br><span class="line">    boolflag   <span class="type">bool</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">init</span><span class="params">()</span></span> &#123;</span><br><span class="line">    flag.StringVar(&amp;stringflag, <span class="string">&quot;stringflag&quot;</span>, <span class="string">&quot;default&quot;</span>, <span class="string">&quot;提示: stringflag&quot;</span>)</span><br><span class="line">    flag.IntVar(&amp;intflag, <span class="string">&quot;intflag&quot;</span>, <span class="number">10</span>, <span class="string">&quot;提示: intflag&quot;</span>)</span><br><span class="line">    flag.BoolVar(&amp;boolflag, <span class="string">&quot;boolflag&quot;</span>, <span class="literal">false</span>, <span class="string">&quot;提示: boolflag&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    flag.Parse()</span><br><span class="line"></span><br><span class="line">    fmt.Println(<span class="string">&quot;int flag:&quot;</span>, intflag)</span><br><span class="line">    fmt.Println(<span class="string">&quot;bool flag:&quot;</span>, boolflag)</span><br><span class="line">    fmt.Println(<span class="string">&quot;string flag:&quot;</span>, stringflag)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出和 <code>flag.Type</code> 的方式是一样的。</p>
+<h4 id="flag-Var-方式"><a href="#flag-Var-方式" class="headerlink" title="flag.Var 方式"></a>flag.Var 方式</h4><p><code>flag.Var</code> 这种方式需要实现 <code>flag.Value</code> 接口</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Value <span class="keyword">interface</span> &#123;</span><br><span class="line">    String() <span class="type">string</span></span><br><span class="line">    Set(<span class="type">string</span>) <span class="type">error</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>简单使用</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;flag&quot;</span></span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">    <span class="string">&quot;strings&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> List []<span class="type">string</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(l *List)</span></span> String() <span class="type">string</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> fmt.Sprintf(<span class="string">&quot;%v&quot;</span>, *l)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(l *List)</span></span> Set(s <span class="type">string</span>) <span class="type">error</span> &#123;</span><br><span class="line">    <span class="comment">// 分割字符串</span></span><br><span class="line">    split := strings.Split(s, <span class="string">&quot;,&quot;</span>)</span><br><span class="line">    *l = split</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> l List</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">init</span><span class="params">()</span></span> &#123;</span><br><span class="line">    flag.Var(&amp;l, <span class="string">&quot;list&quot;</span>, <span class="string">&quot;长标记-列表,用英文逗号分割&quot;</span>)</span><br><span class="line">    flag.Var(&amp;l, <span class="string">&quot;l&quot;</span>, <span class="string">&quot;短标记-列表,用英文逗号分割&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// 解析参数</span></span><br><span class="line">    flag.Parse()</span><br><span class="line">    fmt.Printf(<span class="string">&quot;listi s %v \n&quot;</span>, l)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>执行</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">➜ ./main -list=one,two,three</span><br><span class="line">listi s [one two three]</span><br><span class="line"></span><br><span class="line">➜ ./main -l=name,age,addr</span><br><span class="line">listi s [name age addr]</span><br><span class="line"></span><br><span class="line">➜ ./main- h</span><br><span class="line">Usage of ./main:</span><br><span class="line">  -l value</span><br><span class="line">    	短标记-列表,用英文逗号分割</span><br><span class="line">  -list value</span><br><span class="line">    	长标记-列表,用英文逗号分割</span><br></pre></td></tr></table></figure>
+
+<h4 id="解析程序中的字符串"><a href="#解析程序中的字符串" class="headerlink" title="解析程序中的字符串"></a>解析程序中的字符串</h4><p>有时候选项并不是通过命令行传递的。例如，从配置表中读取或程序生成的。这时候可以使用<code>flag.FlagSet</code>结构的相关方法来解析这些选项。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;flag&quot;</span></span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// 创建FlagSet类型变量</span></span><br><span class="line">    myFlagSet := flag.NewFlagSet(<span class="string">&quot;myFlag&quot;</span>, flag.ExitOnError)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 从切片中解析</span></span><br><span class="line">    <span class="comment">// args := []string&#123;&quot;-intflag&quot;, &quot;12&quot;, &quot;-stringflag&quot;, &quot;test&quot;&#125;</span></span><br><span class="line">    args := []<span class="type">string</span>&#123;<span class="string">&quot;-intflag&quot;</span>, <span class="string">&quot;12&quot;</span>, <span class="string">&quot;-stringflag&quot;</span>, <span class="string">&quot;test&quot;</span>&#125;</span><br><span class="line">    intflag := myFlagSet.Int(<span class="string">&quot;intflag&quot;</span>, <span class="number">10</span>, <span class="string">&quot;提示: intflag&quot;</span>)</span><br><span class="line">    stringflag := myFlagSet.String(<span class="string">&quot;stringflag&quot;</span>, <span class="string">&quot;default&quot;</span>, <span class="string">&quot;提示: stringflag&quot;</span>)</span><br><span class="line">    <span class="comment">// 解析</span></span><br><span class="line">    myFlagSet.Parse(args)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 打印</span></span><br><span class="line">    fmt.Printf(<span class="string">&quot;stringflag的值是 %v \n&quot;</span>, *stringflag)</span><br><span class="line">    fmt.Printf(<span class="string">&quot;intflag的值是 %v \n&quot;</span>, *intflag)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜ ./main</span><br><span class="line">stringflag的值是 <span class="built_in">test</span></span><br><span class="line">intflag的值是 12</span><br></pre></td></tr></table></figure>
+
+<h3 id="几个常用的数据结构"><a href="#几个常用的数据结构" class="headerlink" title="几个常用的数据结构"></a>几个常用的数据结构</h3><p><strong>错误相关</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> ErrorHandling <span class="type">int</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">    ContinueOnError ErrorHandling = <span class="literal">iota</span>	<span class="comment">// 发生错误后继续解析,返回错误</span></span><br><span class="line">    ExitOnError	<span class="comment">// 出错时调用os.Exit(2)退出程序</span></span><br><span class="line">    PanicOnError	<span class="comment">// 出错时产生 panic</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p><strong>Flag类型代表一条flag的状态。</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Flag <span class="keyword">struct</span> &#123;</span><br><span class="line">    Name     <span class="type">string</span> <span class="comment">// flag在命令行中的名字</span></span><br><span class="line">    Usage    <span class="type">string</span> <span class="comment">// 帮助信息</span></span><br><span class="line">    Value    Value  <span class="comment">// 要设置的值</span></span><br><span class="line">    DefValue <span class="type">string</span> <span class="comment">// 默认值（文本格式），用于使用信息</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>FlagSet代表一个已注册的flag的集合。FlagSet零值没有名字，采用ContinueOnError错误处理策略。</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> FlagSet <span class="keyword">struct</span> &#123;</span><br><span class="line">    Usage         <span class="function"><span class="keyword">func</span><span class="params">()</span></span>           <span class="comment">// 解析标志时发生错误时调用的函数</span></span><br><span class="line">    name          <span class="type">string</span>           <span class="comment">// FlagSet 的名字。CommandLine 给的是 os.Args[0]</span></span><br><span class="line">    parsed        <span class="type">bool</span>             <span class="comment">// 是否执行过 Parse()</span></span><br><span class="line">    actual        <span class="keyword">map</span>[<span class="type">string</span>]*Flag <span class="comment">// 存放实际传递了的参数（即命令行参数）</span></span><br><span class="line">    formal        <span class="keyword">map</span>[<span class="type">string</span>]*Flag <span class="comment">// 存放所有已定义命令行参数</span></span><br><span class="line">    args          []<span class="type">string</span>         <span class="comment">// 开始存放所有参数，最后保留 非 flag（non-flag）参数</span></span><br><span class="line">    errorHandling ErrorHandling    <span class="comment">// 当解析出错时，处理错误的方式</span></span><br><span class="line">    output        io.Writer        <span class="comment">// nil means stderr; use Output() accessor</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+            </div>
+
+            
+
+            
+                <ul class="post-tags-box">
+                    
+                        <li class="tag-item">
+                            <a href="/tags/flag/">#flag</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            
+
+            
+                <div class="article-nav">
+                    
+                        <div class="article-prev">
+                            <a class="prev"
+                               rel="prev"
+                               href="/2023/03/23/go-gin-quick.html"
+                            >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                                <span class="title flex-center">
+                                <span class="post-nav-title-item">Gin框架学习记录 - 快速开始</span>
+                                <span class="post-nav-item">上一篇</span>
+                            </span>
+                            </a>
+                        </div>
+                    
+                    
+                        <div class="article-next">
+                            <a class="next"
+                               rel="next"
+                               href="/2023/03/18/redis-sds.html"
+                            >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Redis 数据结构（一）字符串</span>
+                                <span class="post-nav-item">下一篇</span>
+                            </span>
+                                <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                            </a>
+                        </div>
+                    
+                </div>
+            
+
+            
+        </div>
+
+        
+            <div class="toc-content-container">
+                <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E9%80%89%E9%A1%B9%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">命令行选项格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A5%E6%94%B6%E5%8F%82%E6%95%B0"><span class="nav-number">2.</span> <span class="nav-text">接收参数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#flag-Type-%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="nav-number">2.1.</span> <span class="nav-text">flag.Type 的方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#flag-TypeVar%E6%96%B9%E5%BC%8F"><span class="nav-number">2.2.</span> <span class="nav-text">flag.TypeVar方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#flag-Var-%E6%96%B9%E5%BC%8F"><span class="nav-number">2.3.</span> <span class="nav-text">flag.Var 方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%A3%E6%9E%90%E7%A8%8B%E5%BA%8F%E4%B8%AD%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-number">2.4.</span> <span class="nav-text">解析程序中的字符串</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%A0%E4%B8%AA%E5%B8%B8%E7%94%A8%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">3.</span> <span class="nav-text">几个常用的数据结构</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            
+<footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+                <span>2018</span> -
+            
+            2023
+            
+                <!-- &nbsp;<i class="fas fa-heart icon-animate"></i> -->
+                <!-- &nbsp;<a href="/">hanpy</a> -->
+                &nbsp;<a href="/">HANPY</a>
+            
+        </div>
+        
+        
+            <div class="icp-info info-item">
+                <a target="_blank" rel="nofollow"
+                   href="https://beian.miit.gov.cn"
+                >
+                    京ICP备16043183号
+                </a>
+            </div>
+        
+        
+            <div class="deploy-info info-item">
+                
+                    本站由 <span class="tooltip" data-content="GitHub Pages"><img src="/images/deploy-provider/github.png"></span> 提供部署服务
+                
+            </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    
+
+</main>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/code-block.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/lazyload.js"></script>
+
+
+<div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/post-helper.js"></script>
+        
+            <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/libs/anime.min.js"></script>
+        
+        
+            <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/toc.js"></script>
+        
+    
+</div>
+
+
+
+</body>
+</html>
