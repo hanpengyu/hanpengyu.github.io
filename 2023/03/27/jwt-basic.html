@@ -9,7 +9,7 @@
     
     <title>
         
-            分类 |
+            JWT 简单了解一下 |
         
         Hanpy&#39;s blog
     </title>
@@ -73,7 +73,7 @@
                         </li>
                     
                         <li class="menu-item">
-                            <a class="active"
+                            <a class=""
                                href="/categories"
                             >
                                 分类
@@ -139,7 +139,7 @@
                 </li>
             
                 <li class="drawer-menu-item flex-center">
-                    <a class="active"
+                    <a class=""
                        href="/categories">分类</a>
                 </li>
             
@@ -179,13 +179,157 @@
 
                 
                     <div class="fade-in-down-animation">
-    <div class="category-list-container">
-        <div class="category-list-content">
-            <ul class="all-category-list"><li class="all-category-list-item"><a class="all-category-list-link" href="/categories/Golang/">Golang</a><span class="all-category-list-count">20</span><ul class="all-category-list-child"><li class="all-category-list-item"><a class="all-category-list-link" href="/categories/Golang/Gin/">Gin</a><span class="all-category-list-count">4</span></li><li class="all-category-list-item"><a class="all-category-list-link" href="/categories/Golang/Package/">Package</a><span class="all-category-list-count">1</span></li><li class="all-category-list-item"><a class="all-category-list-link" href="/categories/Golang/%E6%A0%87%E5%87%86%E5%BA%93/">标准库</a><span class="all-category-list-count">4</span></li></ul></li><li class="all-category-list-item"><a class="all-category-list-link" href="/categories/Linux/">Linux</a><span class="all-category-list-count">4</span></li><li class="all-category-list-item"><a class="all-category-list-link" href="/categories/Lua/">Lua</a><span class="all-category-list-count">1</span></li><li class="all-category-list-item"><a class="all-category-list-link" href="/categories/PHP/">PHP</a><span class="all-category-list-count">1</span></li><li class="all-category-list-item"><a class="all-category-list-link" href="/categories/Redis/">Redis</a><span class="all-category-list-count">1</span></li><li class="all-category-list-item"><a class="all-category-list-link" href="/categories/%E9%9A%8F%E6%89%8B%E8%AE%B0/">随手记</a><span class="all-category-list-count">8</span></li><li class="all-category-list-item"><a class="all-category-list-link" href="/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/">面试题</a><span class="all-category-list-count">3</span><ul class="all-category-list-child"><li class="all-category-list-item"><a class="all-category-list-link" href="/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/Golang/">Golang</a><span class="all-category-list-count">1</span></li><li class="all-category-list-item"><a class="all-category-list-link" href="/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/PHP/">PHP</a><span class="all-category-list-count">2</span></li></ul></li></ul>
-        </div>
-        <div class="category-comments">
+    <div class="post-page-container">
+        <div class="article-content-container">
+
+            <div class="article-title">
+                <span class="title-hover-animation">JWT 简单了解一下</span>
+            </div>
+
+            
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="/images/logo.png">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">hanpy</span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            
+<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        
+            <i class="fa-regular fa-calendar-plus"></i>&nbsp;
+        
+        <span class="pc">2023-03-27 09:07:50</span>
+        <span class="mobile">2023-03-27 09:07</span>
+    </span>
+    
+        <span class="article-update-date article-meta-item">
+        <i class="fas fa-file-pen"></i>&nbsp;
+        <span class="pc">2023-03-27 09:07:50</span>
+    </span>
+    
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/%E9%9A%8F%E6%89%8B%E8%AE%B0/">随手记</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/jwt/">jwt</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="article-content keep-markdown-body">
+                
+
+                <p><code>JWT</code> 的全称是 <code>JSON Web Token</code></p>
+<span id="more"></span>
+
+<blockquote>
+<p>官方网站：<a class="link"   target="_blank" rel="noopener" href="https://jwt.io/" >https://jwt.io/<i class="fas fa-external-link-alt"></i></a></p>
+</blockquote>
+<h3 id="JWT-解决的问题"><a href="#JWT-解决的问题" class="headerlink" title="JWT 解决的问题"></a>JWT 解决的问题</h3><ol>
+<li>可以为多种终端提供统一的令牌格式</li>
+<li>跨域认证的问题。（传统的web或者其他开发使用session，都会面临数据同步和持久化的问题）</li>
+</ol>
+<h3 id="JWT-的组成"><a href="#JWT-的组成" class="headerlink" title="JWT 的组成"></a>JWT 的组成</h3><p>从外观上来看，jwt就是一个很长的字符串，中间用两个点（<code>.</code>）分隔成三个部分，这三个部分分别是 Header（头部） 、 Payload（负载）、 Signature（签名）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 写成一行就是这样的排列</span><br><span class="line">Header.Payload.Signature</span><br></pre></td></tr></table></figure>
+
+<h4 id="Header（头部）"><a href="#Header（头部）" class="headerlink" title="Header（头部）"></a>Header（头部）</h4><p><code>Header</code> 部分是一个 <code>JSON</code> 对象，描述 <code>JWT</code> 的元数据，比如其类型以及签名所用的算法等，可以表示为一个 <code>json</code> 对象</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;alg&quot;</span><span class="punctuation">:</span> <span class="string">&quot;HS256&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;typ&quot;</span><span class="punctuation">:</span> <span class="string">&quot;JWT&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p><code>alg</code> 属性表示签名的算法（<code>algorithm</code>），默认是 <code>HMAC SHA256（写成 HS256）</code> </p>
+<p><code>typ</code>属性表示这个令牌（<code>token</code>）的类型（<code>type</code>），<code>JWT</code> 令牌统一写为 <code>JWT</code></p>
+<p>将上面的 JSON 对象使用 <code>Base64URL</code> 算法转成字符串</p>
+<h4 id="Payload（负载）"><a href="#Payload（负载）" class="headerlink" title="Payload（负载）"></a>Payload（负载）</h4><p>Payload 部分有7个官方规定的字段（不是必须的）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">iss (issuer)：签发人</span><br><span class="line">exp (expiration time)：过期时间</span><br><span class="line">sub (subject)：主题</span><br><span class="line">aud (audience)：受众</span><br><span class="line">nbf (Not Before)：生效时间</span><br><span class="line">iat (Issued At)：签发时间</span><br><span class="line">jti (JWT ID)：编号</span><br></pre></td></tr></table></figure>
+
+<p>还可以自定义字段，比如官网的例子</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;sub&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1234567890&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;John Doe&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;iat&quot;</span><span class="punctuation">:</span> <span class="number">1516239022</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>将上面的 JSON 对象使用 <code>Base64URL</code> 算法转成字符串</p>
+<h4 id="Signature（签名）"><a href="#Signature（签名）" class="headerlink" title="Signature（签名）"></a>Signature（签名）</h4><p>Signature 部分是对前两部分的签名，防止数据篡改。指定一个密钥（secret），然后，使用 Header 里面指定的签名算法（默认是 HMAC SHA256）按照下面的公式计算出签名</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HMACSHA256(</span><br><span class="line">  base64UrlEncode(header) + &quot;.&quot; +</span><br><span class="line">  base64UrlEncode(payload),</span><br><span class="line">  secret)</span><br></pre></td></tr></table></figure>
+
+<p>把 <code>Header</code>、<code>Payload</code>、<code>Signature</code> 三个部分拼成一个字符串，每个部分之间用”点”（<code>.</code>）分隔，就可以返回给用户。</p>
+
+            </div>
+
+            
+
+            
+                <ul class="post-tags-box">
+                    
+                        <li class="tag-item">
+                            <a href="/tags/jwt/">#jwt</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            
+
+            
+                <div class="article-nav">
+                    
+                    
+                        <div class="article-next">
+                            <a class="next"
+                               rel="next"
+                               href="/2023/03/26/go-gin-bind.html"
+                            >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Gin框架学习记录 - 参数绑定</span>
+                                <span class="post-nav-item">下一篇</span>
+                            </span>
+                                <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                            </a>
+                        </div>
+                    
+                </div>
+            
+
             
         </div>
+
+        
+            <div class="toc-content-container">
+                <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#JWT-%E8%A7%A3%E5%86%B3%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">JWT 解决的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JWT-%E7%9A%84%E7%BB%84%E6%88%90"><span class="nav-number">2.</span> <span class="nav-text">JWT 的组成</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Header%EF%BC%88%E5%A4%B4%E9%83%A8%EF%BC%89"><span class="nav-number">2.1.</span> <span class="nav-text">Header（头部）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Payload%EF%BC%88%E8%B4%9F%E8%BD%BD%EF%BC%89"><span class="nav-number">2.2.</span> <span class="nav-text">Payload（负载）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Signature%EF%BC%88%E7%AD%BE%E5%90%8D%EF%BC%89"><span class="nav-number">2.3.</span> <span class="nav-text">Signature（签名）</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
     </div>
 </div>
 
@@ -234,6 +378,23 @@
         </div>
     </div>
 
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
     
 
     <div class="right-bottom-side-tools">
@@ -333,6 +494,14 @@
 
 
 <div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/post-helper.js"></script>
+        
+            <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/libs/anime.min.js"></script>
+        
+        
+            <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/toc.js"></script>
+        
     
 </div>
 
