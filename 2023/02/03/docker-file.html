@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="技术博客，个人博客">
+    <meta name="description" content="不积跬步，无以至千里。不积小流，以成江海">
+    <meta name="author" content="hanpy">
+    
+    <title>
+        
+            Docker DockerFile |
+        
+        Hanpy&#39;s blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/fontawesome.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/regular.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/solid.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/brands.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"hanpy.cn","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#ffaf40","favicon":"/images/favicon.ico","avatar":"/images/logo.png","font_size":null,"font_family":"STHeiti","hover":{"shadow":true,"scale":true},"first_screen":{"enable":false,"header_transparent":false,"background_img":"/images/cup-7832358_1280.png","font_color":null,"hitokoto":false},"scroll":{"progress_bar":true,"percent":true}},"local_search":{"enable":true,"preload":true},"code_copy":{},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"side_tools":{},"pjax":{"enable":false},"lazyload":{"enable":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.8"},"waline":{"server_url":null,"reaction":false,"version":2}},"post":{"author_label":{"enable":false,"auto":true,"custom_label_list":["Trainee","Engineer","Architect"]},"word_count":{"enable":false,"wordcount":false,"min2read":false},"img_align":"center","copyright_info":false},"version":"3.6.1"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+               Hanpy&#39;s blog
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                BLOG
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >
+                                分类
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >
+                                标签
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                时间线
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >
+                                友链
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">BLOG</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories">分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags">标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">时间线</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links">友链</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="post-page-container">
+        <div class="article-content-container">
+
+            <div class="article-title">
+                <span class="title-hover-animation">Docker DockerFile</span>
+            </div>
+
+            
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="/images/logo.png">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">hanpy</span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            
+<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        
+            <i class="fa-regular fa-calendar-plus"></i>&nbsp;
+        
+        <span class="pc">2023-02-03 21:59:43</span>
+        <span class="mobile">2023-02-03 21:59</span>
+    </span>
+    
+        <span class="article-update-date article-meta-item">
+        <i class="fas fa-file-pen"></i>&nbsp;
+        <span class="pc">2022-02-03 21:59:43</span>
+    </span>
+    
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/Docker/">Docker</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/docker/">docker</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/Dockerfile/">Dockerfile</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="article-content keep-markdown-body">
+                
+
+                <p><code>Dockerfile</code> 是一个用来构建镜像的文本文件，里面包含了一条条构建镜像所需的指令和说明。</p>
+<span id="more"></span>
+
+<p>官方文档：<a class="link"   target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/builder" >Dockerfile reference<i class="fas fa-external-link-alt"></i></a></p>
+<p><strong>指令说明</strong></p>
+<p>文件中的每一行都是一个指令，每一个指令都是大写字母（不是强制的），指令是是从往下进行执行的，每一个指令都会创建一个新的镜像层，并提交。</p>
+<h3 id="FROM-指定基础镜像"><a href="#FROM-指定基础镜像" class="headerlink" title="FROM 指定基础镜像"></a>FROM 指定基础镜像</h3><p><code>FROM</code>指令用来指定基础镜像，<mark>必须的指令，并且是第一条指令</mark></p>
+<p>Docker 还存在一个特殊的镜像，名为 <code>scratch</code>。这个镜像是虚拟的概念，并不实际存在，它表示一个空白的镜像。</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> nginx:alpine</span><br></pre></td></tr></table></figure>
+
+<h3 id="COPY-复制文件"><a href="#COPY-复制文件" class="headerlink" title="COPY 复制文件"></a>COPY 复制文件</h3><p><code>COPY</code>指令将从构建上下文目录中 <code>&lt;源路径&gt;</code>的文件/目录复制到新的一层的镜像内的 <code>&lt;目标路径&gt;</code> 位置</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">COPY</span><span class="language-bash"> my.cnf /etc/mysql/conf.d/my.cnf </span></span><br></pre></td></tr></table></figure>
+
+<p><strong>源路径</strong>可以是多个，也可以使用通配符来匹配，源文件的各种元数据都会保留。比如读、写、执行权限、文件变更时间等，可以通过 <code>--chown=&lt;user&gt;:&lt;group&gt;</code>和 <code>--chmod=&lt;perms&gt;</code> 来改变复制到容器之后文件的所属用户和权限</p>
+<p><strong>目标路径</strong>可以是容器内的绝对路径，也可以是相对于工作目录的相对路径（工作目录可以用 <a href="#WORKDIR-%E6%8C%87%E5%AE%9A%E5%B7%A5%E4%BD%9C%E7%9B%AE%E5%BD%95"><code>WORKDIR</code></a> 指令来指定）。目标路径不需要事先创建，如果目录不存在会在复制文件前先行创建缺失目录。目标路径不需要事先创建，如果目录不存在会在复制文件前先行创建缺失目录</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">COPY</span><span class="language-bash"> hom* /mydir/</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> --<span class="built_in">chown</span>=mysql:mysql my.cnf my.cn <span class="comment"># 会复制到WORKDIR指定的目录下面，并且用户和用户组修改为mysql</span></span></span><br></pre></td></tr></table></figure>
+
+<h3 id="ADD-更高级的复制文件"><a href="#ADD-更高级的复制文件" class="headerlink" title="ADD 更高级的复制文件"></a>ADD 更高级的复制文件</h3><p><code>ADD</code> 指令和 <code>COPY</code> 的格式和性质基本一致。在 <code>COPY</code> 基础上增加了一些功能。</p>
+<ol>
+<li>源路径可以是一个URL，会尝试下载然后复制到目标位置（权限为0666），修改权限需要再来一层 <code>RUN</code> 指令</li>
+<li>如果 <code>&lt;源路径&gt;</code> 为一个 <code>tar</code> 压缩文件的话，压缩格式为 <code>gzip</code>, <code>bzip2</code> 以及 <code>xz</code> 的情况下，<code>ADD</code> 指令将会自动解压缩这个压缩文件到 <code>&lt;目标路径&gt;</code> 去</li>
+</ol>
+<h3 id="RUN-执行命令"><a href="#RUN-执行命令" class="headerlink" title="RUN 执行命令"></a>RUN 执行命令</h3><p><code>RUN</code> 指令是用来执行命令行命令的(构建镜像时运行的指令)</p>
+<p>有两种方式</p>
+<ol>
+<li><em>shell</em>格式：就像直接在命令行中输入的命令一样</li>
+<li><em>exec</em>格式：<code>RUN [&quot;可执行文件&quot;, &quot;参数1&quot;, &quot;参数2&quot;]</code></li>
+</ol>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># shell格式</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">chmod</span> 0444 /etc/mysql/conf.d/my.cnf</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># exec格式</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> [<span class="string">&quot;chmod&quot;</span>, <span class="string">&quot;0444&quot;</span>, <span class="string">&quot;/etc/mysql/conf.d/my.cnf&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+
+<p>每个指令都会生成一层，<code>Run</code>指令也是同样，所以在使用的时候最好是通过 <code>&amp;&amp;</code> 来连接各个命令，这样可以减少生成的层数。</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">set</span> -x; buildDeps=<span class="string">&#x27;gcc libc6-dev make wget&#x27;</span> \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; apt-get update \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; apt-get install -y <span class="variable">$buildDeps</span> \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; wget -O redis.tar.gz <span class="string">&quot;http://download.redis.io/releases/redis-5.0.3.tar.gz&quot;</span> \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; <span class="built_in">mkdir</span> -p /usr/src/redis \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; tar -xzf redis.tar.gz -C /usr/src/redis --strip-components=1 \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; make -C /usr/src/redis \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; make -C /usr/src/redis install \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; <span class="built_in">rm</span> -rf /var/lib/apt/lists/* \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; <span class="built_in">rm</span> redis.tar.gz \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; <span class="built_in">rm</span> -r /usr/src/redis \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; apt-get purge -y --auto-remove <span class="variable">$buildDeps</span></span></span><br></pre></td></tr></table></figure>
+
+<p>拿上面的例子来说，在命令的最后添加了清理工作的命令，删除了为了编译构建所需要的软件，清理了所有下载、展开的文件，并且还清理了 <code>apt</code> 缓存文件。这是很重要的一步，这样会减小镜像的体积。</p>
+<h3 id="CMD-容器启动命令"><a href="#CMD-容器启动命令" class="headerlink" title="CMD 容器启动命令"></a>CMD 容器启动命令</h3><p><code>CMD</code> 指令就是用于指定默认的容器主进程的启动命令的。<code>RUN </code>指令是在镜像构建的时候执行的，<code>CMD </code>指令是容器启动的时候（docker run）执行的。</p>
+<p><strong>命令格式</strong></p>
+<ol>
+<li><em>shell</em>格式：<code>CMD &lt;命令&gt;</code></li>
+<li><em>exec</em>格式：<code>CMD [&quot;可执行文件&quot;, &quot;参数1&quot;, &quot;参数2&quot;]</code></li>
+</ol>
+<p>使用 shell 格式的话，实际的命令会被包装为 <code>sh -c</code> 的参数的形式进行执行。</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CMD</span><span class="language-bash"> <span class="built_in">echo</span> <span class="variable">$HOME</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 实际的命令会被包装为 sh -c 的参数的形式进行执行</span></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> [ <span class="string">&quot;sh&quot;</span>, <span class="string">&quot;-c&quot;</span>, <span class="string">&quot;echo <span class="variable">$HOME</span>&quot;</span> ]</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>需要注意的地方</strong></p>
+<ol>
+<li><code>CMD</code> 指令指定的程序可被 <code>docker run</code> 命令行参数中指定要运行的程序所覆盖。</li>
+<li>如果 <code>Dockerfile</code> 中如果存在多个 <code>CMD</code> 指令，仅最后一个生效。</li>
+</ol>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> ubuntu</span><br><span class="line"></span><br><span class="line"><span class="comment">#1 docker run 覆盖情况</span></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> [<span class="string">&quot;sh&quot;</span>, <span class="string">&quot;-c&quot;</span>, <span class="string">&quot;/bin/bash&quot;</span>]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#2 多个CMD覆盖情况</span></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> <span class="built_in">echo</span> <span class="string">&quot;This is a test.&quot;</span></span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># （假设没有第二个CMD指令的情况）这样写就是用cat /etc/os-release 替换了 /bin/bash</span></span><br><span class="line">docker run -it ubuntu <span class="built_in">cat</span> /etc/os-release</span><br><span class="line"></span><br><span class="line"><span class="comment"># 虽然有两个CMD指令，但是第二个会覆盖第一个</span></span><br><span class="line">docker run -it ubuntu</span><br></pre></td></tr></table></figure>
+
+<h3 id="ENTRYPOINT-入口点"><a href="#ENTRYPOINT-入口点" class="headerlink" title="ENTRYPOINT 入口点"></a>ENTRYPOINT 入口点</h3><p><code>ENTRYPOINT</code> 指令的和 <code>CMD</code> 一样，都是在指定容器启动程序及参数。<code>ENTRYPOINT</code> 在运行时也可以替代，需要通过<code>docker run</code>的参数<code>--entrypoint</code>来指定。<br>当指定了<code>ENTRYPOINT</code>后，<code>CMD</code>的含义就发生了改变，不再是直接的运行其命令，而是将<code>CMD</code>的内容作为参数传给<code>ENTRYPOINT</code>指令，换句话说实际执行时，将变为：<br><code>&lt;ENTRYPOINT&gt; &quot;&lt;CMD&gt;&quot;</code></p>
+<p><strong>需要注意的地方</strong></p>
+<ol>
+<li><p><code>docker run -it ubuntu cat /etc/os-release</code> 执行时候执行的命令，也会被当做<code>ENTRYPOINT</code>的参数</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> ubuntu:<span class="number">18.04</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> apt-get update \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; apt-get install -y curl \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; <span class="built_in">rm</span> -rf /var/lib/apt/lists/*</span></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="language-bash"> [ <span class="string">&quot;curl&quot;</span>, <span class="string">&quot;-s&quot;</span>, <span class="string">&quot;http://myip.ipip.net&quot;</span> ]</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker build -t myip .</span><br><span class="line"></span><br><span class="line"><span class="comment"># -i 会作为ENTRYPOINT指令的参数，这样就能输出header头信息了</span></span><br><span class="line">$ docker run myip -i</span><br></pre></td></tr></table></figure></li>
+<li><p>如果有多个 <code>ENTRYPOINT</code> 指令最后一条生效</p>
+</li>
+</ol>
+<h3 id="ENV-设置环境变量"><a href="#ENV-设置环境变量" class="headerlink" title="ENV 设置环境变量"></a>ENV 设置环境变量</h3><p><code>ENV</code> 指令用来设置环境变量，定义了环境变量，那么在后续的指令中，就可以使用这个环境变量。</p>
+<p><strong>格式有两种：</strong></p>
+<ol>
+<li><code>ENV [key] [value]</code></li>
+<li><code>ENV [key1]=[value1] [key2]=[value2]</code></li>
+</ol>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ENV</span> VERSION=<span class="number">1.0</span> DEBUG=on \</span><br><span class="line">    NAME=<span class="string">&quot;Happy Feet&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>下列指令可以支持环境变量展开： ADD、COPY、ENV、EXPOSE、FROM、LABEL、USER、WORKDIR、VOLUME、STOPSIGNAL、ONBUILD、RUN。</p>
+<h3 id="ARG-构建参数"><a href="#ARG-构建参数" class="headerlink" title="ARG 构建参数"></a>ARG 构建参数</h3><p><code>ARG &lt;参数名&gt;[=&lt;默认值&gt;]</code></p>
+<p>ARG 和 ENV 的效果一样，都是设置环境变量。不过作用域不一样。ARG 设置的环境变量仅对 Dockerfile 内有效，也就是说只有 <code>docker build</code> 的过程中有效，构建好的镜像内不存在此环境变量。</p>
+<p>构建命令 <code>docker build</code> 中可以用 <code>--build-arg &lt;参数名&gt; = &lt;值&gt;</code> 来覆盖。</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 只在 FROM 中生效</span></span><br><span class="line"><span class="keyword">ARG</span> DOCKER_USERNAME=library</span><br><span class="line"></span><br><span class="line"><span class="keyword">FROM</span> $&#123;DOCKER_USERNAME&#125;/alpine</span><br><span class="line"></span><br><span class="line"><span class="comment"># 要想在 FROM 之后使用，必须再次指定</span></span><br><span class="line"><span class="keyword">ARG</span> DOCKER_USERNAME=library</span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">set</span> -x ; <span class="built_in">echo</span> <span class="variable">$&#123;DOCKER_USERNAME&#125;</span></span></span><br></pre></td></tr></table></figure>
+
+<h3 id="VOLUME-定义匿名卷"><a href="#VOLUME-定义匿名卷" class="headerlink" title="VOLUME 定义匿名卷"></a>VOLUME 定义匿名卷</h3><p>定义匿名数据卷。在启动容器时忘记挂载数据卷，会自动挂载到匿名卷。</p>
+<p><strong>作用：</strong></p>
+<ol>
+<li>避免重要的数据，因容器重启而丢失，这是非常致命的。</li>
+<li>避免容器不断变大。</li>
+</ol>
+<h3 id="EXPOSE-暴露端口"><a href="#EXPOSE-暴露端口" class="headerlink" title="EXPOSE 暴露端口"></a>EXPOSE 暴露端口</h3><p><strong>格式为</strong> <code>EXPOSE &lt;端口1&gt; [&lt;端口2&gt;...]</code></p>
+<p><code>EXPOSE</code> 指令是声明容器运行时提供服务的端口，<mark>这只是一个声明，在容器运行时并不会因为这个声明应用就会开启这个端口的服务。</mark></p>
+<p><strong>作用：</strong></p>
+<ol>
+<li>帮助镜像使用者理解这个镜像服务的守护端口，以方便配置映射</li>
+<li>运行时使用随机端口映射时，也就是 <code>docker run -P</code> 时，会自动随机映射 <code>EXPOSE</code> 的端口</li>
+</ol>
+<h3 id="WORKDIR-指定工作目录"><a href="#WORKDIR-指定工作目录" class="headerlink" title="WORKDIR 指定工作目录"></a>WORKDIR 指定工作目录</h3><p><strong>格式:</strong> <code>WORKDIR &lt;工作目录路径&gt;</code></p>
+<p>使用 <code>WORKDIR</code> 指令可以来指定工作目录（或者称为当前目录），以后各层的当前目录就被改为指定的目录，如该目录不存在，<code>WORKDIR</code> 会帮你建立目录。</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /app</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">echo</span> <span class="string">&quot;hello&quot;</span> &gt; world.txt</span></span><br></pre></td></tr></table></figure>
+
+<p>会在<code>/app/word.txt</code>写入内容</p>
+<h3 id="USER-指定当前用户"><a href="#USER-指定当前用户" class="headerlink" title="USER 指定当前用户"></a>USER 指定当前用户</h3><p><strong>格式：</strong><code>USER &lt;用户名&gt;[:&lt;用户组&gt;]</code></p>
+<p><code>USER</code> 指令和 <code>WORKDIR</code> 相似，都是改变环境状态并影响以后的层。<code>WORKDIR</code> 是改变工作目录，<code>USER</code> 则是改变之后层的执行 <code>RUN</code>, <code>CMD</code> 以及 <code>ENTRYPOINT</code> 这类命令的身份。</p>
+<p><mark>注意，USER 只是帮助你切换到指定用户而已，这个用户必须是事先建立好的，否则无法切换。</mark></p>
+
+            </div>
+
+            
+
+            
+                <ul class="post-tags-box">
+                    
+                        <li class="tag-item">
+                            <a href="/tags/docker/">#docker</a>&nbsp;
+                        </li>
+                    
+                        <li class="tag-item">
+                            <a href="/tags/Dockerfile/">#Dockerfile</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            
+
+            
+                <div class="article-nav">
+                    
+                        <div class="article-prev">
+                            <a class="prev"
+                               rel="prev"
+                               href="/2023/02/04/docker-compose-yam.html"
+                            >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                                <span class="title flex-center">
+                                <span class="post-nav-title-item">Docker Compose 模版文件</span>
+                                <span class="post-nav-item">上一篇</span>
+                            </span>
+                            </a>
+                        </div>
+                    
+                    
+                        <div class="article-next">
+                            <a class="next"
+                               rel="next"
+                               href="/2023/02/01/docker-basic.html"
+                            >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Docker 入门使用</span>
+                                <span class="post-nav-item">下一篇</span>
+                            </span>
+                                <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                            </a>
+                        </div>
+                    
+                </div>
+            
+
+            
+        </div>
+
+        
+            <div class="toc-content-container">
+                <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#FROM-%E6%8C%87%E5%AE%9A%E5%9F%BA%E7%A1%80%E9%95%9C%E5%83%8F"><span class="nav-number">1.</span> <span class="nav-text">FROM 指定基础镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#COPY-%E5%A4%8D%E5%88%B6%E6%96%87%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">COPY 复制文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ADD-%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84%E5%A4%8D%E5%88%B6%E6%96%87%E4%BB%B6"><span class="nav-number">3.</span> <span class="nav-text">ADD 更高级的复制文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RUN-%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4"><span class="nav-number">4.</span> <span class="nav-text">RUN 执行命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CMD-%E5%AE%B9%E5%99%A8%E5%90%AF%E5%8A%A8%E5%91%BD%E4%BB%A4"><span class="nav-number">5.</span> <span class="nav-text">CMD 容器启动命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ENTRYPOINT-%E5%85%A5%E5%8F%A3%E7%82%B9"><span class="nav-number">6.</span> <span class="nav-text">ENTRYPOINT 入口点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ENV-%E8%AE%BE%E7%BD%AE%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="nav-number">7.</span> <span class="nav-text">ENV 设置环境变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ARG-%E6%9E%84%E5%BB%BA%E5%8F%82%E6%95%B0"><span class="nav-number">8.</span> <span class="nav-text">ARG 构建参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VOLUME-%E5%AE%9A%E4%B9%89%E5%8C%BF%E5%90%8D%E5%8D%B7"><span class="nav-number">9.</span> <span class="nav-text">VOLUME 定义匿名卷</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#EXPOSE-%E6%9A%B4%E9%9C%B2%E7%AB%AF%E5%8F%A3"><span class="nav-number">10.</span> <span class="nav-text">EXPOSE 暴露端口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WORKDIR-%E6%8C%87%E5%AE%9A%E5%B7%A5%E4%BD%9C%E7%9B%AE%E5%BD%95"><span class="nav-number">11.</span> <span class="nav-text">WORKDIR 指定工作目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#USER-%E6%8C%87%E5%AE%9A%E5%BD%93%E5%89%8D%E7%94%A8%E6%88%B7"><span class="nav-number">12.</span> <span class="nav-text">USER 指定当前用户</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            
+<footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+                <span>2018</span> -
+            
+            2023
+            
+                <!-- &nbsp;<i class="fas fa-heart icon-animate"></i> -->
+                <!-- &nbsp;<a href="/">hanpy</a> -->
+                &nbsp;<a href="/">HANPY</a>
+            
+        </div>
+        
+        
+            <div class="icp-info info-item">
+                <a target="_blank" rel="nofollow"
+                   href="https://beian.miit.gov.cn"
+                >
+                    京ICP备16043183号
+                </a>
+            </div>
+        
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/dark-light-toggle.js"></script>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/local-search.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/code-block.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/lazyload.js"></script>
+
+
+<div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/post-helper.js"></script>
+        
+            <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/libs/anime.min.js"></script>
+        
+        
+            <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/toc.js"></script>
+        
+    
+</div>
+
+
+
+</body>
+</html>

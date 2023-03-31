@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="技术博客，个人博客">
+    <meta name="description" content="不积跬步，无以至千里。不积小流，以成江海">
+    <meta name="author" content="hanpy">
+    
+    <title>
+        
+            Docker Compose 模版文件 |
+        
+        Hanpy&#39;s blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/fontawesome.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/regular.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/solid.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/brands.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"hanpy.cn","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#ffaf40","favicon":"/images/favicon.ico","avatar":"/images/logo.png","font_size":null,"font_family":"STHeiti","hover":{"shadow":true,"scale":true},"first_screen":{"enable":false,"header_transparent":false,"background_img":"/images/cup-7832358_1280.png","font_color":null,"hitokoto":false},"scroll":{"progress_bar":true,"percent":true}},"local_search":{"enable":true,"preload":true},"code_copy":{},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"side_tools":{},"pjax":{"enable":false},"lazyload":{"enable":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.8"},"waline":{"server_url":null,"reaction":false,"version":2}},"post":{"author_label":{"enable":false,"auto":true,"custom_label_list":["Trainee","Engineer","Architect"]},"word_count":{"enable":false,"wordcount":false,"min2read":false},"img_align":"center","copyright_info":false},"version":"3.6.1"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+               Hanpy&#39;s blog
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                BLOG
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >
+                                分类
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >
+                                标签
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                时间线
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >
+                                友链
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">BLOG</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories">分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags">标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">时间线</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links">友链</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="post-page-container">
+        <div class="article-content-container">
+
+            <div class="article-title">
+                <span class="title-hover-animation">Docker Compose 模版文件</span>
+            </div>
+
+            
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="/images/logo.png">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">hanpy</span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            
+<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        
+            <i class="fa-regular fa-calendar-plus"></i>&nbsp;
+        
+        <span class="pc">2023-02-04 00:50:14</span>
+        <span class="mobile">2023-02-04 00:50</span>
+    </span>
+    
+        <span class="article-update-date article-meta-item">
+        <i class="fas fa-file-pen"></i>&nbsp;
+        <span class="pc">2023-02-04 00:50:14</span>
+    </span>
+    
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/Docker/">Docker</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/docker/">docker</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/docker-compose/">docker-compose</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="article-content keep-markdown-body">
+                
+
+                <p><code>Docker Compose</code> 是定义和运行多个 Docker 容器的应用。它允许用户通过一个单独的 <code>docker-compose.yml</code> 模板文件（YAML 格式）来定义一组相关联的应用容器为一个项目（project）</p>
+<span id="more"></span>
+
+<h2 id="两个术语"><a href="#两个术语" class="headerlink" title="两个术语"></a>两个术语</h2><p>服务 (<code>service</code>)：一个应用容器，实际上可以运行多个相同镜像的实例。<br>项目 (<code>project</code>)：由一组关联的应用容器组成的一个完整业务单元。</p>
+<h2 id="Docker-Compose-模板文件常用指令"><a href="#Docker-Compose-模板文件常用指令" class="headerlink" title="Docker Compose 模板文件常用指令"></a>Docker Compose 模板文件常用指令</h2><p>默认的模板文件名称为 <code>docker-compose.yml</code>，格式为 YAML 格式。注意每个服务都必须通过 <code>image</code> 指令指定镜像或 <code>build</code> 指令（需要 Dockerfile）等来自动构建生成镜像。</p>
+<p>如果使用 <code>build</code> 指令，在 <code>Dockerfile</code> 中设置的选项(例如：<code>CMD</code>, <code>EXPOSE</code>, <code>VOLUME</code>, <code>ENV</code> 等) 将会自动被获取，无需在 <code>docker-compose.yml</code> 中重复设置。</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># docker compose的版本</span></span><br><span class="line">version: <span class="string">&quot;3&quot;</span></span><br><span class="line"><span class="comment"># 服务列表</span></span><br><span class="line">services:</span><br><span class="line">  <span class="comment"># 服务的名称是 webapp</span></span><br><span class="line">  webapp:</span><br><span class="line">  	<span class="comment"># 使用的惊喜那个是 examples/web</span></span><br><span class="line">    image: examples/web</span><br><span class="line">    <span class="comment"># 映射的端口</span></span><br><span class="line">    ports:</span><br><span class="line">      - <span class="string">&quot;80:80&quot;</span></span><br><span class="line">    <span class="comment"># 挂载的目录</span></span><br><span class="line">    volumes:</span><br><span class="line">      - <span class="string">&quot;/data&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="build"><a href="#build" class="headerlink" title="build"></a>build</h3><p><a class="link"   target="_blank" rel="noopener" href="https://docs.docker.com/compose/compose-file/build/" >Compose file build reference (docker.com)<i class="fas fa-external-link-alt"></i></a></p>
+<p>指定 <code>Dockerfile</code> 所在文件夹的路径（可以是绝对路径，或者相对 docker-compose.yml 文件的路径）。会使用这个<code>Dockerfile</code>来生成镜像</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">version: <span class="string">&quot;3&quot;</span></span><br><span class="line"></span><br><span class="line">services:</span><br><span class="line">  nginx:</span><br><span class="line">    build: ./nginx</span><br></pre></td></tr></table></figure>
+
+<p><code>build</code>指定的路径里面默认的<code>Dockerfile</code>的名字就是<code>Dockerfile</code></p>
+<h4 id="context、dockerfile"><a href="#context、dockerfile" class="headerlink" title="context、dockerfile"></a>context、dockerfile</h4><p>可以使用 <code>context</code> 指令指定 <code>Dockerfile</code> 所在文件夹的路径。<br>使用 <code>dockerfile</code> 指令指定 <code>Dockerfile</code> 文件名。</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">version: <span class="string">&quot;3&quot;</span></span><br><span class="line"></span><br><span class="line">services:</span><br><span class="line">  nginx:</span><br><span class="line">    build:</span><br><span class="line">      context: ./nginx</span><br><span class="line">      dockerfile: Dockerfile-nginx</span><br></pre></td></tr></table></figure>
+
+<h3 id="arg"><a href="#arg" class="headerlink" title="arg"></a>arg</h3><p>指令指定构建镜像时的变量，就是在<code>Dockerfile</code>中定义的</p>
+<h3 id="command"><a href="#command" class="headerlink" title="command"></a>command</h3><p>覆盖容器启动后默认执行的命令（也就是在dockerFile中定义的<code>CMD</code>指令）</p>
+<p>如果值设置为 <code>null</code>,就会以镜像中的为准，如果值为<code>[]</code>或者<code>&#39;&#39;</code>,就会覆盖镜像中的并设置为空</p>
+<h3 id="container-name"><a href="#container-name" class="headerlink" title="container_name"></a>container_name</h3><p>指定容器的名称，默认将会使用 <code>项目名称_服务名称_序号</code> 这样的格式</p>
+<p><strong>注意: 指定容器名称后，该服务将无法进行扩展（scale），因为 Docker 不允许多个容器具有相同的名称</strong></p>
+<h3 id="depends-on"><a href="#depends-on" class="headerlink" title="depends_on"></a>depends_on</h3><p>声明依赖关系，白话意思就是要启动现在这个服务要先启动谁</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">version: <span class="string">&quot;3&quot;</span></span><br><span class="line"></span><br><span class="line">services:</span><br><span class="line">  nginx:</span><br><span class="line">    build: </span><br><span class="line">      context: ./nginx</span><br><span class="line">      dockerfile: DockerFile-nginx</span><br><span class="line">    container_name: hanpy_nginx</span><br><span class="line">    depends_on:</span><br><span class="line">      - redis</span><br><span class="line">      - php</span><br></pre></td></tr></table></figure>
+
+<p>瞎写的，举例一下用法</p>
+<h3 id="dns"><a href="#dns" class="headerlink" title="dns"></a>dns</h3><p>自定义 <code>DNS</code> 服务器。可以是一个值，也可以是一个列表。</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dns: <span class="number">8.8</span>.<span class="number">8.8</span></span><br><span class="line"></span><br><span class="line">dns:</span><br><span class="line">  - <span class="number">8.8</span>.<span class="number">8.8</span></span><br><span class="line">  - <span class="number">114.114</span>.<span class="number">114.114</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="dns-search"><a href="#dns-search" class="headerlink" title="dns_search"></a>dns_search</h3><p>配置 <code>DNS</code> 搜索域。可以是一个值，也可以是一个列表。</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dns_search: example.com</span><br><span class="line"></span><br><span class="line">dns_search:</span><br><span class="line">  - domain1.example.com</span><br><span class="line">  - domain2.example.com</span><br></pre></td></tr></table></figure>
+
+<h3 id="entrypoint"><a href="#entrypoint" class="headerlink" title="entrypoint"></a>entrypoint</h3><p>指定服务容器启动后执行的入口文件，这个会覆盖在<code>DockerFile</code>中<code>ENTRYPOINT</code>指令所设置的</p>
+<h3 id="env-file"><a href="#env-file" class="headerlink" title="env_file"></a>env_file</h3><p>从文件中获取环境变量，可以为单独的文件路径或列表。</p>
+<p>如果通过 <code>docker-compose -f FILE</code> 方式来指定 Compose 模板文件，则 <code>env_file</code> 中变量的路径会基于模板文件路径。</p>
+<p>如果有变量名称与 <code>environment</code> 指令冲突，则按照惯例，以后者为准。</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">env_file: .<span class="keyword">env</span></span><br><span class="line"></span><br><span class="line">env_file:</span><br><span class="line">  - ./common.<span class="keyword">env</span></span><br><span class="line">  - ./apps/web.<span class="keyword">env</span></span><br><span class="line">  - /opt/secrets.<span class="keyword">env</span></span><br></pre></td></tr></table></figure>
+
+<p>环境变量文件中每一行必须符合格式，支持 <code>#</code> 开头的注释行。</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># common.env: Set development environment</span></span><br><span class="line">PROG_ENV=development</span><br></pre></td></tr></table></figure>
+
+<h3 id="environment"><a href="#environment" class="headerlink" title="environment"></a>environment</h3><p>设置环境变量。你可以使用数组或字典两种格式。</p>
+<p><strong>有两种设置方式：</strong></p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">environment:</span><br><span class="line">  RACK_ENV: development</span><br><span class="line">  SHOW: <span class="string">&quot;true&quot;</span></span><br><span class="line">  USER_INPUT:</span><br><span class="line"> </span><br><span class="line"> environment:</span><br><span class="line">  - RACK_ENV=development</span><br><span class="line">  - SHOW=true</span><br><span class="line">  - USER_INPUT</span><br></pre></td></tr></table></figure>
+
+<p><strong>env_file</strong> 和 <strong>environment</strong> 同时设置，<strong>environment</strong> 设置的优先</p>
+<h3 id="extra-hosts"><a href="#extra-hosts" class="headerlink" title="extra_hosts"></a>extra_hosts</h3><p>类似 Docker 中的 <code>--add-host</code> 参数，指定额外的 host 名称映射信息。</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">extra_hosts:</span><br><span class="line"> - <span class="string">&quot;googledns:8.8.8.8&quot;</span></span><br><span class="line"> - <span class="string">&quot;dockerhub:52.1.157.61&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>会在启动后的服务容器中 <code>/etc/hosts</code> 文件中添加如下两条条目。</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">8.8</span>.<span class="number">8.8</span> googledns</span><br><span class="line"><span class="number">52.1</span>.<span class="number">157.61</span> dockerhub</span><br></pre></td></tr></table></figure>
+
+<h3 id="image"><a href="#image" class="headerlink" title="image"></a>image</h3><p>指定为镜像名称或镜像 ID。如果镜像在本地不存在，<code>Compose</code> 将会尝试拉取这个镜像。</p>
+<h3 id="labels"><a href="#labels" class="headerlink" title="labels"></a>labels</h3><p>为容器添加 Docker 元数据（metadata）信息。例如可以为容器添加辅助说明信息。</p>
+<h3 id="links"><a href="#links" class="headerlink" title="links"></a>links</h3><p>链接到其它服务中的容器。使用服务名称（同时作为别名）或服务名称：服务别名 <code>（SERVICE:ALIAS）</code> 格式都可以。</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">links:</span><br><span class="line"> - db</span><br><span class="line"> - db:database</span><br><span class="line"> - redis</span><br></pre></td></tr></table></figure>
+
+<h3 id="ports"><a href="#ports" class="headerlink" title="ports"></a>ports</h3><p>暴露端口信息。</p>
+<p>使用宿主端口：容器端口 <code>(HOST:CONTAINER)</code> 格式，或者仅仅指定容器的端口（宿主将会随机选择端口）都可以。</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ports:</span><br><span class="line"> - <span class="string">&quot;3000&quot;</span></span><br><span class="line"> - <span class="string">&quot;8000:8000&quot;</span></span><br><span class="line"> - <span class="string">&quot;49100:22&quot;</span></span><br><span class="line"> - <span class="string">&quot;127.0.0.1:8001:8001&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="volumes"><a href="#volumes" class="headerlink" title="volumes"></a>volumes</h3><p>数据卷所挂载路径设置。可以设置为宿主机路径(<code>HOST:CONTAINER</code>)或者数据卷名称(<code>VOLUME:CONTAINER</code>)，并且可以设置访问模式 （<code>HOST:CONTAINER:ro</code>）。</p>
+<p>该指令中路径支持相对路径。</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">volumes:</span><br><span class="line"> - /var/lib/mysql</span><br><span class="line"> - cache/:/tmp/cache</span><br><span class="line"> - ~/configs:/etc/configs/:ro</span><br></pre></td></tr></table></figure>
+
+            </div>
+
+            
+
+            
+                <ul class="post-tags-box">
+                    
+                        <li class="tag-item">
+                            <a href="/tags/docker/">#docker</a>&nbsp;
+                        </li>
+                    
+                        <li class="tag-item">
+                            <a href="/tags/docker-compose/">#docker-compose</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            
+
+            
+                <div class="article-nav">
+                    
+                        <div class="article-prev">
+                            <a class="prev"
+                               rel="prev"
+                               href="/2023/02/05/docker-compose-command.html"
+                            >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                                <span class="title flex-center">
+                                <span class="post-nav-title-item">Docker Compose 命令说明</span>
+                                <span class="post-nav-item">上一篇</span>
+                            </span>
+                            </a>
+                        </div>
+                    
+                    
+                        <div class="article-next">
+                            <a class="next"
+                               rel="next"
+                               href="/2023/02/03/docker-file.html"
+                            >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Docker DockerFile</span>
+                                <span class="post-nav-item">下一篇</span>
+                            </span>
+                                <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                            </a>
+                        </div>
+                    
+                </div>
+            
+
+            
+        </div>
+
+        
+            <div class="toc-content-container">
+                <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%A4%E4%B8%AA%E6%9C%AF%E8%AF%AD"><span class="nav-number">1.</span> <span class="nav-text">两个术语</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker-Compose-%E6%A8%A1%E6%9D%BF%E6%96%87%E4%BB%B6%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4"><span class="nav-number">2.</span> <span class="nav-text">Docker Compose 模板文件常用指令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#build"><span class="nav-number">2.1.</span> <span class="nav-text">build</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#context%E3%80%81dockerfile"><span class="nav-number">2.1.1.</span> <span class="nav-text">context、dockerfile</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#arg"><span class="nav-number">2.2.</span> <span class="nav-text">arg</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#command"><span class="nav-number">2.3.</span> <span class="nav-text">command</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#container-name"><span class="nav-number">2.4.</span> <span class="nav-text">container_name</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#depends-on"><span class="nav-number">2.5.</span> <span class="nav-text">depends_on</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dns"><span class="nav-number">2.6.</span> <span class="nav-text">dns</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dns-search"><span class="nav-number">2.7.</span> <span class="nav-text">dns_search</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#entrypoint"><span class="nav-number">2.8.</span> <span class="nav-text">entrypoint</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#env-file"><span class="nav-number">2.9.</span> <span class="nav-text">env_file</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#environment"><span class="nav-number">2.10.</span> <span class="nav-text">environment</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#extra-hosts"><span class="nav-number">2.11.</span> <span class="nav-text">extra_hosts</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#image"><span class="nav-number">2.12.</span> <span class="nav-text">image</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#labels"><span class="nav-number">2.13.</span> <span class="nav-text">labels</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#links"><span class="nav-number">2.14.</span> <span class="nav-text">links</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ports"><span class="nav-number">2.15.</span> <span class="nav-text">ports</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#volumes"><span class="nav-number">2.16.</span> <span class="nav-text">volumes</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            
+<footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+                <span>2018</span> -
+            
+            2023
+            
+                <!-- &nbsp;<i class="fas fa-heart icon-animate"></i> -->
+                <!-- &nbsp;<a href="/">hanpy</a> -->
+                &nbsp;<a href="/">HANPY</a>
+            
+        </div>
+        
+        
+            <div class="icp-info info-item">
+                <a target="_blank" rel="nofollow"
+                   href="https://beian.miit.gov.cn"
+                >
+                    京ICP备16043183号
+                </a>
+            </div>
+        
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/dark-light-toggle.js"></script>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/local-search.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/code-block.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/lazyload.js"></script>
+
+
+<div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/post-helper.js"></script>
+        
+            <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/libs/anime.min.js"></script>
+        
+        
+            <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/toc.js"></script>
+        
+    
+</div>
+
+
+
+</body>
+</html>

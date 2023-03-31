@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="技术博客，个人博客">
+    <meta name="description" content="不积跬步，无以至千里。不积小流，以成江海">
+    <meta name="author" content="hanpy">
+    
+    <title>
+        
+            Docker Compose 命令说明 |
+        
+        Hanpy&#39;s blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/fontawesome.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/regular.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/solid.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/brands.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"hanpy.cn","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#ffaf40","favicon":"/images/favicon.ico","avatar":"/images/logo.png","font_size":null,"font_family":"STHeiti","hover":{"shadow":true,"scale":true},"first_screen":{"enable":false,"header_transparent":false,"background_img":"/images/cup-7832358_1280.png","font_color":null,"hitokoto":false},"scroll":{"progress_bar":true,"percent":true}},"local_search":{"enable":true,"preload":true},"code_copy":{},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"side_tools":{},"pjax":{"enable":false},"lazyload":{"enable":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.8"},"waline":{"server_url":null,"reaction":false,"version":2}},"post":{"author_label":{"enable":false,"auto":true,"custom_label_list":["Trainee","Engineer","Architect"]},"word_count":{"enable":false,"wordcount":false,"min2read":false},"img_align":"center","copyright_info":false},"version":"3.6.1"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+               Hanpy&#39;s blog
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                BLOG
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >
+                                分类
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >
+                                标签
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                时间线
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >
+                                友链
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">BLOG</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories">分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags">标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">时间线</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links">友链</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="post-page-container">
+        <div class="article-content-container">
+
+            <div class="article-title">
+                <span class="title-hover-animation">Docker Compose 命令说明</span>
+            </div>
+
+            
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="/images/logo.png">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">hanpy</span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            
+<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        
+            <i class="fa-regular fa-calendar-plus"></i>&nbsp;
+        
+        <span class="pc">2023-02-05 00:33:28</span>
+        <span class="mobile">2023-02-05 00:33</span>
+    </span>
+    
+        <span class="article-update-date article-meta-item">
+        <i class="fas fa-file-pen"></i>&nbsp;
+        <span class="pc">2023-02-05 00:33:28</span>
+    </span>
+    
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/Docker/">Docker</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/docker/">docker</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/docker-compose/">docker-compose</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="article-content keep-markdown-body">
+                
+
+                <p>docker compose 常用的命令整理。</p>
+<span id="more"></span>
+
+<h3 id="docker-compose-命令基本格式"><a href="#docker-compose-命令基本格式" class="headerlink" title="docker compose 命令基本格式"></a>docker compose 命令基本格式</h3><p><a class="link"   target="_blank" rel="noopener" href="https://docs.docker.com/compose/reference/" >https://docs.docker.com/compose/reference/<i class="fas fa-external-link-alt"></i></a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker compose [-f=&lt;arg&gt;...] [options] [COMMAND] [ARGS...]</span><br><span class="line"></span><br><span class="line">options：</span><br><span class="line">-f, --file FILE 指定使用的 Compose 模板文件，默认为 docker-compose.yml，可以多次指定。</span><br><span class="line">-p, --project-name NAME 指定项目名称，默认将使用所在目录名称作为项目名。</span><br><span class="line">--verbose 输出更多调试信息。</span><br><span class="line">-v, --version 打印版本并退出。</span><br></pre></td></tr></table></figure>
+
+<h3 id="up"><a href="#up" class="headerlink" title="up"></a>up</h3><p><a class="link"   target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/commandline/compose_up/" >https://docs.docker.com/engine/reference/commandline/compose_up/<i class="fas fa-external-link-alt"></i></a></p>
+<p><code>up</code> 命令可以自动完成包括构建镜像，（重新）创建服务，启动服务，并关联服务相关容器的一系列操作。链接的服务都将会被自动启动（除非已经处于运行状态）。大部分时候都可以直接通过该命令来启动一个项目。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">docker compose up [OPTIONS] [SERVICE...]</span><br><span class="line"></span><br><span class="line">OPTIONS</span><br><span class="line">-d 在后台运行服务容器。</span><br><span class="line">--no-color 不使用颜色来区分不同的服务的控制台输出。</span><br><span class="line">--no-deps 不启动服务所链接的容器。</span><br><span class="line">--force-recreate 强制重新创建容器，不能与 --no-recreate 同时使用。</span><br><span class="line">--no-recreate 如果容器已经存在了，则不重新创建，不能与 --force-recreate 同时使用。</span><br><span class="line">--no-build 不自动构建缺失的服务镜像。</span><br><span class="line">-t, --<span class="built_in">timeout</span> TIMEOUT 停止容器时候的超时（默认为 10 秒）。</span><br></pre></td></tr></table></figure>
+<h3 id="down"><a href="#down" class="headerlink" title="down"></a>down</h3><p><a class="link"   target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/commandline/compose_down/" >https://docs.docker.com/engine/reference/commandline/compose_down/<i class="fas fa-external-link-alt"></i></a></p>
+<p><code>down</code> 命令用来停止并移除容器、网络</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ docker compose down [OPTIONS]</span><br><span class="line"></span><br><span class="line">OPTIONS</span><br><span class="line">--remove-orphans 删除未在 Compose 文件中定义的服务的容器。</span><br><span class="line">--rmi 把镜像也删除</span><br><span class="line">--volumes , -v 删除附加卷和匿名卷</span><br></pre></td></tr></table></figure>
+
+<h3 id="build"><a href="#build" class="headerlink" title="build"></a>build</h3><p><a class="link"   target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/commandline/compose_build/" >https://docs.docker.com/engine/reference/commandline/compose_build/<i class="fas fa-external-link-alt"></i></a></p>
+<p><code>build</code> 命令用来构建（重新构建）项目中的服务容器。</p>
+<p>如果修改了服务的 <code>Dockerfile</code> 文件或者是一些其他构建的选项，就需要运行 <code>docker compose build</code> 来重新构建</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ docker compose build [OPTIONS] [SERVICE...]</span><br><span class="line"></span><br><span class="line">OPTIONS</span><br><span class="line">--force-rm 删除构建过程中的临时容器。</span><br><span class="line">--no-cache 构建镜像过程中不使用 cache（这将加长构建过程）。</span><br><span class="line">--pull 始终尝试通过 pull 来获取更新版本的镜像。</span><br></pre></td></tr></table></figure>
+
+<h3 id="start"><a href="#start" class="headerlink" title="start"></a>start</h3><p><a class="link"   target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/commandline/compose_start/" >https://docs.docker.com/engine/reference/commandline/compose_start/<i class="fas fa-external-link-alt"></i></a></p>
+<p><code>start</code> 命令可以启动已经存在的服务容器。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker compose start [SERVICE...]</span><br></pre></td></tr></table></figure>
+
+<h3 id="stop"><a href="#stop" class="headerlink" title="stop"></a>stop</h3><p><a class="link"   target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/commandline/compose_stop/" >https://docs.docker.com/engine/reference/commandline/compose_stop/<i class="fas fa-external-link-alt"></i></a></p>
+<p><code>stop</code> 命令可以停止已经处于运行状态的容器，但不删除它。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker compose stop [OPTIONS] [SERVICE...]</span><br><span class="line"></span><br><span class="line">OPTIONS</span><br><span class="line">--<span class="built_in">timeout</span> , -t</span><br></pre></td></tr></table></figure>
+
+<h3 id="restart"><a href="#restart" class="headerlink" title="restart"></a>restart</h3><p><a class="link"   target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/commandline/compose_restart/" >https://docs.docker.com/engine/reference/commandline/compose_restart/<i class="fas fa-external-link-alt"></i></a></p>
+<p><code>restart</code> 命令可以重启项目中的服务。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ docker compose restart [OPTIONS] [SERVICE...]</span><br><span class="line"></span><br><span class="line">OPTIONS</span><br><span class="line">--no-deps 不要重新启动依赖服务。</span><br><span class="line">--<span class="built_in">timeout</span> , -t 指定重启前停止容器的超时（默认为 10 秒）。</span><br></pre></td></tr></table></figure>
+
+<h3 id="pause"><a href="#pause" class="headerlink" title="pause"></a>pause</h3><p><a class="link"   target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/commandline/compose_pause/" >https://docs.docker.com/engine/reference/commandline/compose_pause/<i class="fas fa-external-link-alt"></i></a></p>
+<p><code>pause</code> 命令可以暂停一个服务容器</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker compose pause [SERVICE...]</span><br></pre></td></tr></table></figure>
+
+<h3 id="unpause"><a href="#unpause" class="headerlink" title="unpause"></a>unpause</h3><p><a class="link"   target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/commandline/compose_unpause/" >https://docs.docker.com/engine/reference/commandline/compose_unpause/<i class="fas fa-external-link-alt"></i></a></p>
+<p><code>unpause</code> 命令可以恢复处于暂停状态中的服务。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker compose unpause [SERVICE...]</span><br></pre></td></tr></table></figure>
+
+<h3 id="rm"><a href="#rm" class="headerlink" title="rm"></a>rm</h3><p><a class="link"   target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/commandline/compose_rm/" >https://docs.docker.com/engine/reference/commandline/compose_rm/<i class="fas fa-external-link-alt"></i></a></p>
+<p><code>rm</code> 命令可以删除所有（停止状态的）服务容器。推荐先执行 <code>docker-compose stop</code> 命令来停止容器。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ docker compose <span class="built_in">rm</span> [OPTIONS] [SERVICE...]</span><br><span class="line"></span><br><span class="line">OPTIONS</span><br><span class="line">--force , -f 强制直接删除，包括非停止状态的容器。一般尽量不要使用该选项。</span><br><span class="line">--volumes , -v 删除容器所挂载的数据卷。</span><br><span class="line">--stop , -s	如果需要，在移除之前停止容器</span><br></pre></td></tr></table></figure>
+
+<h3 id="ps"><a href="#ps" class="headerlink" title="ps"></a>ps</h3><p><a class="link"   target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/commandline/compose_ps/" >https://docs.docker.com/engine/reference/commandline/compose_ps/<i class="fas fa-external-link-alt"></i></a></p>
+<p><code>ps</code> 命令可以列出项目中目前的所有容器。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ docker compose ps [OPTIONS] [SERVICE...]</span><br><span class="line"></span><br><span class="line">OPTIONS</span><br><span class="line">--all , -a	列出所有容器</span><br><span class="line">--filter </span><br><span class="line">--format 格式化输出，table | json</span><br><span class="line">--quiet , -q 只显示ID</span><br><span class="line">--services 显示服务容器</span><br><span class="line">--status 按照状态过滤容器</span><br></pre></td></tr></table></figure>
+
+<h3 id="top"><a href="#top" class="headerlink" title="top"></a>top</h3><p><a class="link"   target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/commandline/compose_top/" >https://docs.docker.com/engine/reference/commandline/compose_top/<i class="fas fa-external-link-alt"></i></a></p>
+<p><code>top</code> 命令可以查看各个服务容器内运行的进程。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker compose top [SERVICES...]</span><br></pre></td></tr></table></figure>
+
+<h3 id="run"><a href="#run" class="headerlink" title="run"></a>run</h3><p><a class="link"   target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/commandline/compose_run/" >https://docs.docker.com/engine/reference/commandline/compose_run/<i class="fas fa-external-link-alt"></i></a></p>
+<p><code>run</code> 命令可以在在指定服务上执行一个命令。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ docker compose run [OPTIONS] SERVICE [COMMAND] [ARGS...]</span><br><span class="line"></span><br><span class="line">OPTIONS</span><br><span class="line">-d 后台运行容器。</span><br><span class="line">--name NAME 为容器指定一个名字。</span><br><span class="line">--entrypoint CMD 覆盖默认的容器启动指令。</span><br><span class="line">-e KEY=VAL 设置环境变量值，可多次使用选项来设置多个环境变量。</span><br><span class="line">-u, --user=<span class="string">&quot;&quot;</span> 指定运行容器的用户名或者 uid。</span><br><span class="line">--no-deps 不自动启动关联的服务容器。</span><br><span class="line">--<span class="built_in">rm</span> 运行命令后自动删除容器，d 模式下将忽略。</span><br><span class="line">-p, --publish=[] 映射容器端口到本地主机。</span><br><span class="line">--service-ports 配置服务端口并映射到本地主机。</span><br><span class="line">-T 不分配伪 <span class="built_in">tty</span>，意味着依赖 <span class="built_in">tty</span> 的指令将无法运行。</span><br></pre></td></tr></table></figure>
+
+<h3 id="exec"><a href="#exec" class="headerlink" title="exec"></a>exec</h3><p><a class="link"   target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/commandline/compose_exec/" >https://docs.docker.com/engine/reference/commandline/compose_exec/<i class="fas fa-external-link-alt"></i></a></p>
+<p><code>exec</code> 命令可以在正在运行的容器中执行命令。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ docker compose <span class="built_in">exec</span> [OPTIONS] SERVICE COMMAND [ARGS...]</span><br><span class="line"></span><br><span class="line">OPTIONS</span><br><span class="line">--detach , -d 在后台运行命令</span><br><span class="line">--<span class="built_in">env</span> , -e 设置环境变量</span><br><span class="line">--user , -u 设置运行命令的用户</span><br><span class="line">--workdir , -w 设置工作目录</span><br></pre></td></tr></table></figure>
+
+<h3 id="kill"><a href="#kill" class="headerlink" title="kill"></a>kill</h3><p><a class="link"   target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/commandline/compose_kill/" >https://docs.docker.com/engine/reference/commandline/compose_kill/<i class="fas fa-external-link-alt"></i></a></p>
+<p><code>kill</code> 命令可以强制停止服务容器，也可以用来给容器发送信号</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ docker compose <span class="built_in">kill</span> [OPTIONS] [SERVICE...]</span><br><span class="line"></span><br><span class="line">OPTIONS</span><br><span class="line">--remove-orphans 删除未在 Compose 文件中定义的服务的容器。</span><br><span class="line">--signal , -s 发送信号，默认是 SIGKILL</span><br></pre></td></tr></table></figure>
+
+<h3 id="logs"><a href="#logs" class="headerlink" title="logs"></a>logs</h3><p><a class="link"   target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/commandline/compose_logs/" >https://docs.docker.com/engine/reference/commandline/compose_logs/<i class="fas fa-external-link-alt"></i></a></p>
+<p><code>logs</code> 命令可以查看服务容器的输出。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ docker compose logs [OPTIONS] [SERVICE...]</span><br><span class="line"></span><br><span class="line">OPTIONS</span><br><span class="line">--since</span><br><span class="line">--<span class="built_in">tail</span> , -n 显示最后的多少行</span><br><span class="line">--timestamps , -t</span><br></pre></td></tr></table></figure>
+
+<h3 id="port"><a href="#port" class="headerlink" title="port"></a>port</h3><p><a class="link"   target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/commandline/compose_port/" >https://docs.docker.com/engine/reference/commandline/compose_port/<i class="fas fa-external-link-alt"></i></a></p>
+<p><code>port</code> 命令打印端口绑定的公共端口。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker compose port [OPTIONS] SERVICE PRIVATE_PORT</span><br><span class="line"></span><br><span class="line">OPTIONS</span><br><span class="line">--protocol 指定端口协议，默认 tcp</span><br></pre></td></tr></table></figure>
+
+<h3 id="config"><a href="#config" class="headerlink" title="config"></a>config</h3><p><a class="link"   target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/commandline/compose_config/" >https://docs.docker.com/engine/reference/commandline/compose_config/<i class="fas fa-external-link-alt"></i></a></p>
+<p><code>config</code> 命令用来验证 <code>Compose</code> 文件格式是否正确，若正确则显示配置，若格式错误显示错误原因。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ docker compose config [OPTIONS] [SERVICE...]</span><br><span class="line"></span><br><span class="line">OPTIONS</span><br><span class="line">--format 格式化方式，可以选 yaml 或者 json</span><br><span class="line">--images 打印出使用到的所有的镜像</span><br><span class="line">--output , -o 把结果保存在文件中</span><br><span class="line">--services 打印出所有的服务</span><br><span class="line">--volumes 打印出所有挂载的目录</span><br></pre></td></tr></table></figure>
+
+<h3 id="images"><a href="#images" class="headerlink" title="images"></a>images</h3><p><a class="link"   target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/commandline/compose_images/" >https://docs.docker.com/engine/reference/commandline/compose_images/<i class="fas fa-external-link-alt"></i></a></p>
+<p><code>images</code> 命令可以列出创建的容器使用的镜像。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ docker compose images [OPTIONS] [SERVICE...]</span><br><span class="line"></span><br><span class="line">OPTIONS</span><br><span class="line">--format 显示格式，table | json</span><br><span class="line">--quiet , -q 仅显示ID</span><br></pre></td></tr></table></figure>
+
+            </div>
+
+            
+
+            
+                <ul class="post-tags-box">
+                    
+                        <li class="tag-item">
+                            <a href="/tags/docker/">#docker</a>&nbsp;
+                        </li>
+                    
+                        <li class="tag-item">
+                            <a href="/tags/docker-compose/">#docker-compose</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            
+
+            
+                <div class="article-nav">
+                    
+                        <div class="article-prev">
+                            <a class="prev"
+                               rel="prev"
+                               href="/2023/02/19/go-package-validator.html"
+                            >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                                <span class="title flex-center">
+                                <span class="post-nav-title-item">Golang常用包 - validator</span>
+                                <span class="post-nav-item">上一篇</span>
+                            </span>
+                            </a>
+                        </div>
+                    
+                    
+                        <div class="article-next">
+                            <a class="next"
+                               rel="next"
+                               href="/2023/02/04/docker-compose-yam.html"
+                            >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Docker Compose 模版文件</span>
+                                <span class="post-nav-item">下一篇</span>
+                            </span>
+                                <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                            </a>
+                        </div>
+                    
+                </div>
+            
+
+            
+        </div>
+
+        
+            <div class="toc-content-container">
+                <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-compose-%E5%91%BD%E4%BB%A4%E5%9F%BA%E6%9C%AC%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">docker compose 命令基本格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#up"><span class="nav-number">2.</span> <span class="nav-text">up</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#down"><span class="nav-number">3.</span> <span class="nav-text">down</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#build"><span class="nav-number">4.</span> <span class="nav-text">build</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#start"><span class="nav-number">5.</span> <span class="nav-text">start</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#stop"><span class="nav-number">6.</span> <span class="nav-text">stop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#restart"><span class="nav-number">7.</span> <span class="nav-text">restart</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pause"><span class="nav-number">8.</span> <span class="nav-text">pause</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#unpause"><span class="nav-number">9.</span> <span class="nav-text">unpause</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rm"><span class="nav-number">10.</span> <span class="nav-text">rm</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ps"><span class="nav-number">11.</span> <span class="nav-text">ps</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#top"><span class="nav-number">12.</span> <span class="nav-text">top</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#run"><span class="nav-number">13.</span> <span class="nav-text">run</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#exec"><span class="nav-number">14.</span> <span class="nav-text">exec</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kill"><span class="nav-number">15.</span> <span class="nav-text">kill</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#logs"><span class="nav-number">16.</span> <span class="nav-text">logs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#port"><span class="nav-number">17.</span> <span class="nav-text">port</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#config"><span class="nav-number">18.</span> <span class="nav-text">config</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#images"><span class="nav-number">19.</span> <span class="nav-text">images</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            
+<footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+                <span>2018</span> -
+            
+            2023
+            
+                <!-- &nbsp;<i class="fas fa-heart icon-animate"></i> -->
+                <!-- &nbsp;<a href="/">hanpy</a> -->
+                &nbsp;<a href="/">HANPY</a>
+            
+        </div>
+        
+        
+            <div class="icp-info info-item">
+                <a target="_blank" rel="nofollow"
+                   href="https://beian.miit.gov.cn"
+                >
+                    京ICP备16043183号
+                </a>
+            </div>
+        
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/dark-light-toggle.js"></script>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/local-search.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/code-block.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/lazyload.js"></script>
+
+
+<div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/post-helper.js"></script>
+        
+            <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/libs/anime.min.js"></script>
+        
+        
+            <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/toc.js"></script>
+        
+    
+</div>
+
+
+
+</body>
+</html>
