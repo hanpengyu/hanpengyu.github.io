@@ -9,7 +9,7 @@
     
     <title>
         
-            Gin框架学习记录 - 快速开始 |
+            Redis 数据持久化 |
         
         Hanpy&#39;s blog
     </title>
@@ -170,7 +170,7 @@
         <div class="article-content-container">
 
             <div class="article-title">
-                <span class="title-hover-animation">Gin框架学习记录 - 快速开始</span>
+                <span class="title-hover-animation">Redis 数据持久化</span>
             </div>
 
             
@@ -190,13 +190,13 @@
         
             <i class="fa-regular fa-calendar-plus"></i>&nbsp;
         
-        <span class="pc">2023-03-23 16:54:40</span>
-        <span class="mobile">2023-03-23 16:54</span>
+        <span class="pc">2023-02-11 21:42:03</span>
+        <span class="mobile">2023-02-11 21:42</span>
     </span>
     
         <span class="article-update-date article-meta-item">
         <i class="fas fa-file-pen"></i>&nbsp;
-        <span class="pc">2023-03-23 16:54:40</span>
+        <span class="pc">2023-02-11 21:42:03</span>
     </span>
     
     
@@ -205,11 +205,7 @@
             <ul>
                 
                     <li>
-                        <a href="/categories/Golang/">Golang</a>&nbsp;
-                    </li>
-                
-                    <li>
-                        &gt; <a href="/categories/Golang/Gin/">Gin</a>&nbsp;
+                        <a href="/categories/Redis/">Redis</a>&nbsp;
                     </li>
                 
             </ul>
@@ -221,11 +217,11 @@
             <ul>
                 
                     <li>
-                        <a href="/tags/go/">go</a>&nbsp;
+                        <a href="/tags/RDB/">RDB</a>&nbsp;
                     </li>
                 
                     <li>
-                        | <a href="/tags/gin/">gin</a>&nbsp;
+                        | <a href="/tags/AOF/">AOF</a>&nbsp;
                     </li>
                 
             </ul>
@@ -246,20 +242,37 @@
             <div class="article-content keep-markdown-body">
                 
 
-                <p><code>Gin</code> 框架 <code>hello word</code></p>
+                <p>Redis 以数据结构的形式将数据维持在内存中， 为了让这些数据在 Redis 重启之后仍然可用， <code>Redis</code> 分别提供了 <code>RDB</code> 和 <code>AOF</code> 两种持久化模式。</p>
 <span id="more"></span>
 
-<h3 id="文档地址"><a href="#文档地址" class="headerlink" title="文档地址"></a>文档地址</h3><ol>
-<li><a class="link"   target="_blank" rel="noopener" href="https://github.com/gin-gonic/gin" >https://github.com/gin-gonic/gin<i class="fas fa-external-link-alt"></i></a></li>
-<li><a class="link"   target="_blank" rel="noopener" href="https://gin-gonic.com/zh-cn/docs/" >文档 | Gin Web Framework (gin-gonic.com)<i class="fas fa-external-link-alt"></i></a></li>
-<li><a class="link"   target="_blank" rel="noopener" href="https://www.topgoer.cn/docs/ginkuangjia/ginkuangjia-1c50hfaag99k2" >Gin中文文档<i class="fas fa-external-link-alt"></i></a></li>
+<h3 id="RDB-方式"><a href="#RDB-方式" class="headerlink" title="RDB 方式"></a>RDB 方式</h3><p>RDB 持久化方式也叫“快照”方式，当符合一定条件时 Redis 会自动将内存中的所有数据生成一份副本并存储在硬盘上。</p>
+<p>RDB 功能最核心的是 <code>rdbSave</code> 和 <code>rdbLoad</code> 两个函数，前者用于生成 RDB 文件到磁盘，而后者则用于将 RDB 文件中的数据重新载入到内存中</p>
+<h4 id="进行快照的时机"><a href="#进行快照的时机" class="headerlink" title="进行快照的时机"></a>进行快照的时机</h4><ol>
+<li>根据配置规则进行自动快照</li>
+<li>用户执行 SAVE或 BGSAVE命令</li>
+<li>执行 FLUSHALL命令</li>
+<li>执行复制（replication）时</li>
 </ol>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go get -u github.com/gin-gonic/gin</span><br></pre></td></tr></table></figure>
+<h4 id="RDB文件的创建与载入"><a href="#RDB文件的创建与载入" class="headerlink" title="RDB文件的创建与载入"></a>RDB文件的创建与载入</h4><p><strong>创建：</strong></p>
+<p><code>rdbSave</code> 用于生成RDB文件， <code>SAVE</code> 和 <code>BGSAVE</code> 两个命令都会调用 <code>rdbSave</code> 函数，但它们调用的方式各有不同</p>
+<ol>
+<li><code>save</code> 命令在执行的时候会阻塞redis的服务器进程，直到RDB文件创建完毕为止。在执行命令的期间服务器不能处理任何命令请求。</li>
+<li><code>bgsave</code> 命令执行的时候会派生出一个子进程，然后由子进程负责创建RDB文件，父进程继续处理命令请求。</li>
+</ol>
+<p><strong>载入：</strong></p>
+<p><code>rdbLoad</code>函数用于读取 RDB 文件，当 Redis 服务器启动时， <code>rdbLoad</code> 函数就会被执行， 它读取 RDB 文件， 并将文件中的数据库数据载入到内存中。因为 AOF 文件的保存频率通常要高于 RDB 文件保存的频率，所以一般来说， AOF 文件中的数据会比 RDB 文件中的数据要新，因此服务器在启动时， 打开了 AOF 功能， 那么程序优先使用 AOF 文件来还原数据</p>
+<h4 id="RDB-相关的配置"><a href="#RDB-相关的配置" class="headerlink" title="RDB 相关的配置"></a>RDB 相关的配置</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">################################ SNAPSHOTTING  ################################</span><br><span class="line"></span><br><span class="line"># 900s内有大于等于1个key修改过就进行快照</span><br><span class="line">save 900 1</span><br><span class="line">save 300 10</span><br><span class="line">save 60 10000</span><br><span class="line"></span><br><span class="line"># rdb 文件的名称</span><br><span class="line">dbfilename dump.rdb</span><br><span class="line"></span><br><span class="line"># 保存rdb文件的位置</span><br><span class="line">dir ./</span><br></pre></td></tr></table></figure>
 
-<h3 id="Hello-Word"><a href="#Hello-Word" class="headerlink" title="Hello Word"></a>Hello Word</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;github.com/gin-gonic/gin&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// 创建一个默认的路由引擎</span></span><br><span class="line">    engine := gin.Default()</span><br><span class="line">    <span class="comment">// 注册路由,并设置一个匿名的handlers，返回JSON格式数据</span></span><br><span class="line">    engine.GET(<span class="string">&quot;/&quot;</span>, <span class="function"><span class="keyword">func</span><span class="params">(ctx *gin.Context)</span></span> &#123;</span><br><span class="line">        ctx.JSON(<span class="number">200</span>, gin.H&#123;</span><br><span class="line">            <span class="string">&quot;msg&quot;</span>: <span class="string">&quot;请求成功&quot;</span>,</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="comment">// 启动服务，并监听端口9090，</span></span><br><span class="line">    <span class="comment">// 不填默认监听 0.0.0.0:8080</span></span><br><span class="line">    _ = engine.Run(<span class="string">&quot;:9090&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">➜ go run main.go</span><br><span class="line">[GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.</span><br><span class="line"></span><br><span class="line">[GIN-debug] [WARNING] Running <span class="keyword">in</span> <span class="string">&quot;debug&quot;</span> mode. Switch to <span class="string">&quot;release&quot;</span> mode <span class="keyword">in</span> production.</span><br><span class="line"> - using <span class="built_in">env</span>:	<span class="built_in">export</span> GIN_MODE=release</span><br><span class="line"> - using code:	gin.SetMode(gin.ReleaseMode)</span><br><span class="line"></span><br><span class="line">[GIN-debug] GET    /                         --&gt; main.main.func1 (3 handlers)</span><br><span class="line">[GIN-debug] Listening and serving HTTP on :9090</span><br></pre></td></tr></table></figure>
+<h4 id="快照的过程"><a href="#快照的过程" class="headerlink" title="快照的过程"></a>快照的过程</h4><ol>
+<li>Redis使用fork函数复制一份当前进程（父进程）的副本（子进程）</li>
+<li>父进程继续接收并处理客户端发来的命令，而子进程开始将内存中的数据写入硬盘中的临时文件</li>
+<li>当子进程写入完所有数据后会用该临时文件替换旧的 RDB 文件，至此一次快照操作完成</li>
+</ol>
+<h3 id="AOF-方式"><a href="#AOF-方式" class="headerlink" title="AOF 方式"></a>AOF 方式</h3><p>AOF 以协议文本的方式，将所有对数据库进行过写入的命令（及其参数）记录到 AOF 文件，以此达到记录数据库状态的目的。</p>
+<h4 id="AOF文件的写入与同步"><a href="#AOF文件的写入与同步" class="headerlink" title="AOF文件的写入与同步"></a>AOF文件的写入与同步</h4><p>当AOF持久化功能处于打开的时候，服务器在执行完一个写命令之后，会以协议格式的格式将被执行的写命令追加到服务器状态的aof_buf缓冲区的末尾。由于操作系统的缓存机制，数据并没有真正地写入硬盘，而是进入了系统的硬盘缓存。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 同步时机</span><br><span class="line"># appendfsync always # 每次执行写入都会执行同步</span><br><span class="line">appendfsync everysec  # 每秒执行一次同步操作</span><br><span class="line"># appendfsync no # 不主动进行同步操作，而是完全交由操作系统来做（即每30秒一次）</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜ curl localhost:9090</span><br><span class="line">&#123;<span class="string">&quot;msg&quot;</span>:<span class="string">&quot;请求成功&quot;</span>&#125;%</span><br></pre></td></tr></table></figure>
+<h4 id="AOF-相关的配置"><a href="#AOF-相关的配置" class="headerlink" title="AOF 相关的配置"></a>AOF 相关的配置</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">############################## APPEND ONLY MODE ###############################</span><br><span class="line"></span><br><span class="line"># 是否开启AOF， yes | no</span><br><span class="line">appendonly no</span><br><span class="line"></span><br><span class="line"># AOF文件名字</span><br><span class="line">appendfilename &quot;appendonly.aof&quot;</span><br><span class="line"></span><br><span class="line"># 保存的位置也是通过 dir 来设置的，和RDB使用的一样</span><br><span class="line"></span><br><span class="line"># 同步时机</span><br><span class="line"># appendfsync always # 每次执行写入都会执行同步</span><br><span class="line">appendfsync everysec  # 每秒执行一次同步操作</span><br><span class="line"># appendfsync no # 不主动进行同步操作，而是完全交由操作系统来做（即每30秒一次）</span><br><span class="line"></span><br><span class="line"># 当目前的AOF文件大小超过上一次重写时的AOF文件大小的百分之多少时会再次进行重写</span><br><span class="line">auto-aof-rewrite-percentage 100</span><br><span class="line"># 限制了允许重写的最小AOF文件大小</span><br><span class="line">auto-aof-rewrite-min-size 64mb</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 
             </div>
@@ -270,11 +283,11 @@
                 <ul class="post-tags-box">
                     
                         <li class="tag-item">
-                            <a href="/tags/go/">#go</a>&nbsp;
+                            <a href="/tags/RDB/">#RDB</a>&nbsp;
                         </li>
                     
                         <li class="tag-item">
-                            <a href="/tags/gin/">#gin</a>&nbsp;
+                            <a href="/tags/AOF/">#AOF</a>&nbsp;
                         </li>
                     
                 </ul>
@@ -286,13 +299,13 @@
                         <div class="article-prev">
                             <a class="prev"
                                rel="prev"
-                               href="/2023/03/24/go-gin-route.html"
+                               href="/2023/02/12/redis-master-slave.html"
                             >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                                 <span class="title flex-center">
-                                <span class="post-nav-title-item">Gin框架学习记录 - 路由的简单使用</span>
+                                <span class="post-nav-title-item">Redis 主从同步（复制）</span>
                                 <span class="post-nav-item">上一篇</span>
                             </span>
                             </a>
@@ -302,10 +315,10 @@
                         <div class="article-next">
                             <a class="next"
                                rel="next"
-                               href="/2023/02/19/go-package-validator.html"
+                               href="/2023/02/10/redis-sds.html"
                             >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">Golang常用包 - validator</span>
+                                <span class="post-nav-title-item">Redis 数据结构（一）字符串</span>
                                 <span class="post-nav-item">下一篇</span>
                             </span>
                                 <span class="right arrow-icon flex-center">
@@ -324,7 +337,7 @@
             <div class="toc-content-container">
                 <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E6%A1%A3%E5%9C%B0%E5%9D%80"><span class="nav-number">1.</span> <span class="nav-text">文档地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hello-Word"><span class="nav-number">3.</span> <span class="nav-text">Hello Word</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E6%9C%8D%E5%8A%A1"><span class="nav-number">3.1.</span> <span class="nav-text">启动服务</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#RDB-%E6%96%B9%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">RDB 方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9B%E8%A1%8C%E5%BF%AB%E7%85%A7%E7%9A%84%E6%97%B6%E6%9C%BA"><span class="nav-number">1.1.</span> <span class="nav-text">进行快照的时机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RDB%E6%96%87%E4%BB%B6%E7%9A%84%E5%88%9B%E5%BB%BA%E4%B8%8E%E8%BD%BD%E5%85%A5"><span class="nav-number">1.2.</span> <span class="nav-text">RDB文件的创建与载入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RDB-%E7%9B%B8%E5%85%B3%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="nav-number">1.3.</span> <span class="nav-text">RDB 相关的配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BF%AB%E7%85%A7%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="nav-number">1.4.</span> <span class="nav-text">快照的过程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AOF-%E6%96%B9%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">AOF 方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AOF%E6%96%87%E4%BB%B6%E7%9A%84%E5%86%99%E5%85%A5%E4%B8%8E%E5%90%8C%E6%AD%A5"><span class="nav-number">2.1.</span> <span class="nav-text">AOF文件的写入与同步</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AOF-%E7%9B%B8%E5%85%B3%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="nav-number">2.2.</span> <span class="nav-text">AOF 相关的配置</span></a></li></ol></li></ol>
     </div>
 </div>
 

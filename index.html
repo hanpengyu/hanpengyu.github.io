@@ -627,73 +627,6 @@
                 
 
                 <h3 class="home-article-title">
-                    <a href="/2023/03/18/redis-sds.html">
-                        Redis 数据结构（一）字符串
-                    </a>
-                </h3>
-
-                <div class="home-article-content keep-markdown-body">
-                    
-                        <p><code>SDS</code> 是在 Redis 中被广泛使用的字符串结构，它的全称是 <code>Simple Dynamic String</code>。</p>
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span>
-            <i class="fas fa-history"></i>&nbsp;
-            <span class="home-article-date" data-updated="Sat Mar 18 2023 01:54:42 GMT+0800">
-                2023-03-18
-            </span>
-        </span>
-        
-            <span class="home-article-category"><i class="fas fa-folder"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/categories/Redis/">Redis</a>&nbsp;
-                        </li>
-                    
-                    
-                </ul>
-            </span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/string/">string</a>&nbsp;
-                        </li>
-                    
-                        <li>
-                            | 
-                            <a href="/tags/redis/">redis</a>&nbsp;
-                        </li>
-                    
-                        <li>
-                            | 
-                            <a href="/tags/SDS/">SDS</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a class="read-more" href="/2023/03/18/redis-sds.html">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
                     <a href="/2023/02/19/go-package-validator.html">
                         Golang常用包 - validator
                     </a>
@@ -762,14 +695,14 @@
                 
 
                 <h3 class="home-article-title">
-                    <a href="/2023/02/05/docker-compose-command.html">
-                        Docker Compose 命令说明
+                    <a href="/2023/02/12/redis-master-slave.html">
+                        Redis 主从同步（复制）
                     </a>
                 </h3>
 
                 <div class="home-article-content keep-markdown-body">
                     
-                        <p>docker compose 常用的命令整理。</p>
+                        <p>Redis 的持久化功能保证了即使在服务器重启的情况下也不会损失（或少量损失）数据。但是单机出现故障还是会出现数据丢失。Redis 提供了复制（replication）功能，可以实现当一台数据库中的数据更新后，自动将更新的数据同步到其他数据库上。</p>
                     
                 </div>
 
@@ -777,8 +710,8 @@
     <div class="home-article-meta-info">
         <span>
             <i class="fas fa-history"></i>&nbsp;
-            <span class="home-article-date" data-updated="Sun Feb 05 2023 00:33:28 GMT+0800">
-                2023-02-05
+            <span class="home-article-date" data-updated="Sun Feb 12 2023 21:42:52 GMT+0800">
+                2023-02-12
             </span>
         </span>
         
@@ -787,7 +720,7 @@
                     
                         <li>
                             
-                            <a href="/categories/Docker/">Docker</a>&nbsp;
+                            <a href="/categories/Redis/">Redis</a>&nbsp;
                         </li>
                     
                     
@@ -801,12 +734,7 @@
                     
                         <li>
                             
-                            <a href="/tags/docker/">docker</a>&nbsp;
-                        </li>
-                    
-                        <li>
-                            | 
-                            <a href="/tags/docker-compose/">docker-compose</a>&nbsp;
+                            <a href="/tags/replication/">replication</a>&nbsp;
                         </li>
                     
                 </ul>
@@ -814,7 +742,69 @@
         
     </div>
 
-    <a class="read-more" href="/2023/02/05/docker-compose-command.html">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a class="read-more" href="/2023/02/12/redis-master-slave.html">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/2023/02/11/redis-rdb.html">
+                        Redis 数据持久化
+                    </a>
+                </h3>
+
+                <div class="home-article-content keep-markdown-body">
+                    
+                        <p>Redis 以数据结构的形式将数据维持在内存中， 为了让这些数据在 Redis 重启之后仍然可用， <code>Redis</code> 分别提供了 <code>RDB</code> 和 <code>AOF</code> 两种持久化模式。</p>
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span>
+            <i class="fas fa-history"></i>&nbsp;
+            <span class="home-article-date" data-updated="Sat Feb 11 2023 21:42:03 GMT+0800">
+                2023-02-11
+            </span>
+        </span>
+        
+            <span class="home-article-category"><i class="fas fa-folder"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/categories/Redis/">Redis</a>&nbsp;
+                        </li>
+                    
+                    
+                </ul>
+            </span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/RDB/">RDB</a>&nbsp;
+                        </li>
+                    
+                        <li>
+                            | 
+                            <a href="/tags/AOF/">AOF</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a class="read-more" href="/2023/02/11/redis-rdb.html">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
