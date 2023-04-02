@@ -190,13 +190,13 @@
         
             <i class="fa-regular fa-calendar-plus"></i>&nbsp;
         
-        <span class="pc">2023-04-02 16:17:06</span>
-        <span class="mobile">2023-04-02 16:17</span>
+        <span class="pc">2023-01-08 16:17:06</span>
+        <span class="mobile">2023-01-08 16:17</span>
     </span>
     
         <span class="article-update-date article-meta-item">
         <i class="fas fa-file-pen"></i>&nbsp;
-        <span class="pc">2023-04-02 16:17:06</span>
+        <span class="pc">2023-01-08 16:17:06</span>
     </span>
     
     
@@ -426,7 +426,7 @@
 <li>当第一条带 key 的消息发送来后，系统发现没有 indexFile，此时会创建第一个 indexFile 文件</li>
 <li>当一个 indexFile 中挂载的 index 索引单元数量超出2000w个时，会创建新的 indexFile。当带key的消息发送到来后，系统会找到最新的 indexFile，并从其indexHeader的最后 4 字节中读取到indexCount。若indexCount &gt;= 2000w时，会创建新的indexFile。</li>
 </ul>
-<h4 id="checkpoint"><a href="#checkpoint" class="headerlink" title="checkpoint"></a>checkpoint</h4><p>checkpoint文件的作用是记录commitlog、consumequeue、index文件的刷盘时间点，文件固定长度4k,其中只用了该文件的前24个字节。查看其存储格式</p>
+<h4 id="Checkpoint"><a href="#Checkpoint" class="headerlink" title="Checkpoint"></a>Checkpoint</h4><p>checkpoint文件的作用是记录commitlog、consumequeue、index文件的刷盘时间点，文件固定长度4k,其中只用了该文件的前24个字节。查看其存储格式</p>
 <ul>
 <li>physicMsgTimestamp：commitlog文件刷盘时间点</li>
 <li>logicsMsgTimestamp：消息的消费队列文件刷盘时间点</li>
@@ -449,14 +449,29 @@
             
                 <div class="article-nav">
                     
+                        <div class="article-prev">
+                            <a class="prev"
+                               rel="prev"
+                               href="/2023/01/10/rocketmq-consumer.html"
+                            >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                                <span class="title flex-center">
+                                <span class="post-nav-title-item">RocketMQ 消费消息</span>
+                                <span class="post-nav-item">上一篇</span>
+                            </span>
+                            </a>
+                        </div>
+                    
                     
                         <div class="article-next">
                             <a class="next"
                                rel="next"
-                               href="/2023/03/28/jwt-basic.html"
+                               href="/2023/01/06/rocketmq-producer.html"
                             >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">JWT 简单了解一下</span>
+                                <span class="post-nav-title-item">RocketMQ 消息发送</span>
                                 <span class="post-nav-item">下一篇</span>
                             </span>
                                 <span class="right arrow-icon flex-center">
@@ -475,7 +490,7 @@
             <div class="toc-content-container">
                 <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">消息存储结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="nav-number">1.1.</span> <span class="nav-text">目录结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CommitLog"><span class="nav-number">1.2.</span> <span class="nav-text">CommitLog</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Consumequeue"><span class="nav-number">1.3.</span> <span class="nav-text">Consumequeue</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IndexFile"><span class="nav-number">1.4.</span> <span class="nav-text">IndexFile</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#indexHeader"><span class="nav-number">1.4.1.</span> <span class="nav-text">indexHeader</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Hash-%E6%A7%BD"><span class="nav-number">1.4.2.</span> <span class="nav-text">Hash 槽</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#indexes%E7%B4%A2%E5%BC%95%E6%95%B0%E6%8D%AE"><span class="nav-number">1.4.3.</span> <span class="nav-text">indexes索引数据</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#indexFile%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="nav-number">1.4.4.</span> <span class="nav-text">indexFile的创建</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#checkpoint"><span class="nav-number">1.5.</span> <span class="nav-text">checkpoint</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Config"><span class="nav-number">1.6.</span> <span class="nav-text">Config</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">消息存储结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="nav-number">1.1.</span> <span class="nav-text">目录结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CommitLog"><span class="nav-number">1.2.</span> <span class="nav-text">CommitLog</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Consumequeue"><span class="nav-number">1.3.</span> <span class="nav-text">Consumequeue</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IndexFile"><span class="nav-number">1.4.</span> <span class="nav-text">IndexFile</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#indexHeader"><span class="nav-number">1.4.1.</span> <span class="nav-text">indexHeader</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Hash-%E6%A7%BD"><span class="nav-number">1.4.2.</span> <span class="nav-text">Hash 槽</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#indexes%E7%B4%A2%E5%BC%95%E6%95%B0%E6%8D%AE"><span class="nav-number">1.4.3.</span> <span class="nav-text">indexes索引数据</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#indexFile%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="nav-number">1.4.4.</span> <span class="nav-text">indexFile的创建</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Checkpoint"><span class="nav-number">1.5.</span> <span class="nav-text">Checkpoint</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Config"><span class="nav-number">1.6.</span> <span class="nav-text">Config</span></a></li></ol></li></ol>
     </div>
 </div>
 

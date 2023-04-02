@@ -251,23 +251,19 @@
                      data-src="https://raw.githubusercontent.com/hanpengyu/blogimg/main/img/image-20230401222431570.png"
                       alt="image-20230401222431570"
                 ></p>
-<h3 id="消息标识（MessageId-Key）"><a href="#消息标识（MessageId-Key）" class="headerlink" title="消息标识（MessageId/Key）"></a>消息标识（MessageId/Key）</h3><p>RocketMQ 中每个消息拥有唯一的 <code>MessageId</code>，且可以携带具有业务标识的 <code>Key</code>，以方便对消息的查询。不过需要注意的是，MessageId 有两个：在生产者发送消息时会自动生成一个 MessageId（msgId)，当消息到达 Broker 后，Broker 也会自动生成一个 MessageId(offsetMsgId)。msgId、offsetMsgId 与 key 都称为消息标识。</p>
-<p><span style="color:#ffaf40"> msgId </span>：由producer端生成，其生成规则为：producerIp + 进程pid + MessageClientIDSetter类的ClassLoader的hashCode +当前时间 + AutomicInteger自增计数器<br><span style="color:#ffaf40">offsetMsgId</span>：由broker端生成，其生成规则为：brokerIp + 物理分区的offset（Queue中的偏移量）<br><span style="color:#ffaf40">key</span>：由用户指定的业务相关的唯一标识</p>
+<h3 id="消息标识（MessageId-Key）"><a href="#消息标识（MessageId-Key）" class="headerlink" title="消息标识（MessageId/Key）"></a>消息标识（MessageId/Key）</h3><p>RocketMQ 中每个消息拥有唯一的 <code>MessageId</code>，且可以携带具有业务标识的 <code>Key</code>，以方便对消息的查询。不过需要注意的是，MessageId 有两个：在生产者发送消息时会自动生成一个 MessageId（msgId)，当消息到达 Broker 后，Broker 也会自动生成一个 MessageId(offsetMsgId)。msgId、offsetMsgId 与 key 都称为消息标识。<br><span style="color:#ffaf40"> msgId </span>：由producer端生成，其生成规则为：producerIp + 进程pid + MessageClientIDSetter类的ClassLoader的hashCode +当前时间 + AutomicInteger自增计数器<br><span style="color:#ffaf40">offsetMsgId</span>：由broker端生成，其生成规则为：brokerIp + 物理分区的offset（Queue中的偏移量）<br><span style="color:#ffaf40">key</span>：由用户指定的业务相关的唯一标识</p>
 <h2 id="RocketMQ-核心概念"><a href="#RocketMQ-核心概念" class="headerlink" title="RocketMQ 核心概念"></a>RocketMQ 核心概念</h2><p><img  
                      lazyload
                      alt="image"
                      data-src="https://raw.githubusercontent.com/hanpengyu/blogimg/main/img/image-20230401015605138.png"
                       alt="image-20230401015605138"
                 ></p>
-<h3 id="Name-Server"><a href="#Name-Server" class="headerlink" title="Name Server"></a>Name Server</h3><p>NameServer 是 RocketMQ Broker与Topic路由的注册中心，支持Broker的动态注册与发现。在启动服务的时候，NameServer 需要先于 Broker 启动，每个 Broker 在启动的时候会到 NameServer 注册。</p>
-<p>每个 NameServer 中都保存着 Broker 集群的整个路由信息和用于客户端查询的队列信息。Producer 和 Conumser 通过 NameServer可 以获取整个 Broker 集群的路由信息，从而进行消息的投递和消费。</p>
+<h3 id="Name-Server"><a href="#Name-Server" class="headerlink" title="Name Server"></a>Name Server</h3><p>NameServer 是 RocketMQ Broker与Topic路由的注册中心，支持Broker的动态注册与发现。在启动服务的时候，NameServer 需要先于 Broker 启动，每个 Broker 在启动的时候会到 NameServer 注册。<br>每个 NameServer 中都保存着 Broker 集群的整个路由信息和用于客户端查询的队列信息。Producer 和 Conumser 通过 NameServer可 以获取整个 Broker 集群的路由信息，从而进行消息的投递和消费。</p>
 <h4 id="路由注册"><a href="#路由注册" class="headerlink" title="路由注册"></a>路由注册</h4><p>NameServer 被设计成几乎无状态的，可以横向扩展，节点之间相互之间无通信，通过部署多台机器来标记自己是一个伪集群。在 Broker 节点启动时，轮询NameServer 列表，与每个 NameServer 节点建立长连接，发起注册请求。在 NameServer 内部维护着一个 Broker 列表，用来动态存储 Broker 的信息。</p>
 <blockquote>
-<p>优点：NameServer集群搭建简单，扩容简单。<br>缺点：对于Broker，必须明确指出所有 NameServer 地址。否则未指出的将不会去注册。也正因为如此，NameServer 并不能随便扩容。因为，若Broker不重新配置，新增的NameServer对于Broker来说是不可见的，其不会向这个NameServer进行注册。</p>
+<p>优点：NameServer集群搭建简单，扩容简单。<br>缺点：对于Broker，必须明确指出所有 NameServer 地址。否则未指出的将不会去注册。也正因为如此，NameServer 并不能随便扩容。因为，若Broker不重新配置，新增的NameServer对于Broker来说是不可见的，其不会向这个NameServer进行注册。<br>Broker 每30s会发送一次心跳包给 NameServer，心跳包中包含BrokerId、Broker地址(IP+Port)、Broker名称、Broker所属集群名称等。NameServer在接收到心跳包后，会更新心跳时间戳，记录这个Broker的最新存活时间。</p>
 </blockquote>
-<p>Broker 每30s会发送一次心跳包给 NameServer，心跳包中包含BrokerId、Broker地址(IP+Port)、Broker名称、Broker所属集群名称等。NameServer在接收到心跳包后，会更新心跳时间戳，记录这个Broker的最新存活时间。</p>
-<h4 id="路由剔除"><a href="#路由剔除" class="headerlink" title="路由剔除"></a>路由剔除</h4><p>如果发生网络阻塞或者 Broker关机等情况，NameServer没有收到Broker的心跳，NameServer可能会将其从Broker列表中剔除。</p>
-<p>NameServer 的定时任务每隔10s会扫描一次 Broker 表，查看每一个Broker的最新心跳时间戳距离当前时间是否超过 120 秒，如果超过，则会判定Broker失效，然后将其从Broker列表中剔除。</p>
+<h4 id="路由剔除"><a href="#路由剔除" class="headerlink" title="路由剔除"></a>路由剔除</h4><p>如果发生网络阻塞或者 Broker关机等情况，NameServer没有收到Broker的心跳，NameServer可能会将其从Broker列表中剔除。<br>NameServer 的定时任务每隔10s会扫描一次 Broker 表，查看每一个Broker的最新心跳时间戳距离当前时间是否超过 120 秒，如果超过，则会判定Broker失效，然后将其从Broker列表中剔除。</p>
 <blockquote>
 <p>Broker升级，需要停掉Broker的工作，需要怎么做？</p>
 <ol>
@@ -277,27 +273,17 @@
 </blockquote>
 <h4 id="路由发现"><a href="#路由发现" class="headerlink" title="路由发现"></a>路由发现</h4><p>路由发现采用的是Pull模型。当Topic路由信息出现变化时，NameServer不会主动推送给客户端，而是客户端定时拉取主题最新的路由。默认客户端每 30 秒会拉取一次最新的路由。</p>
 <h4 id="NameServer选择策略（Producer与Consumer）"><a href="#NameServer选择策略（Producer与Consumer）" class="headerlink" title="NameServer选择策略（Producer与Consumer）"></a>NameServer选择策略（Producer与Consumer）</h4><p>会生产一个随机数，然后再与NameServer节点数量取模，此时得到的就是所要连接的节点索引，然后就会进行连接。如果连接失败，则会采用round-robin（轮询）策略，逐个尝试着去连接其它节点。</p>
-<h3 id="Broker"><a href="#Broker" class="headerlink" title="Broker"></a>Broker</h3><p>Broker 是消息存储中心，主要负责存储消息、转发消息。存储与消息相关的元数据，包括用户组、消费进度偏移量、队列信息等。</p>
-<p>Broker 分为 Master 与 Slave 两种，从物理结构上看 Broker 的集群部署方式有四种：单 Master 、多 Master 、多 Master 多 Slave（同步刷盘）、多 Master多 Slave（异步刷盘）。</p>
-<h4 id="Broker的组成"><a href="#Broker的组成" class="headerlink" title="Broker的组成"></a>Broker的组成</h4><p><code>Client Manager：</code>客户端管理器。负责接收、解析客户端(Producer/Consumer)请求，管理客户端。例如，维护Consumer的Topic订阅信息</p>
-<p><code>Store Service：</code>存储服务。提供方便简单的API接口，处理消息存储到物理硬盘和消息查询功能。</p>
-<p><code>HA Service：</code>高可用服务，提供Master Broker 和 Slave Broker之间的数据同步功能。</p>
-<p><code>Index Service：</code>索引服务。根据特定的Message key，对投递到Broker的消息进行索引服务，同时也提供根据Message Key对消息进行快速查询的功能。</p>
+<h3 id="Broker"><a href="#Broker" class="headerlink" title="Broker"></a>Broker</h3><p>Broker 是消息存储中心，主要负责存储消息、转发消息。存储与消息相关的元数据，包括用户组、消费进度偏移量、队列信息等。<br>Broker 分为 Master 与 Slave 两种，从物理结构上看 Broker 的集群部署方式有四种：单 Master 、多 Master 、多 Master 多 Slave（同步刷盘）、多 Master多 Slave（异步刷盘）。</p>
+<h4 id="Broker的组成"><a href="#Broker的组成" class="headerlink" title="Broker的组成"></a>Broker的组成</h4><p><span style="color:orange;font-weight:bold">1. Client Manager：</span>客户端管理器。负责接收、解析客户端(Producer/Consumer)请求，管理客户端。例如，维护Consumer的Topic订阅信息<br><span style="color:orange;font-weight:bold">2. Store Service：</span>存储服务。提供方便简单的API接口，处理消息存储到物理硬盘和消息查询功能。<br><span style="color:orange;font-weight:bold">3. HA Service：</span>高可用服务，提供Master Broker 和 Slave Broker之间的数据同步功能。<br><span style="color:orange;font-weight:bold">4. Index Service：</span>索引服务。根据特定的Message key，对投递到Broker的消息进行索引服务，同时也提供根据Message Key对消息进行快速查询的功能。</p>
 <h4 id="Broker的集群部署"><a href="#Broker的集群部署" class="headerlink" title="Broker的集群部署"></a>Broker的集群部署</h4><p>Broker一般都是以集群形式出现的，各个节点存放着相同Topic的不同Queue。可以通过将集群每个Broker集群节点进行横向扩展，即将Broker节点再建为一个HA集群，解决单点问题。</p>
 <p>Master负责处理读写操作请求，Slave负责对Master中的数据进行备份。当Master挂掉了，Slave则会自动切换为Master去工作。一个Master可以包含多个Slave，但一个Slave只能隶属于一个Master。Master与Slave 的对应关系是通过指定相同的BrokerName、不同的BrokerId 来确定的。BrokerId为 0 表示Master，非 0 表示Slave。</p>
 <p><span style="color:#ffaf40;font-weight:bold">Broker集群模式</span></p>
 <ol>
-<li>单Master</li>
-</ol>
-<p>只有一个broker（其本质上就不能称为集群）。这种方式也只能是在测试时使用，生产环境下不能使用，因为存在单点问题。</p>
-<ol start="2">
-<li>多Master</li>
-</ol>
-<p>broker集群仅由多个master构成，不存在Slave。同一Topic的各个Queue会平均分布在各个master节点上。</p>
-<blockquote>
+<li>单Master<br>只有一个broker（其本质上就不能称为集群）。这种方式也只能是在测试时使用，生产环境下不能使用，因为存在单点问题。</li>
+<li>多Master<br>broker集群仅由多个master构成，不存在Slave。同一Topic的各个Queue会平均分布在各个master节点上。<blockquote>
 <p>优点：配置简单，单个Master宕机或重启维护对应用无影响<br>缺点：单台机器宕机期间，这台机器上未被消费的消息在机器恢复之前不可订阅（不可消费），消息实时性会受到影响。</p>
 </blockquote>
-<ol start="3">
+</li>
 <li>多Master多Slave模式-异步复制</li>
 </ol>
 <p>broker集群由多个master构成，每个master又配置了多个slave,master与slave的关系是主备关系，即master负责处理消息的读写请求，而slave仅负责消息的备份与master宕机后的角色切换。</p>
@@ -305,29 +291,24 @@
 <p>该模式的最大特点之一是，当master宕机后slave能够自动切换为master。不过由于slave从master的同步具有短暂的延迟（毫秒级），所以当master宕机后，这种异步复制方式可能会存在少量消息的丢失问题。</p>
 </blockquote>
 <ol start="4">
-<li>多Master多Slave模式-同步双写</li>
+<li>多Master多Slave模式-同步双写<br>该模式是多Master多Slave模式的同步复制实现。所谓同步双写，指的是消息写入master成功后，master会等待slave同步数据成功后才向producer返回成功ACK，即master与slave都要写入成功后才会返回成功ACK，也即双写。该模式与异步复制模式相比，优点是消息的安全性更高，不存在消息丢失的情况。但单个消息的RT略高，从而导致性能要略低（大约低10%）。</li>
 </ol>
-<p>该模式是多Master多Slave模式的同步复制实现。所谓同步双写，指的是消息写入master成功后，master会等待slave同步数据成功后才向producer返回成功ACK，即master与slave都要写入成功后才会返回成功ACK，也即双写。该模式与异步复制模式相比，优点是消息的安全性更高，不存在消息丢失的情况。但单个消息的RT略高，从而导致性能要略低（大约低10%）。</p>
-<p><span style="color:red">该模式存在一个大的问题：对于目前的版本，Master宕机后，Slave不会自动切换到Master。</span></p>
-<p><span style="color:#ffaf40;font-weight:bold">复制策略</span><br>复制策略是Broker的Master与Slave间的数据同步方式。分为同步复制与异步复制：</p>
+<p><span style="color:red">该模式存在一个大的问题：对于目前的版本，Master宕机后，Slave不会自动切换到Master。</span><br><span style="color:#ffaf40;font-weight:bold">复制策略</span><br>复制策略是Broker的Master与Slave间的数据同步方式。分为同步复制与异步复制：</p>
 <ul>
 <li>同步复制：消息写入master后，master会等待slave同步数据成功后才向producer返回成功ACK</li>
 <li>异步复制：消息写入master后，master立即向producer返回成功ACK，无需等待slave同步数据成功</li>
 </ul>
-<p><span style="color:#ffaf40;font-weight:bold">刷盘策略</span></p>
-<p>刷盘策略指的是broker中消息的落盘方式，即消息发送到broker内存后消息持久化到磁盘的方式。分为同步刷盘与异步刷盘。</p>
+<p><span style="color:#ffaf40;font-weight:bold">刷盘策略</span><br>刷盘策略指的是broker中消息的落盘方式，即消息发送到broker内存后消息持久化到磁盘的方式。分为同步刷盘与异步刷盘。</p>
 <ul>
 <li>同步刷盘：当消息持久化到broker的磁盘后才算是消息写入成功。</li>
 <li>异步刷盘：当消息写入到broker的内存后即表示消息写入成功，无需等待消息持久化到磁盘。</li>
 </ul>
 <h3 id="生产者（Producer）"><a href="#生产者（Producer）" class="headerlink" title="生产者（Producer）"></a>生产者（Producer）</h3><p>消息发布者，负责生产并发送消息至 Topic。RocketMQ 支持同步发送、异步发送、单向发送。</p>
-<h4 id="消费者（Consumer）"><a href="#消费者（Consumer）" class="headerlink" title="消费者（Consumer）"></a>消费者（Consumer）</h4><p>消息订阅者，负责从 Topic 接收并消费消息。消费者从brokers那里拉取信息并将其输入应用程序。</p>
+<h3 id="消费者（Consumer）"><a href="#消费者（Consumer）" class="headerlink" title="消费者（Consumer）"></a>消费者（Consumer）</h3><p>消息订阅者，负责从 Topic 接收并消费消息。消费者从brokers那里拉取信息并将其输入应用程序。</p>
 <p><strong>两种类型的消费者：</strong></p>
 <ol>
-<li><p><strong>Pull</strong>：Pull型消费者主动地从brokers那里拉取信息。只要批量拉取到消息，用户应用程序就会启动消费过程</p>
-</li>
-<li><p><strong>Push</strong>：Push型消费者封装消息的拉取、消费进度和维护内部的其他工作，将一个在消息到达时执行的回调接口留给终端用户来实现。</p>
-</li>
+<li><strong>Pull</strong>：Pull型消费者主动地从brokers那里拉取信息。只要批量拉取到消息，用户应用程序就会启动消费过程</li>
+<li><strong>Push</strong>：Push型消费者封装消息的拉取、消费进度和维护内部的其他工作，将一个在消息到达时执行的回调接口留给终端用户来实现。</li>
 </ol>
 <h2 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h2><ol>
 <li>启动NameServer，NameServer启动后开始监听端口，等待Broker、Producer、Consumer连接。</li>
@@ -387,7 +368,7 @@
             <div class="toc-content-container">
                 <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E9%A2%98%EF%BC%88Topic%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">主题（Topic）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E6%A0%87%E7%AD%BE%EF%BC%88MessageTag%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">消息标签（MessageTag）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%9F%E5%88%97%EF%BC%88MessageQueue%EF%BC%89"><span class="nav-number">1.3.</span> <span class="nav-text">队列（MessageQueue）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E6%A0%87%E8%AF%86%EF%BC%88MessageId-Key%EF%BC%89"><span class="nav-number">1.4.</span> <span class="nav-text">消息标识（MessageId&#x2F;Key）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RocketMQ-%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="nav-number">2.</span> <span class="nav-text">RocketMQ 核心概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Name-Server"><span class="nav-number">2.1.</span> <span class="nav-text">Name Server</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E6%B3%A8%E5%86%8C"><span class="nav-number">2.1.1.</span> <span class="nav-text">路由注册</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E5%89%94%E9%99%A4"><span class="nav-number">2.1.2.</span> <span class="nav-text">路由剔除</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E5%8F%91%E7%8E%B0"><span class="nav-number">2.1.3.</span> <span class="nav-text">路由发现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NameServer%E9%80%89%E6%8B%A9%E7%AD%96%E7%95%A5%EF%BC%88Producer%E4%B8%8EConsumer%EF%BC%89"><span class="nav-number">2.1.4.</span> <span class="nav-text">NameServer选择策略（Producer与Consumer）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Broker"><span class="nav-number">2.2.</span> <span class="nav-text">Broker</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Broker%E7%9A%84%E7%BB%84%E6%88%90"><span class="nav-number">2.2.1.</span> <span class="nav-text">Broker的组成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Broker%E7%9A%84%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2"><span class="nav-number">2.2.2.</span> <span class="nav-text">Broker的集群部署</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85%EF%BC%88Producer%EF%BC%89"><span class="nav-number">2.3.</span> <span class="nav-text">生产者（Producer）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85%EF%BC%88Consumer%EF%BC%89"><span class="nav-number">2.3.1.</span> <span class="nav-text">消费者（Consumer）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text">工作流程</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E9%A2%98%EF%BC%88Topic%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">主题（Topic）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E6%A0%87%E7%AD%BE%EF%BC%88MessageTag%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">消息标签（MessageTag）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%9F%E5%88%97%EF%BC%88MessageQueue%EF%BC%89"><span class="nav-number">1.3.</span> <span class="nav-text">队列（MessageQueue）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E6%A0%87%E8%AF%86%EF%BC%88MessageId-Key%EF%BC%89"><span class="nav-number">1.4.</span> <span class="nav-text">消息标识（MessageId&#x2F;Key）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RocketMQ-%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="nav-number">2.</span> <span class="nav-text">RocketMQ 核心概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Name-Server"><span class="nav-number">2.1.</span> <span class="nav-text">Name Server</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E6%B3%A8%E5%86%8C"><span class="nav-number">2.1.1.</span> <span class="nav-text">路由注册</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E5%89%94%E9%99%A4"><span class="nav-number">2.1.2.</span> <span class="nav-text">路由剔除</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E5%8F%91%E7%8E%B0"><span class="nav-number">2.1.3.</span> <span class="nav-text">路由发现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NameServer%E9%80%89%E6%8B%A9%E7%AD%96%E7%95%A5%EF%BC%88Producer%E4%B8%8EConsumer%EF%BC%89"><span class="nav-number">2.1.4.</span> <span class="nav-text">NameServer选择策略（Producer与Consumer）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Broker"><span class="nav-number">2.2.</span> <span class="nav-text">Broker</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Broker%E7%9A%84%E7%BB%84%E6%88%90"><span class="nav-number">2.2.1.</span> <span class="nav-text">Broker的组成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Broker%E7%9A%84%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2"><span class="nav-number">2.2.2.</span> <span class="nav-text">Broker的集群部署</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85%EF%BC%88Producer%EF%BC%89"><span class="nav-number">2.3.</span> <span class="nav-text">生产者（Producer）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85%EF%BC%88Consumer%EF%BC%89"><span class="nav-number">2.4.</span> <span class="nav-text">消费者（Consumer）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text">工作流程</span></a></li></ol>
     </div>
 </div>
 

@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="技术博客，个人博客">
+    <meta name="description" content="不积跬步，无以至千里。不积小流，以成江海">
+    <meta name="author" content="hanpy">
+    
+    <title>
+        
+            RocketMQ 消费消息 |
+        
+        Hanpy&#39;s blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/fontawesome.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/regular.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/solid.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/brands.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"hanpy.cn","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#ffaf40","favicon":"/images/favicon.ico","avatar":"/images/logo.png","font_size":null,"font_family":"STHeiti","hover":{"shadow":true,"scale":true},"first_screen":{"enable":false,"header_transparent":false,"background_img":"/images/cup-7832358_1280.png","font_color":null,"hitokoto":false},"scroll":{"progress_bar":true,"percent":true}},"local_search":{"enable":true,"preload":true},"code_copy":{},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"side_tools":{},"pjax":{"enable":false},"lazyload":{"enable":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.8"},"waline":{"server_url":null,"reaction":false,"version":2}},"post":{"author_label":{"enable":false,"auto":true,"custom_label_list":["Trainee","Engineer","Architect"]},"word_count":{"enable":false,"wordcount":false,"min2read":false},"img_align":"center","copyright_info":false},"version":"3.6.1"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+               Hanpy&#39;s blog
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                BLOG
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >
+                                分类
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >
+                                标签
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                时间线
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >
+                                友链
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">BLOG</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories">分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags">标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">时间线</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links">友链</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="post-page-container">
+        <div class="article-content-container">
+
+            <div class="article-title">
+                <span class="title-hover-animation">RocketMQ 消费消息</span>
+            </div>
+
+            
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="/images/logo.png">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">hanpy</span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            
+<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        
+            <i class="fa-regular fa-calendar-plus"></i>&nbsp;
+        
+        <span class="pc">2023-01-10 20:55:18</span>
+        <span class="mobile">2023-01-10 20:55</span>
+    </span>
+    
+        <span class="article-update-date article-meta-item">
+        <i class="fas fa-file-pen"></i>&nbsp;
+        <span class="pc">2023-01-10 20:55:18</span>
+    </span>
+    
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/RocketMQ/">RocketMQ</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+
+    
+    
+    
+    
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="article-content keep-markdown-body">
+                
+
+                <p>从 Broker 获取消息的方式有两种，<code>pull</code> 拉取方式和 <code>push</code> 推动方式。消费者组对于消费的模式又分为两种，广播消费（ <code>Broadcasting</code> ）和集群消费（ <code>Clustering</code> ）</p>
+<span id="more"></span>
+
+<p><strong>RoketMQ 中所说的“消费”可以为两个步骤：</strong></p>
+<ol>
+<li>Consumer 从 Broker 拉取消息到本地，并保存到本地的消息缓存队列( ProcessQueue )。这个步骤中，消费的主体是 RocketMQ 的 Consumer 模块。</li>
+<li>Consumer 从本地的消息缓存队列取出消息，并调用上层应用程序指定的回调函数对消息进行处理。这个步骤中，消费的主体是上层应用程序。</li>
+</ol>
+<h3 id="消费类型"><a href="#消费类型" class="headerlink" title="消费类型"></a>消费类型</h3><h4 id="拉取式消费（pull）"><a href="#拉取式消费（pull）" class="headerlink" title="拉取式消费（pull）"></a>拉取式消费（pull）</h4><p>Consumer 主动从 Broker 中拉取消息，主动权由 Consumer 控制。一旦获取了批量消息，就会启动消费过程。不过，该方式的实时性较弱，即Broker中有了新的消息时消费者并不能及时发现并消费。</p>
+<blockquote>
+<p>因为是由客户端发起请求，所以不存在数据积压的问题。缺点是可能不够及时，对客户端来说需要考虑数据拉取相关逻辑，何时去拉，拉的频率怎么控制等等。</p>
+</blockquote>
+<h4 id="推送式消费（push）"><a href="#推送式消费（push）" class="headerlink" title="推送式消费（push）"></a>推送式消费（push）</h4><p>这个是典型的发布-订阅模式，Consumer 向其关联的 Queue 注册了监听器，一旦发现有新的消息到来就会触发回调的执行，回调方法是 Consumer 去 Queue 中拉取消息。而这些都是基于 Consumer 与 Broker 间的长连接的</p>
+<p><span style="color:orange;font-weight:bold;">优点</span><br>有消息就推给消费者。延迟小,几乎可以做到实时</p>
+<p><span style="color:orange;font-weight:bold">缺点</span></p>
+<ol>
+<li>加大Server端的工作量，进而影响Server的性能，</li>
+<li>Client的处理能力各不相同，Client的状态不受Server控制，如果Client不能及时处理Server推送过来的消息，会造成各种潜在问题（比如消息堆积）。</li>
+<li>有的消费者机器配置好处理能力强,有的配置低处理能力低,但是server推相同数量级消息给消费者，就会导致消费者强的等待,弱的处理效率跟不上,从而导致崩溃。</li>
+<li>server资源相比消费者的资源肯定是更宝贵</li>
+<li>总结下就是客户端慢消费(设计到io等耗时操作)时会放大缺点。</li>
+</ol>
+<h3 id="消费模式"><a href="#消费模式" class="headerlink" title="消费模式"></a>消费模式</h3><h4 id="广播消费（Broadcasting）"><a href="#广播消费（Broadcasting）" class="headerlink" title="广播消费（Broadcasting）"></a>广播消费（Broadcasting）</h4><p>相同 Consumer Group 的每个 Consumer 实例都接收同一个 Topic 的全量消息。即每条消息都会被发送到 Consumer Group 中的每个 Consumer。</p>
+<blockquote>
+<p>可以理解为同组各自消费。<br>即同一 Topic 下，同一消息会被多个实例各自都消费一次，消息队列 RocketMQ 会将每条消息推送给集群内所有注册过的客户端，保证消息至少被每台机器消费一次。<br>广播消费模式中的 ConsumerGroup 概念没有太大的意义。这适用于一些分发消息的场景。</p>
+</blockquote>
+<p><span style="color:orange;font-weight:bold">适用场景&amp;注意事项</span></p>
+<ol>
+<li>广播消费模式下不支持顺序消息。</li>
+<li>广播消费模式下不支持重置消费位点。</li>
+<li>每条消息都需要被相同逻辑的多台机器处理。</li>
+<li>消费进度在客户端维护，出现重复的概率稍大于集群模式。</li>
+<li>RocketMQ 保证每条消息至少被每台客户端消费一次，但是并不会对消费失败的消息进行失败重投，因此业务方需要关注消费失败的情况。</li>
+<li>客户端每一次重启都会从最新消息消费。客户端在被停止期间发送至服务端的消息将会被自动跳过</li>
+</ol>
+<h4 id="集群消费（Clustering）"><a href="#集群消费（Clustering）" class="headerlink" title="集群消费（Clustering）"></a>集群消费（Clustering）</h4><p>相同Consumer Group 的每个 Consumer 实例平均分摊同一个Topic的消息。即每条消息只会被发送到Consumer Group中的某个 Consumer。</p>
+<blockquote>
+<p>可以理解成同组公共消费，公共资源我拿了你就没有。<br>即同一 Topic 下，一个 ConsumerGroup 下如果有多个实例，那么这些实例会均摊消费这些消息</p>
+</blockquote>
+<p><span style="color:orange;font-weight:bold">适用场景&amp;注意事项</span></p>
+<ol>
+<li>消费端集群化部署， 每条消息只需要被处理一次。</li>
+<li>由于消费进度在服务端维护， 可靠性更高。</li>
+<li>集群消费模式下，每一条消息都只会被分发到一台机器上处理。如果需要被集群下的每一台机器都处理，请使用广播模式。</li>
+<li>集群消费模式下，<span style="color:red">不保证每一次失败重投的消息路由到同一台机器上</span>，因此处理消息时不应该做任何确定性假设。</li>
+</ol>
+<h4 id="消费进度保存"><a href="#消费进度保存" class="headerlink" title="消费进度保存"></a>消费进度保存</h4><p><span style="color:orange;font-weight:bold">广播模式</span>：<br>消费进度保存在 consumer 端。因为广播模式下 consumer group 中每个 consumer 都会消费所有消息，但它们的消费进度是不同。所以consumer 各自保存各自的消费进度。<br><span style="color:orange;font-weight:bold">集群模式</span>：<br>消费进度保存在broker中。consumer group中的所有consumer共同消费同一个Topic中的消息，同一条消息只会被消费一次。消费进度会参与到了消费的负载均衡中，故消费进度是需要共享的。下图是broker中存放的各个Topic的各个Queue的消费进度。</p>
+<h3 id="Rebalance-机制"><a href="#Rebalance-机制" class="headerlink" title="Rebalance 机制"></a>Rebalance 机制</h3><p><span style="color:red">集群消费模式才会存在 Rebalance 的情况</span><br>Rebalance 指的是将一个 Topic 下的多个 Queue 在同一个 Consumer Group 中的多个 Consumer 间进行重新分配的过程。导致Rebalance产生的原因，无非就两个：消费者所订阅Topic的Queue数量发生变化，或消费者组中消费者的数量发生变化。</p>
+<blockquote>
+<p>举个列子：一个Topic下 5 个队列，在只有 1 个消费者的情况下，这个消费者将负责消费这 5 个队列的消息。如果增加一个消费者，那么就可以给其中一个消费者分配 2 个队列，给另一个分配 3 个队列。</p>
+</blockquote>
+<h4 id="Rebalance-限制"><a href="#Rebalance-限制" class="headerlink" title="Rebalance 限制"></a>Rebalance 限制</h4><p>由于一个队列最多分配给一个消费者，因此当某个消费者组下的消费者实例数量大于队列的数量时，多余的消费者实例将分配不到任何队列。</p>
+<h4 id="Rebalance-带来的问题"><a href="#Rebalance-带来的问题" class="headerlink" title="Rebalance 带来的问题"></a>Rebalance 带来的问题</h4><p><span style="color:orange;font-weight:bold">1. 消费暂停</span><br>比如在新增了一个 Consumer 后会触发Rebalanc，这个时候之前的 Consumer 就需要暂停消费，等重新分配完才会再重新工作。<br><span style="color:orange;font-weight:bold">2. 消费重复</span><br>重新分配之后，加入的 Consumer 会接着之前队列所属的 Consumer 的进度 offset 继续消费，如果之前 Consumer 消费的offset没有提交，就会导致重复消费。<br><span style="color:orange;font-weight:bold">3. 消费突刺</span><br>由于Rebalance可能导致重复消费，如果需要重复消费的消息过多，或者因为Rebalance暂停时间过长从而导致积压了部分消息。那么有可能会导致在Rebalance结束之后瞬间需要消费很多消息。</p>
+<h3 id="Queue-分配算法"><a href="#Queue-分配算法" class="headerlink" title="Queue 分配算法"></a>Queue 分配算法</h3><p>一个 Topic 中的 Queue 只能由 Consumer Group 中的一个 Consumer 进行消费，而一个 Consumer 可以同时消费多个 Queue 中的消息。queue要分配给哪个Consumer进行消费，有几种常见的策略。<br><span style="color:orange;font-weight:bold">平均分配策略</span><br>根据 <code>avg = QueueCount / ConsumerCount</code> 的计算结果进行分配的。如果能够整除，则按顺序将 avg 个 Queue 逐个分配 Consumer,如果不能整除，则将多余出的 Queue  按照 Consumer 顺序逐个分配。<br><span style="color:orange;font-weight:bold">环形平均策略</span><br>根据消费者的顺序，依次在由queue队列组成的环形图中逐个分配（该算法不用事先计算每个Consumer需要分配几 个Queue，直接一个一个分即可）。 </p>
+<p><span style="color:orange;font-weight:bold">一致性hash策略</span><br>将 consumer 的 hash 值作为 Node 节点存放到 hash 环上，然后将 queue 的 hash 值也放到 hash 环上，通过顺时针方向，距离 queue 最近的那个 consume r就是该 queue 要分配的 consumer。</p>
+<h3 id="至少一次原则"><a href="#至少一次原则" class="headerlink" title="至少一次原则"></a>至少一次原则</h3><p>RocketMQ 有一个原则：每条消息必须要被成功消费一次。</p>
+<blockquote>
+<p>Consumer 在消费完消息后会向其消费进度记录器提交其消费消息的 offset，offset 被成功记录到记录器中，那么这认为条消费就被成功消费了。<br>对于广播消费模式来说，Consumer本身就是消费进度记录器。<br>对于集群消费模式来说，Broker是消费进度记录器。</p>
+</blockquote>
+<h3 id="消费幂等"><a href="#消费幂等" class="headerlink" title="消费幂等"></a>消费幂等</h3><p>消费者对某条消息重复消费的情况时，重复消费的结果与消费一次的结果是相同的，并且多次消费并未对业务系统产生任何负面影响，那么这个消费过程就是消费幂等的。</p>
+<blockquote>
+<p>若某操作执行多次与执行一次对系统产生的影响是相同的，则称该操作是幂等的。</p>
+</blockquote>
+<h4 id="消息重复的场景"><a href="#消息重复的场景" class="headerlink" title="消息重复的场景"></a>消息重复的场景</h4><p><span style="color:orange;font-weight:bold">发送时消息重复</span><br>消息到了 Broker 并完成持久化，因为网络或者其他原因 Broker 对 Producer 应答失败，这个时候Producer意识到消息发送失败并尝试再次发送消息，此时Broker中就可能会出现两条内容相同并且Message ID也相同的消息，那么后续Consumer就一定会消费两次该消息。</p>
+<p><span style="color:orange;font-weight:bold">消费时消息重复</span><br>Consumer 消费之后没有对对 Broker 发送成功响应，为了保证消息至少被消费一次的原则，Broker 会再次尝试投递之前已被处理过的消息，此时消费者就会收到与之前处理过的内容相同、Message ID也相同的消息。</p>
+<p><span style="color:orange;font-weight:bold">Rebalance 时消息重复</span><br>发生 Rebalance 的时候，因为新的 Consumer 是从之前 Consumer 的 offset 开始消费的，如果之前消费的 offset 没有成功写入，此时 Consumer 可能会收到曾经被消费过的消息</p>
+<h4 id="通用解决方案"><a href="#通用解决方案" class="headerlink" title="通用解决方案"></a>通用解决方案</h4><p><span style="color:orange;font-weight:bold">设计的两个要素</span></p>
+<ol>
+<li>幂等令牌：是生产者和消费者两者中的既定协议，通常指具备唯一业务标识的字符串。例如，订单号、流水号。一般由Producer随着消息一同发送来的。</li>
+<li>唯一性处理：服务端通过采用一定的算法策略，保证同一个业务逻辑不会被重复执行成功多次。例如，对同一笔订单的多次支付操作，只会成功一次。</li>
+</ol>
+<p><span style="color:orange;font-weight:bold">通用性解决方案</span></p>
+<ol>
+<li>首先通过缓存去重。在缓存中如果已经存在了某幂等令牌，则说明本次操作是重复性操作，若缓存没有命中，则进入下一步。 </li>
+<li>在唯一性处理之前，先在数据库中查询幂等令牌作为索引的数据是否存在。若存在，则说明本次操作为重复性操作，若不存在，则进入下一步。</li>
+<li>在同一事务中完成三项操作：唯一性处理后，将幂等令牌写入到缓存，并将幂等令牌作为唯一索引的数据写入到DB中。<br>基本思路就是指定不会重复的唯一标识，不建议以Message ID作为处理依据，最好的方式是以业务唯一标识作为幂等处理的关键依据，而业务的唯一标识可以通过消息Key设置。</li>
+</ol>
+<h3 id="消息的清理"><a href="#消息的清理" class="headerlink" title="消息的清理"></a>消息的清理</h3><p>消息的清理是以消息为单位进行清理的，而是以commitlog文件为单位进行清理的。<br><span style="color:red;">commitLog文件过期时间默认为 72 小时</span><br><span style="color:orange;font-weight:bold">自动清理的情况：</span></p>
+<ol>
+<li>文件过期，且到达清理时间点（默认为凌晨 4 点）后，自动清理过期文件。</li>
+<li>文件过期，且磁盘空间占用率已达过期清理警戒线（默认75%）后，无论是否达到清理时间点，都会自动清理过期文件。</li>
+<li>磁盘占用率达到清理警戒线（默认85%）后，开始按照设定好的规则清理文件，无论是否过期。默认会从最老的文件开始清理。</li>
+<li>磁盘占用率达到系统危险警戒线（默认90%）后，Broker将拒绝消息写入</li>
+</ol>
+<blockquote>
+<p>注意两点</p>
+<ol>
+<li>删除是一个压力巨大的IO操作，删除会造成系统性能会骤然下降。默认清理时间点为凌晨 4 点，访问量最小的时间，所以尽量要保障磁盘空间的空闲率，不要使系统出现在其它时间点删除commitlog文件的情况</li>
+<li>官方建议RocketMQ服务的Linux文件系统采用ext4。因为对于文件删除操作，ext4要比ext3性能更好</li>
+</ol>
+</blockquote>
+
+            </div>
+
+            
+
+            
+
+            
+                <div class="article-nav">
+                    
+                        <div class="article-prev">
+                            <a class="prev"
+                               rel="prev"
+                               href="/2023/01/14/go-map.html"
+                            >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                                <span class="title flex-center">
+                                <span class="post-nav-title-item">Golang学习 - 字典（Map）</span>
+                                <span class="post-nav-item">上一篇</span>
+                            </span>
+                            </a>
+                        </div>
+                    
+                    
+                        <div class="article-next">
+                            <a class="next"
+                               rel="next"
+                               href="/2023/01/08/rocketmq-msg-save.html"
+                            >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">RocketMQ 消息存储</span>
+                                <span class="post-nav-item">下一篇</span>
+                            </span>
+                                <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                            </a>
+                        </div>
+                    
+                </div>
+            
+
+            
+        </div>
+
+        
+            <div class="toc-content-container">
+                <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">消费类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8B%89%E5%8F%96%E5%BC%8F%E6%B6%88%E8%B4%B9%EF%BC%88pull%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">拉取式消费（pull）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%A8%E9%80%81%E5%BC%8F%E6%B6%88%E8%B4%B9%EF%BC%88push%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">推送式消费（push）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E6%A8%A1%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">消费模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B9%BF%E6%92%AD%E6%B6%88%E8%B4%B9%EF%BC%88Broadcasting%EF%BC%89"><span class="nav-number">2.1.</span> <span class="nav-text">广播消费（Broadcasting）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4%E6%B6%88%E8%B4%B9%EF%BC%88Clustering%EF%BC%89"><span class="nav-number">2.2.</span> <span class="nav-text">集群消费（Clustering）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E8%BF%9B%E5%BA%A6%E4%BF%9D%E5%AD%98"><span class="nav-number">2.3.</span> <span class="nav-text">消费进度保存</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Rebalance-%E6%9C%BA%E5%88%B6"><span class="nav-number">3.</span> <span class="nav-text">Rebalance 机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Rebalance-%E9%99%90%E5%88%B6"><span class="nav-number">3.1.</span> <span class="nav-text">Rebalance 限制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Rebalance-%E5%B8%A6%E6%9D%A5%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">3.2.</span> <span class="nav-text">Rebalance 带来的问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Queue-%E5%88%86%E9%85%8D%E7%AE%97%E6%B3%95"><span class="nav-number">4.</span> <span class="nav-text">Queue 分配算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%B3%E5%B0%91%E4%B8%80%E6%AC%A1%E5%8E%9F%E5%88%99"><span class="nav-number">5.</span> <span class="nav-text">至少一次原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E5%B9%82%E7%AD%89"><span class="nav-number">6.</span> <span class="nav-text">消费幂等</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E9%87%8D%E5%A4%8D%E7%9A%84%E5%9C%BA%E6%99%AF"><span class="nav-number">6.1.</span> <span class="nav-text">消息重复的场景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%9A%E7%94%A8%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">6.2.</span> <span class="nav-text">通用解决方案</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E7%9A%84%E6%B8%85%E7%90%86"><span class="nav-number">7.</span> <span class="nav-text">消息的清理</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            
+<footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+                <span>2018</span> -
+            
+            2023
+            
+                <!-- &nbsp;<i class="fas fa-heart icon-animate"></i> -->
+                <!-- &nbsp;<a href="/">hanpy</a> -->
+                &nbsp;<a href="/">HANPY</a>
+            
+        </div>
+        
+        
+            <div class="icp-info info-item">
+                <a target="_blank" rel="nofollow"
+                   href="https://beian.miit.gov.cn"
+                >
+                    京ICP备16043183号
+                </a>
+            </div>
+        
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/dark-light-toggle.js"></script>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/local-search.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/code-block.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/lazyload.js"></script>
+
+
+<div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/post-helper.js"></script>
+        
+            <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/libs/anime.min.js"></script>
+        
+        
+            <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/toc.js"></script>
+        
+    
+</div>
+
+
+
+</body>
+</html>
