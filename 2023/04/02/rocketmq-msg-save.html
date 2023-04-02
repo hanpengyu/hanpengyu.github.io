@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="技术博客，个人博客">
+    <meta name="description" content="不积跬步，无以至千里。不积小流，以成江海">
+    <meta name="author" content="hanpy">
+    
+    <title>
+        
+            RocketMQ 消息存储 |
+        
+        Hanpy&#39;s blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/fontawesome.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/regular.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/solid.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/brands.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"hanpy.cn","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#ffaf40","favicon":"/images/favicon.ico","avatar":"/images/logo.png","font_size":null,"font_family":"STHeiti","hover":{"shadow":true,"scale":true},"first_screen":{"enable":false,"header_transparent":false,"background_img":"/images/cup-7832358_1280.png","font_color":null,"hitokoto":false},"scroll":{"progress_bar":true,"percent":true}},"local_search":{"enable":true,"preload":true},"code_copy":{},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"side_tools":{},"pjax":{"enable":false},"lazyload":{"enable":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.8"},"waline":{"server_url":null,"reaction":false,"version":2}},"post":{"author_label":{"enable":false,"auto":true,"custom_label_list":["Trainee","Engineer","Architect"]},"word_count":{"enable":false,"wordcount":false,"min2read":false},"img_align":"center","copyright_info":false},"version":"3.6.1"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+               Hanpy&#39;s blog
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                BLOG
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >
+                                分类
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >
+                                标签
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                时间线
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >
+                                友链
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">BLOG</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories">分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags">标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">时间线</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links">友链</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="post-page-container">
+        <div class="article-content-container">
+
+            <div class="article-title">
+                <span class="title-hover-animation">RocketMQ 消息存储</span>
+            </div>
+
+            
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="/images/logo.png">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">hanpy</span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            
+<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        
+            <i class="fa-regular fa-calendar-plus"></i>&nbsp;
+        
+        <span class="pc">2023-04-02 16:17:06</span>
+        <span class="mobile">2023-04-02 16:17</span>
+    </span>
+    
+        <span class="article-update-date article-meta-item">
+        <i class="fas fa-file-pen"></i>&nbsp;
+        <span class="pc">2023-04-02 16:17:06</span>
+    </span>
+    
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/RocketMQ/">RocketMQ</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+
+    
+    
+    
+    
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="article-content keep-markdown-body">
+                
+
+                <p>RocketMQ 中的消息存储在本地文件系统中，这些相关文件默认在当前用户主目录下的 <code>store</code> 目录中，主要存储的文件包括 <code>Commitlog</code> 文件、 <code>ConsumeQueue</code>文件、 <code>IndexFile</code>等。</p>
+<span id="more"></span>
+
+<h3 id="消息存储结构"><a href="#消息存储结构" class="headerlink" title="消息存储结构"></a>消息存储结构</h3><h4 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h4><p><img  
+                     lazyload
+                     alt="image"
+                     data-src="https://raw.githubusercontent.com/hanpengyu/blogimg/main/img/image-20230402165006286.png"
+                      alt="image-20230402165006286"
+                ></p>
+<ul>
+<li><span style="color:#ffaf40">abort</span>：该文件在Broker启动后会自动创建，正常关闭Broker，该文件会自动消失。若在没有启动Broker的情况下，发现这个文件是存在的，则说明之前Broker的关闭是非正常关闭。</li>
+<li><span style="color:#ffaf40">checkpoint</span>：其中存储着commitlog、consumequeue、index文件的最后刷盘时间戳</li>
+<li><span style="color:#ffaf40">commitlog</span>：其中存放着commitlog文件，而消息是写在commitlog文件中的</li>
+<li><span style="color:#ffaf40">config</span>：存放着Broker运行期间的一些配置数据</li>
+<li><span style="color:#ffaf40">consumequeue</span>：其中存放着consumequeue文件，队列就存放在这个目录中</li>
+<li><span style="color:#ffaf40">index</span>：其中存放着消息索引文件indexFile</li>
+<li><span style="color:#ffaf40">lock</span>：运行期间使用到的全局资源锁</li>
+</ul>
+<h4 id="CommitLog"><a href="#CommitLog" class="headerlink" title="CommitLog"></a>CommitLog</h4><p>CommitLog 以物理文件的方式存放，每台 Broker 上的 CommitLog 被本机器所有 ConsumeQueue 共享，文件地址：<code>$ &#123;user.home&#125; \store$ &#123; commitlog&#125; \ $ &#123; fileName&#125;</code>。</p>
+<p>文件名长度为20位，左边补零，剩余为起始偏移量，比如00000000000000000000代表了第一个文件，起始偏移量为0，文件大小为1G=1073741824；当第一个文件写满了，第二个文件为00000000001073741824，起始偏移量为1073741824，以此类推。消息主要是顺序写入日志文件，当文件满了，写入下一个文件。</p>
+<p>一个 Broker 中只包含一个 CommitLog 目录，无论当前Broker中存放着多少Topic的消息，这些消息都是被顺序写入到了 CommitLog 下面，这些消息在Broker中存放时并没有被按照Topic进行分类存放。</p>
+<p><strong>文件的消息单元存储详细信息</strong></p>
+<p>每个消息单元中包含消息总长度MsgLen、消息的物理位置physicalOffset、消息体内容Body、消息体长度BodyLength、消息主题Topic、Topic长度 TopicLength、消息生产者BornHost、消息发送时间戳BornTimestamp、消息所在的队列QueueId、消息在Queue中存储的偏移量QueueOffset等近 20 余项消息相关属性。</p>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>字段</th>
+<th>大小（字节）</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>msgSize</td>
+<td>4</td>
+<td>代表这个消息的大小</td>
+</tr>
+<tr>
+<td>2</td>
+<td>MAGICCODE</td>
+<td>4</td>
+<td>MAGICCODE = daa320a7</td>
+</tr>
+<tr>
+<td>3</td>
+<td>BODY CRC</td>
+<td>4</td>
+<td>消息体BODY CRC 当broker重启recover时会校验</td>
+</tr>
+<tr>
+<td>4</td>
+<td>queueId</td>
+<td>4</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>flag</td>
+<td>4</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>QUEUEOFFSET</td>
+<td>8</td>
+<td>这个值是个自增值不是真正的consume queue的偏移量，<br />可以代表这个consumeQueue队列或者tranStateTable队列中消息的个数，<br />若是非事务消息或者commit事务消息，可以通过这个值查找到consumeQueue中数据，<br />QUEUEOFFSET * 20才是偏移地址；<br />若是PREPARED或者Rollback事务，则可以通过该值从tranStateTable中查找数据</td>
+</tr>
+<tr>
+<td>7</td>
+<td>PHYSICALOFFSET</td>
+<td>8</td>
+<td>代表消息在commitLog中的物理起始地址偏移量</td>
+</tr>
+<tr>
+<td>8</td>
+<td>SYSFLAG</td>
+<td>4</td>
+<td>指明消息是事物事物状态等消息特征，二进制为四个字节从右往左数：<br />当4个字节均为0（值为0）时表示非事务消息；<br />当第1个字节为1（值为1）时表示表示消息是压缩的（Compressed）；<br />当第2个字节为1（值为2）表示多消息（MultiTags）；<br />当第3个字节为1（值为4）时表示prepared消息；当第4个字节为1（值为8）时表示commit消息；<br />当第3/4个字节均为1时（值为12）时表示rollback消息；当第3/4个字节均为0时表示非事务消息</td>
+</tr>
+<tr>
+<td>9</td>
+<td>BORNTIMESTAMP</td>
+<td>8</td>
+<td>消息产生端(producer)的时间戳</td>
+</tr>
+<tr>
+<td>10</td>
+<td>BORNHOST</td>
+<td>8</td>
+<td>消息产生端(producer)地址(address:port)</td>
+</tr>
+<tr>
+<td>11</td>
+<td>STORETIMESTAMP</td>
+<td>8</td>
+<td>消息在broker存储时间</td>
+</tr>
+<tr>
+<td>12</td>
+<td>STOREHOSTADDRESS</td>
+<td>8</td>
+<td>消息存储到broker的地址(address:port)</td>
+</tr>
+<tr>
+<td>13</td>
+<td>RECONSUMETIMES</td>
+<td>8</td>
+<td>消息被某个订阅组重新消费了几次（订阅组之间独立计数）,<br />因为重试消息发送到了topic名字为%retry%groupName的队列queueId=0的队列中去了，<br />成功消费一次记录为0；</td>
+</tr>
+<tr>
+<td>14</td>
+<td>PreparedTransaction Offset</td>
+<td>8</td>
+<td>表示是prepared状态的事物消息</td>
+</tr>
+<tr>
+<td>15</td>
+<td>messagebodyLength</td>
+<td>4</td>
+<td>消息体大小值</td>
+</tr>
+<tr>
+<td>16</td>
+<td>messagebody</td>
+<td></td>
+<td>消息体内容</td>
+</tr>
+<tr>
+<td>17</td>
+<td>topicLength</td>
+<td>1</td>
+<td>topic名称内容大小</td>
+</tr>
+<tr>
+<td>18</td>
+<td>topic</td>
+<td></td>
+<td>topic的内容值</td>
+</tr>
+<tr>
+<td>19</td>
+<td>propertiesLength</td>
+<td>2</td>
+<td>属性值大小</td>
+</tr>
+<tr>
+<td>20</td>
+<td>properties</td>
+<td></td>
+<td>propertiesLength大小的属性数据</td>
+</tr>
+</tbody></table>
+<h4 id="Consumequeue"><a href="#Consumequeue" class="headerlink" title="Consumequeue"></a>Consumequeue</h4><p>由于不同的主题的消息不连续的存储在commitlog文件中，如果只是检索该消息文件速度就会很慢，为了加快消息的检索和节省磁盘空间，每一个consumequeue条目存储了消息的关键信息commitog文件中的偏移量、消息长度、tag的hashcode值。</p>
+<p>ConsumeQueue 文件类似数据库的索引文件，存储的是指向物理存储的地址。每个 Topic 下的每个 Message Queue 都有一个对应的 ConsumeQueue 文件。</p>
+<p><img  
+                     lazyload
+                     alt="image"
+                     data-src="https://raw.githubusercontent.com/hanpengyu/blogimg/main/img/image-20230402172800628.png"
+                      alt="image-20230402172800628"
+                ></p>
+<p><strong>性能提升</strong></p>
+<p>consumequeue中的数据是顺序存放的，还引入了 <code>PageCache</code> 的预读取机制，使得对 consumequeue 文件的读取几乎接近于内存读取，即使在有消息堆积情况下也不会影响性能。</p>
+<blockquote>
+<p>PageCache机制，页缓存机制，是OS对文件的缓存机制，用于加速对文件的读写操作。<br>Write:OS会先将数据写入到PageCache中，随后会以异步方式将Cache中的数据刷盘到物理磁盘<br>Read:首先会从PageCache中读取，若没有命中，则OS在从物理磁盘上加载该数据到PageCache的同时，也会顺序 对其相邻数据块中的数据进行预读取。</p>
+</blockquote>
+<h4 id="IndexFile"><a href="#IndexFile" class="headerlink" title="IndexFile"></a>IndexFile</h4><p>index 存的是索引文件，可以提高根据主题与消息检索 消息的速度 ，使用 Hash 索引机制，具体是 Hash 槽与 Hash 冲突的链表结构。</p>
+<p>每个indexFile文件由三部分构成：indexHeader，slots槽位，indexes索引数据。</p>
+<h5 id="indexHeader"><a href="#indexHeader" class="headerlink" title="indexHeader"></a>indexHeader</h5><p>indexHeader 固定占用 40 个字节，其中存放着如下数据：</p>
+<ul>
+<li>beginTimestamp：该indexFile中第一条消息的存储时间</li>
+<li>endTimestamp：该indexFile中最后一条消息存储时间</li>
+<li>beginPhyoffset：该indexFile中第一条消息在commitlog中的偏移量commitlog offset</li>
+<li>endPhyoffset：该indexFile中最后一条消息在commitlog中的偏移量commitlog offset</li>
+<li>hashSlotCount：已经填充有index的slot数量（并不是每个slot槽下都挂载有index索引单元，这里统计的是所有挂载了index索引单元的slot槽的数量）</li>
+<li>indexCount：该indexFile中包含的索引单元个数（统计出当前indexFile中所有slot槽下挂载的所有index索引单元的数量之和）</li>
+</ul>
+<h5 id="Hash-槽"><a href="#Hash-槽" class="headerlink" title="Hash 槽"></a>Hash 槽</h5><p>一个 IndexFile 默认包含 500W 个 Hash 槽，每个 Hash 槽存储的是落在该 Hash 槽的 hashcode 最新的 Index 的索引。<br>key 的 hash值 % 500w 的结果即为 slot 槽位，然后将该 slot 值修改为该 index 索引单元的 indexNo，根据这个 indexNo 可以计算出该 index 单元在 indexFile    中的位置。为了解决取模重复很高的问题，在每个index索引单元中增加了preIndexNo，用于指定该slot中当前index索引单元的前一个index索引单元。而slot中始终存放的是其下最新的index索引单元的indexNo，</p>
+<blockquote>
+<p>indexNo 是一个在 indexFile 中的流水号，从 0 开始依次递增。即在一个 indexFile 中所有 indexNo 是以此递增的。indexNo 在 index 索引单元中是没有体现的，其是通过 indexes 中依次数出来的。</p>
+</blockquote>
+<p><img  
+                     lazyload
+                     alt="image"
+                     data-src="https://raw.githubusercontent.com/hanpengyu/blogimg/main/img/image-20230402185155761.png"
+                      alt="image-20230402185155761"
+                ></p>
+<h5 id="indexes索引数据"><a href="#indexes索引数据" class="headerlink" title="indexes索引数据"></a><strong>indexes索引数据</strong></h5><p>index索引单元默写 20 个字节，其中存放着以下四个属性：</p>
+<ul>
+<li>keyHash：消息中指定的业务key的hash值</li>
+<li>phyOffset：当前key对应的消息在commitlog中的偏移量commitlog offset</li>
+<li>timeDiff：当前key对应消息的存储时间与当前indexFile创建时间的时间差</li>
+<li>preIndexNo：当前slot下当前index索引单元的前一个index索引单元的indexNo</li>
+</ul>
+<h5 id="indexFile的创建"><a href="#indexFile的创建" class="headerlink" title="indexFile的创建"></a>indexFile的创建</h5><p>indexFile的创建时机</p>
+<ul>
+<li>当第一条带 key 的消息发送来后，系统发现没有 indexFile，此时会创建第一个 indexFile 文件</li>
+<li>当一个 indexFile 中挂载的 index 索引单元数量超出2000w个时，会创建新的 indexFile。当带key的消息发送到来后，系统会找到最新的 indexFile，并从其indexHeader的最后 4 字节中读取到indexCount。若indexCount &gt;= 2000w时，会创建新的indexFile。</li>
+</ul>
+<h4 id="checkpoint"><a href="#checkpoint" class="headerlink" title="checkpoint"></a>checkpoint</h4><p>checkpoint文件的作用是记录commitlog、consumequeue、index文件的刷盘时间点，文件固定长度4k,其中只用了该文件的前24个字节。查看其存储格式</p>
+<ul>
+<li>physicMsgTimestamp：commitlog文件刷盘时间点</li>
+<li>logicsMsgTimestamp：消息的消费队列文件刷盘时间点</li>
+<li>indexMsgTimestamp：索引文件刷盘时间点</li>
+</ul>
+<h4 id="Config"><a href="#Config" class="headerlink" title="Config"></a>Config</h4><p>config 文件夹中 存储着 Topic 和 Consumer 等相关信息。主题和消费者群组相关的信息就存在在此。</p>
+<ul>
+<li>topics.json：topic 配置属性</li>
+<li>subscriptionGroup.json：消息消费组配置信息。</li>
+<li>delayOffset.json：延时消息队列拉取进度。</li>
+<li>consumerOffset.json：集群消费模式消息消进度。consumerFilter.json ：主题消息过滤信息。</li>
+</ul>
+
+            </div>
+
+            
+
+            
+
+            
+                <div class="article-nav">
+                    
+                    
+                        <div class="article-next">
+                            <a class="next"
+                               rel="next"
+                               href="/2023/03/28/jwt-basic.html"
+                            >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">JWT 简单了解一下</span>
+                                <span class="post-nav-item">下一篇</span>
+                            </span>
+                                <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                            </a>
+                        </div>
+                    
+                </div>
+            
+
+            
+        </div>
+
+        
+            <div class="toc-content-container">
+                <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">消息存储结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="nav-number">1.1.</span> <span class="nav-text">目录结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CommitLog"><span class="nav-number">1.2.</span> <span class="nav-text">CommitLog</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Consumequeue"><span class="nav-number">1.3.</span> <span class="nav-text">Consumequeue</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IndexFile"><span class="nav-number">1.4.</span> <span class="nav-text">IndexFile</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#indexHeader"><span class="nav-number">1.4.1.</span> <span class="nav-text">indexHeader</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Hash-%E6%A7%BD"><span class="nav-number">1.4.2.</span> <span class="nav-text">Hash 槽</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#indexes%E7%B4%A2%E5%BC%95%E6%95%B0%E6%8D%AE"><span class="nav-number">1.4.3.</span> <span class="nav-text">indexes索引数据</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#indexFile%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="nav-number">1.4.4.</span> <span class="nav-text">indexFile的创建</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#checkpoint"><span class="nav-number">1.5.</span> <span class="nav-text">checkpoint</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Config"><span class="nav-number">1.6.</span> <span class="nav-text">Config</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            
+<footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+                <span>2018</span> -
+            
+            2023
+            
+                <!-- &nbsp;<i class="fas fa-heart icon-animate"></i> -->
+                <!-- &nbsp;<a href="/">hanpy</a> -->
+                &nbsp;<a href="/">HANPY</a>
+            
+        </div>
+        
+        
+            <div class="icp-info info-item">
+                <a target="_blank" rel="nofollow"
+                   href="https://beian.miit.gov.cn"
+                >
+                    京ICP备16043183号
+                </a>
+            </div>
+        
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/dark-light-toggle.js"></script>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/local-search.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/code-block.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/lazyload.js"></script>
+
+
+<div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/post-helper.js"></script>
+        
+            <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/libs/anime.min.js"></script>
+        
+        
+            <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/toc.js"></script>
+        
+    
+</div>
+
+
+
+</body>
+</html>
