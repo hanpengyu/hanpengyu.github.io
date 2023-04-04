@@ -230,12 +230,13 @@
                 <p>RocketMQ 中的消息存储在本地文件系统中，这些相关文件默认在当前用户主目录下的 <code>store</code> 目录中，主要存储的文件包括 <code>Commitlog</code> 文件、 <code>ConsumeQueue</code>文件、 <code>IndexFile</code>等。</p>
 <span id="more"></span>
 
-<h3 id="消息存储结构"><a href="#消息存储结构" class="headerlink" title="消息存储结构"></a>消息存储结构</h3><h4 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h4><p><img  
+<h3 id="消息存储结构"><a href="#消息存储结构" class="headerlink" title="消息存储结构"></a>消息存储结构</h3><h4 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h4><img  
                      lazyload
                      alt="image"
                      data-src="https://raw.githubusercontent.com/hanpengyu/blogimg/main/img/image-20230402165006286.png"
-                      alt="image-20230402165006286"
-                ></p>
+                      alt="image-20230402165006286" style="width:500px;border-radius:5px;text-align: left;" 
+                >
+
 <ul>
 <li><span style="color:#ffaf40">abort</span>：该文件在Broker启动后会自动创建，正常关闭Broker，该文件会自动消失。若在没有启动Broker的情况下，发现这个文件是存在的，则说明之前Broker的关闭是非正常关闭。</li>
 <li><span style="color:#ffaf40">checkpoint</span>：其中存储着commitlog、consumequeue、index文件的最后刷盘时间戳</li>
