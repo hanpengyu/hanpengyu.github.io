@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="技术博客，个人博客">
+    <meta name="description" content="不积跬步，无以至千里。不积小流，以成江海">
+    <meta name="author" content="hanpy">
+    
+    <title>
+        
+            Golang学习 - 垃圾回收机制（GC） |
+        
+        Hanpy&#39;s blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/fontawesome.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/regular.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/solid.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/brands.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"hanpy.cn","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#ffaf40","favicon":"/images/favicon.ico","avatar":"/images/logo.png","font_size":null,"font_family":"STHeiti","hover":{"shadow":true,"scale":true},"first_screen":{"enable":false,"header_transparent":false,"background_img":"/images/cup-7832358_1280.png","font_color":null,"hitokoto":false},"scroll":{"progress_bar":true,"percent":true}},"local_search":{"enable":true,"preload":true},"code_copy":{},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"side_tools":{},"pjax":{"enable":false},"lazyload":{"enable":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.8"},"waline":{"server_url":null,"reaction":false,"version":2}},"post":{"author_label":{"enable":false,"auto":true,"custom_label_list":["Trainee","Engineer","Architect"]},"word_count":{"enable":false,"wordcount":false,"min2read":false},"img_align":"center","copyright_info":false},"version":"3.6.1"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+               Hanpy&#39;s blog
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                BLOG
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >
+                                分类
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >
+                                标签
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                时间线
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >
+                                友链
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">BLOG</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories">分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags">标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">时间线</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links">友链</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="post-page-container">
+        <div class="article-content-container">
+
+            <div class="article-title">
+                <span class="title-hover-animation">Golang学习 - 垃圾回收机制（GC）</span>
+            </div>
+
+            
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="/images/logo.png">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">hanpy</span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            
+<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        
+            <i class="fa-regular fa-calendar-plus"></i>&nbsp;
+        
+        <span class="pc">2023-04-03 14:16:49</span>
+        <span class="mobile">2023-04-03 14:16</span>
+    </span>
+    
+        <span class="article-update-date article-meta-item">
+        <i class="fas fa-file-pen"></i>&nbsp;
+        <span class="pc">2023-04-03 14:16:49</span>
+    </span>
+    
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/Golang/">Golang</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/gc/">gc</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="article-content keep-markdown-body">
+                
+
+                <p>垃圾回收(Garbage Collection，简称GC)是编程语言中提供的自动的内存管理机制，自动释放不需要的内存对象，让出存储器资源的一种机制。</p>
+<span id="more"></span>
+
+<h3 id="垃圾回收的认识"><a href="#垃圾回收的认识" class="headerlink" title="垃圾回收的认识"></a>垃圾回收的认识</h3><h4 id="垃圾回收的定义"><a href="#垃圾回收的定义" class="headerlink" title="垃圾回收的定义"></a>垃圾回收的定义</h4><p>当程序向操作系统申请的内存不再需要时，垃圾回收主动将其回收并供其他代码进行内存申请时候复用，或者将其归还给操作系统，这种针对内存级别资源的自动回收过程，即为垃圾回收。而负责垃圾回收的程序组件，即为垃圾回收器。<br><span style="color:orange;font-weight:bold">垃圾回收器的执行过程被划分为两个半独立的组件：</span></p>
+<ol>
+<li>赋值器（Mutator）：这一名称本质上是在指代用户态的代码。因为对垃圾回收器而言，用户态的代码仅仅只是在修改对象之间的引用关系，也就是在对象图（对象之间引用关系的一个有向图）上进行操作。</li>
+<li>回收器（Collector）：负责执行垃圾回收的代码。</li>
+</ol>
+<h4 id="根对象"><a href="#根对象" class="headerlink" title="根对象"></a>根对象</h4><p>根对象在垃圾回收的术语中又叫做根集合，它是垃圾回收器在标记过程时最先检查的对象。</p>
+<p><span style="color:orange;font-weight:bold">下面的都是根对象</span></p>
+<ol>
+<li>全局变量：程序在编译期就能确定的那些存在于程序整个生命周期的变量。</li>
+<li>执行栈：每个 goroutine 都包含自己的执行栈，这些执行栈上包含栈上的变量及指向分配的堆内存区块的指针。</li>
+<li>寄存器：寄存器的值可能表示一个指针，参与计算的这些指针可能指向某些赋值器分配的堆内存区块。</li>
+</ol>
+<h4 id="常见的垃圾回收机制"><a href="#常见的垃圾回收机制" class="headerlink" title="常见的垃圾回收机制"></a>常见的垃圾回收机制</h4><p>GC 算法其存在形式可以归结为追踪（Tracing）和引用计数（Reference Counting）这两种形式。</p>
+<p><span style="color:orange;font-weight:bold">追踪式 GC：</span></p>
+<p>从根对象出发，根据对象之间的引用信息，一步步推进直到扫描完毕整个堆并确定需要保留的对象，从而回收所有可回收的对象。</p>
+<p><span style="color:orange;font-weight:bold">引用计数式 GC：</span></p>
+<p>每个对象自身包含一个被引用的计数器，当计数器归零时自动得到回收。</p>
+<h3 id="Go-Gc"><a href="#Go-Gc" class="headerlink" title="Go Gc"></a>Go Gc</h3><h4 id="标记-清除（mark-and-sweep）算法"><a href="#标记-清除（mark-and-sweep）算法" class="headerlink" title="标记-清除（mark and sweep）算法"></a>标记-清除（mark and sweep）算法</h4><p>Golang1.3之前的时候主要用的普通的标记-清除算法，其执行过程可以分成标记（<code>Mark</code>）和清除（<code>Sweep</code>）两个阶段</p>
+<ul>
+<li>标记阶段 — 从根对象出发查找并标记堆中所有存活的对象；</li>
+<li>清除阶段 — 遍历堆中的全部对象，回收未被标记的垃圾对象并将回收的内存加入空闲链表；</li>
+</ul>
+<p>标记清除算法明了，但是需要在一开始就需要进行 STW（stop the world）让程序暂停，效率很低。</p>
+<h4 id="三色标记"><a href="#三色标记" class="headerlink" title="三色标记"></a>三色标记</h4><p>三色标记法实际上就是通过三个阶段的标记来确定清除的对象都有哪些。<br><span style="color:orange;font-weight:bold">白色对象：</span>潜在的垃圾，其内存可能会被垃圾收集器回收；<br><span style="color:orange;font-weight:bold">黑色对象：</span>已经被标记（不会被回收）<br><span style="color:orange;font-weight:bold">灰色对象：</span>活跃的对象，因为存在指向白色对象的外部指针，垃圾收集器会扫描这些对象的子对象；</p>
+<p>简单来说三色标记在工作的时候程序中不存在任何的黑色对象，垃圾收集的根对象会被标记成灰色，垃圾收集器只会从灰色对象集合中取出对象开始扫描，当灰色集合中不存在任何对象时，标记阶段就会结束。</p>
+<p><span style="color:orange;font-weight:bold">三色标记垃圾收集器的执行过程</span></p>
+<ol>
+<li>从灰色对象的集合中选择一个灰色对象并将其标记成黑色；</li>
+<li>将黑色对象指向的所有对象都标记成灰色，保证该对象和被该对象引用的对象都不会被回收；</li>
+<li>重复上述两个步骤直到对象图中不存在灰色对象；</li>
+</ol>
+<img  
+                     lazyload
+                     alt="image"
+                     data-src="https://raw.githubusercontent.com/hanpengyu/blogimg/main/img/image-20230404094847530.png"
+                      alt="image-20230404094847530" style="width:500px" 
+                >
+
+<ol>
+<li>A、F 是根节点，所以标记为灰色</li>
+<li>从灰色的集合中取出一个 A，并标记为黑色</li>
+<li>将 A 指向的对象 B 标记为灰色</li>
+</ol>
+<p><strong>下面是三色标记完成之后的状态：</strong></p>
+<img  
+                     lazyload
+                     alt="image"
+                     data-src="https://raw.githubusercontent.com/hanpengyu/blogimg/main/img/image-20230404095738671.png"
+                      alt="image-20230404095738671" style="width:500px" 
+                >
+
+<h5 id="用户程序对标记结果的影响"><a href="#用户程序对标记结果的影响" class="headerlink" title="用户程序对标记结果的影响"></a>用户程序对标记结果的影响</h5><p>用户程序可能在标记执行的过程中修改对象的指针，所以三色标记清除算法本身是不可以并发或者增量执行的，它仍然需要 STW。</p>
+<img  
+                     lazyload
+                     alt="image"
+                     data-src="https://raw.githubusercontent.com/hanpengyu/blogimg/main/img/image-20230404100819593.png"
+                      alt="image-20230404100819593" style="width:500px;" 
+                >
+
+<p>用户程序建立了从 A 对象到 D 对象的引用，但是因为程序中已经不存在灰色对象了，所以 D 对象会被垃圾收集器错误地回收。这种情况叫悬挂指针，即指针没有指向特定类型的合法对象，影响了内存的安全性，想要并发或者增量地标记对象还是需要使用屏障技术。</p>
+<h4 id="屏障技术"><a href="#屏障技术" class="headerlink" title="屏障技术"></a>屏障技术</h4><p>内存屏障技术是一种屏障指令，它可以让 CPU 或者编译器在执行内存相关操作时遵循特定的约束。</p>
+<p>想要在并发或者增量的标记算法中保证正确性（对象不丢失），我们需要达成以下两种三色不变性中的一种</p>
+<ul>
+<li>强三色不变性 — 黑色对象不会指向白色对象，只会指向灰色对象或者黑色对象</li>
+<li>弱三色不变性 — 黑色对象指向的白色对象必须包含一条从灰色对象经由多个白色对象的可达路径</li>
+</ul>
+<img  
+                     lazyload
+                     alt="image"
+                     data-src="https://raw.githubusercontent.com/hanpengyu/blogimg/main/img/image-20230404102430887.png"
+                      alt="image-20230404102430887" style="width:500px" 
+                >
+
+<p><span style="color:orange;font-weight:bold">插入写屏障</span></p>
+<p>可以满足强三色不变式(不存在黑色对象引用白色对象的情况了， 因为白色会强制变成灰色)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">writePointer(slot, ptr):</span><br><span class="line">    shade(ptr)</span><br><span class="line">    *slot = ptr</span><br></pre></td></tr></table></figure>
+
+<p>当执行类似 <code>*slot = ptr</code> 的表达式时，我们会执行上述写屏障通过 <code>shade</code> 函数尝试改变指针的颜色。如果 <code>ptr</code> 指针是白色的，那么该函数会将该对象设置成灰色，其他情况则保持不变。</p>
+<blockquote>
+<p>举例：在A对象引用B对象的时候，B对象被标记为灰色。(将B挂在A下游，B必须被标记为灰色)</p>
+</blockquote>
+<img  
+                     lazyload
+                     alt="image"
+                     data-src="https://raw.githubusercontent.com/hanpengyu/blogimg/main/img/image-20230404103644139.png"
+                      alt="image-20230404103644139" style="width:700px;height:260px" 
+                >
+
+<p><span style="color:orange">上图是垃圾收集器和用户程序交替运行的场景：</span></p>
+<ol>
+<li>垃圾收集器将根对象指向 A 对象标记成黑色并将 A 对象指向的对象 B 标记成灰色；</li>
+<li>用户程序修改 A 对象的指针，将原本指向 B 对象的指针指向 C 对象，<span style="color:red">这时触发写屏障将 C 对象标记成灰色</span>；</li>
+<li>垃圾收集器依次遍历程序中的其他灰色对象，将它们分别标记成黑色；</li>
+</ol>
+<p>在 Go 语言 v1.7 版本之前,会使用插入写屏障保证强三色不变性，但是运行时并没有在所有的垃圾收集根对象上开启插入写屏障。在实现上选择了在标记阶段完成时<strong>暂停程序、将所有栈对象标记为灰色并重新扫描</strong></p>
+<p><span style="color:orange;font-weight:bold">删除写屏障</span></p>
+<p>因为一旦该写屏障 开始工作，它会保证开启写屏障时堆上所有对象的可达，所以也被称作快照垃圾收集（Snapshot GC）</p>
+<p>老对象的引用被删除时，将白色的老对象涂成灰色，这样删除写屏障就可以保证弱三色不变性，老对象引用的下游对象一定可以被灰色对象引用。</p>
+<blockquote>
+<p>被删除的对象，如果自身为灰色或者白色，那么被标记为灰色。</p>
+</blockquote>
+<img  
+                     lazyload
+                     alt="image"
+                     data-src="https://raw.githubusercontent.com/hanpengyu/blogimg/main/img/image-20230404111721744.png"
+                      alt="image-20230404111721744" style="width:700px;height:260px" 
+                >
+
+<p><span style="color:orange">上图是垃圾收集器和用户程序交替运行的场景:</span></p>
+<ol>
+<li>垃圾收集器将根对象指向 A 对象标记成黑色并将 A 对象指向的对象 B 标记成灰色；</li>
+<li>用户程序将 A 对象原本指向 B 的指针指向 C，触发删除写屏障，但是因为 B 对象已经是灰色的，所以不做改变；</li>
+<li><strong>用户程序将 B 对象原本指向 C 的指针删除，触发删除写屏障，白色的 C 对象被涂成灰色</strong>；</li>
+<li>垃圾收集器依次遍历程序中的其他灰色对象，将它们分别标记成黑色；</li>
+</ol>
+<p><span style="color:orange;font-weight:bold">混合写屏障</span><br>Go V1.8版本引入了混合写屏障机制（hybrid write barrier），避免了对栈重新扫描的过程，极大的减少了STW的时间</p>
+<p><span style="color:orange">混合写屏障规则&amp;&amp;具体操作：</span></p>
+<ol>
+<li>GC开始将栈上的对象全部扫描并标记为黑色(之后不再进行第二次重复扫描，无需STW)，</li>
+<li>GC期间，任何在栈上创建的新对象，均为黑色。</li>
+<li>被删除的对象标记为灰色。</li>
+<li>被添加的对象标记为灰色。</li>
+</ol>
+
+            </div>
+
+            
+
+            
+                <ul class="post-tags-box">
+                    
+                        <li class="tag-item">
+                            <a href="/tags/gc/">#gc</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            
+
+            
+                <div class="article-nav">
+                    
+                    
+                        <div class="article-next">
+                            <a class="next"
+                               rel="next"
+                               href="/2023/03/28/jwt-basic.html"
+                            >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">JWT 简单了解一下</span>
+                                <span class="post-nav-item">下一篇</span>
+                            </span>
+                                <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                            </a>
+                        </div>
+                    
+                </div>
+            
+
+            
+        </div>
+
+        
+            <div class="toc-content-container">
+                <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%9A%84%E8%AE%A4%E8%AF%86"><span class="nav-number">1.</span> <span class="nav-text">垃圾回收的认识</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-number">1.1.</span> <span class="nav-text">垃圾回收的定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%B9%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.2.</span> <span class="nav-text">根对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6"><span class="nav-number">1.3.</span> <span class="nav-text">常见的垃圾回收机制</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Go-Gc"><span class="nav-number">2.</span> <span class="nav-text">Go Gc</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0-%E6%B8%85%E9%99%A4%EF%BC%88mark-and-sweep%EF%BC%89%E7%AE%97%E6%B3%95"><span class="nav-number">2.1.</span> <span class="nav-text">标记-清除（mark and sweep）算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89%E8%89%B2%E6%A0%87%E8%AE%B0"><span class="nav-number">2.2.</span> <span class="nav-text">三色标记</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E7%A8%8B%E5%BA%8F%E5%AF%B9%E6%A0%87%E8%AE%B0%E7%BB%93%E6%9E%9C%E7%9A%84%E5%BD%B1%E5%93%8D"><span class="nav-number">2.2.1.</span> <span class="nav-text">用户程序对标记结果的影响</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B1%8F%E9%9A%9C%E6%8A%80%E6%9C%AF"><span class="nav-number">2.3.</span> <span class="nav-text">屏障技术</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            
+<footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+                <span>2018</span> -
+            
+            2023
+            
+                <!-- &nbsp;<i class="fas fa-heart icon-animate"></i> -->
+                <!-- &nbsp;<a href="/">hanpy</a> -->
+                &nbsp;<a href="/">HANPY</a>
+            
+        </div>
+        
+        
+            <div class="icp-info info-item">
+                <a target="_blank" rel="nofollow"
+                   href="https://beian.miit.gov.cn"
+                >
+                    京ICP备16043183号
+                </a>
+            </div>
+        
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/dark-light-toggle.js"></script>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/local-search.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/code-block.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/lazyload.js"></script>
+
+
+<div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/post-helper.js"></script>
+        
+            <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/libs/anime.min.js"></script>
+        
+        
+            <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/toc.js"></script>
+        
+    
+</div>
+
+
+
+</body>
+</html>
