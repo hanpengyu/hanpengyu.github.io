@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="技术博客，个人博客">
+    <meta name="description" content="不积跬步，无以至千里。不积小流，以成江海">
+    <meta name="author" content="hanpy">
+    
+    <title>
+        
+            gRPC 简单入门 |
+        
+        Hanpy&#39;s blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/fontawesome.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/regular.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/solid.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/brands.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"hanpy.cn","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true},"style":{"primary_color":"#ffaf40","favicon":"/images/favicon.ico","avatar":"/images/logo.png","font_size":null,"font_family":"STHeiti","hover":{"shadow":true,"scale":true},"first_screen":{"enable":false,"header_transparent":false,"background_img":"/images/cup-7832358_1280.png","font_color":null,"hitokoto":false},"scroll":{"progress_bar":true,"percent":true}},"local_search":{"enable":true,"preload":true},"code_copy":{},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"side_tools":{},"pjax":{"enable":false},"lazyload":{"enable":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.8"},"waline":{"server_url":null,"reaction":false,"version":2}},"post":{"author_label":{"enable":false,"auto":true,"custom_label_list":["Trainee","Engineer","Architect"]},"word_count":{"enable":false,"wordcount":false,"min2read":false},"img_align":"center","copyright_info":false},"version":"3.6.1"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+               Hanpy&#39;s blog
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                BLOG
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >
+                                分类
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >
+                                标签
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                时间线
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >
+                                友链
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">BLOG</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories">分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags">标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">时间线</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links">友链</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="post-page-container">
+        <div class="article-content-container">
+
+            <div class="article-title">
+                <span class="title-hover-animation">gRPC 简单入门</span>
+            </div>
+
+            
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="/images/logo.png">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">hanpy</span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            
+<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        
+            <i class="fa-regular fa-calendar-plus"></i>&nbsp;
+        
+        <span class="pc">2023-04-04 23:16:38</span>
+        <span class="mobile">2023-04-04 23:16</span>
+    </span>
+    
+        <span class="article-update-date article-meta-item">
+        <i class="fas fa-file-pen"></i>&nbsp;
+        <span class="pc">2023-04-04 23:16:38</span>
+    </span>
+    
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/Golang/">Golang</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        &gt; <a href="/categories/Golang/gRPC/">gRPC</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/gRPC/">gRPC</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="article-content keep-markdown-body">
+                
+
+                <p>简单的了解一下 <code>gRPC</code> 以及一些简单的使用</p>
+<span id="more"></span>
+
+<h3 id="一、RPC"><a href="#一、RPC" class="headerlink" title="一、RPC"></a>一、RPC</h3><p><code>RPC（Remote Procedure Call)</code>，全称远程过程调用。可以理解为一种协议，是用来屏蔽分布式计算中的各种调用细节，使得可以像本地调用一样来调用一个远程的服务。</p>
+<p><span style="color:orange;font-weight:bold">PRC调用流程图</span></p>
+<img  
+                     lazyload
+                     alt="image"
+                     data-src="https://raw.githubusercontent.com/hanpengyu/blogimg/main/img/image-20230405003011834.png"
+                      alt="image-20230405003011834" style="width:700px" 
+                >
+
+<p><span style="color:orange;font-weight:bold">RPC 和 HTTP 的区别</span></p>
+<ol>
+<li>概念区分：RPC是一种远程调用协议，里面包括传输协议和序列化协议，传输协议可以是TCP、UDP或者是HTTP等</li>
+<li>从OSI七层网络模型来区分，HTTP是应用层协议，RPC常用的TCP传输协议是在传输层</li>
+</ol>
+<h3 id="二、gRPC"><a href="#二、gRPC" class="headerlink" title="二、gRPC"></a>二、gRPC</h3><h4 id="2-1、-gRPC-介绍"><a href="#2-1、-gRPC-介绍" class="headerlink" title="2.1、 gRPC 介绍"></a>2.1、 gRPC 介绍</h4><p>官网：<a class="link"   target="_blank" rel="noopener" href="https://grpc.io/" >https://grpc.io<i class="fas fa-external-link-alt"></i></a><br>中文文档：<a class="link"   target="_blank" rel="noopener" href="http://doc.oschina.net/grpc" >http://doc.oschina.net/grpc<i class="fas fa-external-link-alt"></i></a></p>
+<p><code>gRPC</code> 是一个高性能、开源和通用的 RPC 框架，是基于 <code>HTTP2</code> 协议标准设计开发，默认采用 <code>Protocol Buffers</code> 数据序列化协议，支持多种开发语言。<code>gRPC</code> 提供了一种简单的方法来精确的定义服务，并且可以为客户端和服务端自动生成可靠的功能库。</p>
+<p>在gRpc中，调用方一般称为 client,被调用方称为 server。gRPC 是基于定义服务的思想，简单理解就是通过某种方式来描述一个服务，这种描述是和语言无关的。在这个服务定义的过程中，描述了提供的服务服务名是什么，有那种方法可以调用，需要那些入参，以及返回什么。</p>
+<p>在服务定义好之后， server 需要按照约定来实现接口，client 只需要直接调用定义好的方法就能拿到预期的返回结果，gRPC会屏蔽传输的细节，比如传输时候的编码解码以及网络传输等。</p>
+<img  
+                     lazyload
+                     alt="image"
+                     data-src="https://raw.githubusercontent.com/hanpengyu/blogimg/main/img/image-20230405104402969.png"
+                      alt="image-20230405104402969" style="width:700px;borderradius:5px" 
+                >
+
+<p>gRPC 是支持多语言的，是数据传输的过程中使用了 <code>Protocol Buffers</code>, <code>Protobuf</code> 是它的简称，是谷歌开源的一套成熟的数据结构序列化机制。</p>
+<p>可以把 Protobuf 理解为一个代码生成工具和数据序列化工具，定义的方法可以转换成func函数，在发送和请求的时候，这个工具还会完成对应的编码解码的工作。</p>
+<h4 id="2-2、Protobuf-安装"><a href="#2-2、Protobuf-安装" class="headerlink" title="2.2、Protobuf 安装"></a>2.2、Protobuf 安装</h4><p><span style="color:orange;font-weight:bold">&lt;1&gt;. 安装protobuf</span></p>
+<p>github：<a class="link"   target="_blank" rel="noopener" href="https://github.com/protocolbuffers/protobuf/releases" >https://github.com/protocolbuffers/protobuf/releases<i class="fas fa-external-link-alt"></i></a></p>
+<p><span style="color:orange">Mac 可以使用 brew 来安装</span></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">brew install protobuf</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">验证是否下载成功</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">protoc --version</span></span><br><span class="line">libprotoc 3.21.5</span><br></pre></td></tr></table></figure>
+
+<p><span style="color:orange;font-weight:bold">&lt;2&gt;. 安装 gRPC 核心库</span></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">go get google.golang.org/grpc</span></span><br><span class="line"></span><br><span class="line">go: downloading google.golang.org/grpc v1.54.0</span><br><span class="line">go: downloading golang.org/x/net v0.8.0</span><br><span class="line">go: downloading google.golang.org/genproto v0.0.0-20230110181048-76db0878b65f</span><br><span class="line">go get: added github.com/golang/protobuf v1.5.2</span><br><span class="line">go get: added golang.org/x/net v0.8.0</span><br><span class="line">go get: added golang.org/x/sys v0.6.0</span><br><span class="line">go get: added golang.org/x/text v0.8.0</span><br><span class="line">go get: added google.golang.org/genproto v0.0.0-20230110181048-76db0878b65f</span><br><span class="line">go get: added google.golang.org/grpc v1.54.0</span><br><span class="line">go get: added google.golang.org/protobuf v1.28.1</span><br></pre></td></tr></table></figure>
+
+<p><span style="color:orange;font-weight:bold">&lt;3&gt;. 插件安装</span></p>
+<p>上面安装的是 protobuf 编译器，还需要安装 go 对应的代码生成工具</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>有一些老的教程里面是获取 github.com/golang/protobuf/protoc-gen-go，这个是旧版本的</p>
+</blockquote>
+<p>安装之后会生成在 GOPATH/bin 下面，需要加一下环境变量,在 <code>~/.zshrc</code> 里面加入下面的环境变量</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> PATH=<span class="string">&quot;<span class="variable">$PATH</span>:<span class="subst">$(go env GOPATH)</span>/bin&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>验证安装是否成功</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">protoc-gen-go --version</span></span><br><span class="line">protoc-gen-go v1.28.1</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">protoc-gen-go-grpc --version</span></span><br><span class="line">protoc-gen-go-grpc 1.2.0</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-3、Proto-文件编写"><a href="#2-3、Proto-文件编写" class="headerlink" title="2.3、Proto 文件编写"></a>2.3、Proto 文件编写</h4><figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 指定proto语法版本</span></span><br><span class="line">syntax = <span class="string">&quot;proto3&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生成的go文件放在那个目录下面以及包名是什么</span></span><br><span class="line"><span class="comment">// . 代表当前目录， service代表生成的go文件的包名是service</span></span><br><span class="line"><span class="keyword">option</span> go_package = <span class="string">&quot;.;service&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义服务,名字叫 HelloGrpc</span></span><br><span class="line"><span class="comment">// 服务中有一个rpc方法，名为SayHe11o</span></span><br><span class="line"><span class="comment">// 这个方法会发送一个HelloRequest，然后返回一个HelloResponse。</span></span><br><span class="line"><span class="keyword">service </span><span class="title class_">HelloGrpc</span> &#123;</span><br><span class="line">  <span class="function"><span class="keyword">rpc</span> SayHello(HelloRequest) <span class="keyword">returns</span> (HelloResponse)</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// message 有点类似结构体</span></span><br><span class="line"><span class="comment">// &quot;=&quot; 并不是赋值的意义, 是定义这个变量在 message 中的位置</span></span><br><span class="line"><span class="keyword">message </span><span class="title class_">HelloRequest</span> &#123;</span><br><span class="line">  <span class="type">string</span> requestName = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">message </span><span class="title class_">HelloResponse</span> &#123;</span><br><span class="line">  <span class="type">string</span> respName = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><span style="color:orange;font-weight:bold">生成Go代码</span></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">同时生成hello.pb.go 和 hello_grpc.pb.go 文件</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">protoc --go-grpc_out=. --go_out=. hello.proto</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-4、客户端和服务端代码编写"><a href="#2-4、客户端和服务端代码编写" class="headerlink" title="2.4、客户端和服务端代码编写"></a>2.4、客户端和服务端代码编写</h4><p><span style="color:orange;font-weight:bold">目录结构</span></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">grpc-basic</span><br><span class="line">├── go-client</span><br><span class="line">│   ├── main.go</span><br><span class="line">│   └── proto</span><br><span class="line">│       ├── hello.pb.go</span><br><span class="line">│       ├── hello.proto</span><br><span class="line">│       └── hello_grpc.pb.go</span><br><span class="line">├── go-server</span><br><span class="line">│   ├── main.go</span><br><span class="line">│   └── proto</span><br><span class="line">│       ├── hello.pb.go</span><br><span class="line">│       ├── hello.proto</span><br><span class="line">│       └── hello_grpc.pb.go</span><br><span class="line">├── go.mod</span><br><span class="line">└── go.sum</span><br></pre></td></tr></table></figure>
+
+<p><span style="color:orange;font-weight:bold">服务端</span></p>
+<ol>
+<li>创建 gRPC Server 对象</li>
+<li>将 server 注册到 gRPC Server 内部注册中心</li>
+<li>创建 Listen，监听 TCP 端口</li>
+<li>gRPC Server 开始 listen.Accept，直到 Stop</li>
+</ol>
+<p><span style="color:orange;font-weight:bold">go-server/main.go</span></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;context&quot;</span></span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">    <span class="string">&quot;google.golang.org/grpc&quot;</span></span><br><span class="line">    pb <span class="string">&quot;grpc-basic/go-server/proto&quot;</span></span><br><span class="line">    <span class="string">&quot;net&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// HelloServer 实现定义的方法</span></span><br><span class="line"><span class="keyword">type</span> HelloServer <span class="keyword">struct</span> &#123;</span><br><span class="line">    pb.UnimplementedHelloGrpcServer</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(h *HelloServer)</span></span> SayHello(ctx context.Context, req *pb.HelloRequest) (*pb.HelloResponse, <span class="type">error</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> &amp;pb.HelloResponse&#123;RespName: <span class="string">&quot;hello&quot;</span> + req.RequestName&#125;, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// 创建 gRPC Server</span></span><br><span class="line">    gServer := grpc.NewServer()</span><br><span class="line">    <span class="comment">// 注册编写的服务</span></span><br><span class="line">    pb.RegisterHelloGrpcServer(gServer, &amp;HelloServer&#123;&#125;)</span><br><span class="line">    <span class="comment">// 监听端口</span></span><br><span class="line">    listen, _ := net.Listen(<span class="string">&quot;tcp&quot;</span>, <span class="string">&quot;:1234&quot;</span>)</span><br><span class="line">    <span class="comment">// 启动服务</span></span><br><span class="line">    err := gServer.Serve(listen)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        fmt.Printf(<span class="string">&quot;error msg&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><span style="color:orange;font-weight:bold">客户端</span></p>
+<ol>
+<li>创建与给定目标的连接交互</li>
+<li>创建 server 的客户端对象</li>
+<li>发送 PRC 请求，等待响应，接收返回结果</li>
+<li>输出结果</li>
+</ol>
+<p><span style="color:orange;font-weight:bold">go-client/main.go</span></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;context&quot;</span></span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">    <span class="string">&quot;google.golang.org/grpc&quot;</span></span><br><span class="line">    pb <span class="string">&quot;grpc-basic/go-client/proto&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// 连接到 server 端,禁用安全传输,没有加密和验证</span></span><br><span class="line">    conn, err := grpc.Dial(<span class="string">&quot;127.0.0.1:1234&quot;</span>, grpc.WithInsecure())</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        fmt.Printf(<span class="string">&quot;error&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">defer</span> conn.Close()</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 建立连接</span></span><br><span class="line">    client := pb.NewHelloGrpcClient(conn)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 调用远程方法</span></span><br><span class="line">    resp, err := client.SayHello(context.TODO(), &amp;pb.HelloRequest&#123;RequestName: <span class="string">&quot;hanpy&quot;</span>&#125;)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        fmt.Printf(<span class="string">&quot;resp error&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    fmt.Println(<span class="string">&quot;返回:&quot;</span>, resp.GetRespName())</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><span style="color:orange;font-weight:bold">运行测试</span></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">启动服务端</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">go run grpc-basic/go-server/main.go</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">客户端</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">go run grpc-basic/go-client/main.go</span></span><br><span class="line">返回: hellohanpy</span><br></pre></td></tr></table></figure>
+
+
+            </div>
+
+            
+
+            
+                <ul class="post-tags-box">
+                    
+                        <li class="tag-item">
+                            <a href="/tags/gRPC/">#gRPC</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            
+
+            
+                <div class="article-nav">
+                    
+                    
+                        <div class="article-next">
+                            <a class="next"
+                               rel="next"
+                               href="/2023/04/03/go-gc.html"
+                            >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Golang学习 - 垃圾回收机制（GC）</span>
+                                <span class="post-nav-item">下一篇</span>
+                            </span>
+                                <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                            </a>
+                        </div>
+                    
+                </div>
+            
+
+            
+        </div>
+
+        
+            <div class="toc-content-container">
+                <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81RPC"><span class="nav-text">一、RPC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81gRPC"><span class="nav-text">二、gRPC</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1%E3%80%81-gRPC-%E4%BB%8B%E7%BB%8D"><span class="nav-text">2.1、 gRPC 介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2%E3%80%81Protobuf-%E5%AE%89%E8%A3%85"><span class="nav-text">2.2、Protobuf 安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3%E3%80%81Proto-%E6%96%87%E4%BB%B6%E7%BC%96%E5%86%99"><span class="nav-text">2.3、Proto 文件编写</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4%E3%80%81%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%92%8C%E6%9C%8D%E5%8A%A1%E7%AB%AF%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99"><span class="nav-text">2.4、客户端和服务端代码编写</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            
+<footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+                <span>2018</span> -
+            
+            2023
+            
+                <!-- &nbsp;<i class="fas fa-heart icon-animate"></i> -->
+                <!-- &nbsp;<a href="/">hanpy</a> -->
+                &nbsp;<a href="/">HANPY</a>
+            
+        </div>
+        
+        
+            <div class="icp-info info-item">
+                <a target="_blank" rel="nofollow"
+                   href="https://beian.miit.gov.cn"
+                >
+                    京ICP备16043183号
+                </a>
+            </div>
+        
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/dark-light-toggle.js"></script>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/local-search.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/code-block.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/lazyload.js"></script>
+
+
+<div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/post-helper.js"></script>
+        
+            <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/libs/anime.min.js"></script>
+        
+        
+            <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/toc.js"></script>
+        
+    
+</div>
+
+
+
+</body>
+</html>
