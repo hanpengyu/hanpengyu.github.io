@@ -171,6 +171,68 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2023/01/26/go-channel.html">
+                        Golang学习 - 通道（channel）
+                    </a>
+                </h3>
+
+                <div class="home-article-content keep-markdown-body">
+                    
+                        <p><code>Channel</code> 类型是 Go 语言自带的唯一一个可以满足并发安全性的类型，一个通道相当于一个先进先出的队列，各个元素值都是严格按照发送的顺序排列的，先被发送到通道的元素值一定会先被接收。</p>
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span>
+            <i class="fas fa-history"></i>&nbsp;
+            <span class="home-article-date" data-updated="Thu Jan 26 2023 19:22:25 GMT+0800">
+                2023-01-26
+            </span>
+        </span>
+        
+            <span class="home-article-category"><i class="fas fa-folder"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/categories/Golang/">Golang</a>&nbsp;
+                        </li>
+                    
+                    
+                </ul>
+            </span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/go/">go</a>&nbsp;
+                        </li>
+                    
+                        <li>
+                            | 
+                            <a href="/tags/channel/">channel</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a class="read-more" href="/2023/01/26/go-channel.html">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2023/01/23/go-defer.html">
                         Golang学习 - defer延迟调用
                     </a>
@@ -656,51 +718,6 @@
 
             </li>
         
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2023/01/04/rockermq-basic.html">
-                        RocketMQ 入门
-                    </a>
-                </h3>
-
-                <div class="home-article-content keep-markdown-body">
-                    
-                        <p><code>RocketMQ</code> 是一款纯java、分布式、队列模型的开源消息中间件，支持事务消息、顺序消息、批量消息、定时消息、消息回溯等。</p>
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span>
-            <i class="fas fa-history"></i>&nbsp;
-            <span class="home-article-date" data-updated="Wed Jan 04 2023 17:01:18 GMT+0800">
-                2023-01-04
-            </span>
-        </span>
-        
-            <span class="home-article-category"><i class="fas fa-folder"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/categories/RocketMQ/">RocketMQ</a>&nbsp;
-                        </li>
-                    
-                    
-                </ul>
-            </span>
-        
-        
-    </div>
-
-    <a class="read-more" href="/2023/01/04/rockermq-basic.html">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
     </ul>
 
     <div class="home-paginator">
@@ -728,32 +745,67 @@
         </div>
 
         <div class="page-main-content-bottom">
-            
+            <%
+const {
+  since: f_since,
+  icp: f_icp,
+  site_deploy: f_site_deploy
+} = theme.footer
+const { author: bi_author } = theme.base_info
+const { author: hexo_author } = config
+const { site_uv: bsz_site_uv, site_pv: bsz_site_pv, enable: bsz_enable } = theme.website_count.busuanzi_count
+%>
 <footer class="footer">
     <div class="info-container">
         <div class="copyright-info info-item">
             &copy;
-            
-                <span>2018</span> -
-            
-            2023
-            
-                <!-- &nbsp;<i class="fas fa-heart icon-animate"></i> -->
-                <!-- &nbsp;<a href="/">hanpy</a> -->
-                &nbsp;<a href="/">HANPY</a>
-            
+            <% if (f_since) { %>
+                <span><%= f_since %></span> -
+            <% } %>
+            <%= date(new Date(), 'YYYY') %>
+            <% if (bi_author || hexo_author) { %>
+                &nbsp;<i class="fas fa-heart icon-animate"></i>
+                &nbsp;<a href="/"><%= bi_author || hexo_author %></a>
+            <% } %>
         </div>
-        
-        
+        <% if (bsz_enable === true) { %>
+            <script async <%= theme.pjax.enable === true ? 'data-pjax' : '' %>
+                    src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                <% if (bsz_site_uv) { %>
+                    <%- __('site_uv') %>&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                <% } %>
+                <% if (bsz_site_pv) { %>
+                    <%- __('site_pv') %>&nbsp;<span id="busuanzi_value_site_pv"></span>
+                <% } %>
+            </div>
+        <% } %>
+        <div class="theme-info info-item">
+            <%- __('powered_by', '<a target="_blank" href="https://hexo.io">Hexo</a>') %>&nbsp;|&nbsp;<%- __('theme') %>&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.6.1</a>
+        </div>
+        <% if (f_icp) { %>
             <div class="icp-info info-item">
                 <a target="_blank" rel="nofollow"
                    href="https://beian.miit.gov.cn"
                 >
-                    京ICP备16043183号
+                    <%= f_icp %>
                 </a>
             </div>
-        
-        
+        <% } %>
+        <% if (f_site_deploy?.enable === true && f_site_deploy?.provider !== '') { %>
+            <div class="deploy-info info-item">
+                <% if (f_site_deploy?.url) { %>
+                    <a target="_blank" rel="nofollow" href="<%= f_site_deploy?.url %>">
+                <% } %>
+                    <%- __(
+                            'footer_deploy',
+                            '<span class="tooltip" data-content="' + __('deploy_provider.' + f_site_deploy?.provider) + '"><img src="/images/deploy-provider/' + f_site_deploy?.provider + '.png"></span>'
+                    ) %>
+                <% if (f_site_deploy?.url) { %>
+                    </a>
+                <% } %>
+            </div>
+        <% } %>
     </div>
 </footer>
 
