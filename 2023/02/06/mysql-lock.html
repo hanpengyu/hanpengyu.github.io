@@ -9,7 +9,7 @@
     
     <title>
         
-            Redis 数据结构（一）字符串 |
+            MySQL 锁机制 |
         
         Hanpy&#39;s blog
     </title>
@@ -170,7 +170,7 @@
         <div class="article-content-container">
 
             <div class="article-title">
-                <span class="title-hover-animation">Redis 数据结构（一）字符串</span>
+                <span class="title-hover-animation">MySQL 锁机制</span>
             </div>
 
             
@@ -190,13 +190,13 @@
         
             <i class="fa-regular fa-calendar-plus"></i>&nbsp;
         
-        <span class="pc">2023-02-10 01:54:42</span>
-        <span class="mobile">2023-02-10 01:54</span>
+        <span class="pc">2023-02-06 11:09:35</span>
+        <span class="mobile">2023-02-06 11:09</span>
     </span>
     
         <span class="article-update-date article-meta-item">
         <i class="fas fa-file-pen"></i>&nbsp;
-        <span class="pc">2023-02-10 01:54:42</span>
+        <span class="pc">2023-02-06 11:09:35</span>
     </span>
     
     
@@ -205,7 +205,7 @@
             <ul>
                 
                     <li>
-                        <a href="/categories/Redis/">Redis</a>&nbsp;
+                        <a href="/categories/MySQL/">MySQL</a>&nbsp;
                     </li>
                 
             </ul>
@@ -217,15 +217,7 @@
             <ul>
                 
                     <li>
-                        <a href="/tags/string/">string</a>&nbsp;
-                    </li>
-                
-                    <li>
-                        | <a href="/tags/redis/">redis</a>&nbsp;
-                    </li>
-                
-                    <li>
-                        | <a href="/tags/SDS/">SDS</a>&nbsp;
+                        <a href="/tags/lock/">lock</a>&nbsp;
                     </li>
                 
             </ul>
@@ -246,32 +238,93 @@
             <div class="article-content keep-markdown-body">
                 
 
-                <p><code>SDS</code> 是在 Redis 中被广泛使用的字符串结构，它的全称是 <code>Simple Dynamic String</code>。</p>
+                <p>简单记录一下 MySQL（InnoDB引擎） 的锁类型。根据加锁的范围，MySQL 里面的锁大致可以分成全局锁、表级锁和行锁三类。</p>
 <span id="more"></span>
 
-<blockquote>
-<p>内容来只<a class="link"   target="_blank" rel="noopener" href="http://redisbook.com/index.html" >《Redis设计与实现》<i class="fas fa-external-link-alt"></i></a>和其他网络资料，<a class="link"   target="_blank" rel="noopener" href="https://github.com/huangz1990/redis-3.0-annotated" >Redis3.0源码-注释版<i class="fas fa-external-link-alt"></i></a></p>
-</blockquote>
-<h3 id="SDS的定义"><a href="#SDS的定义" class="headerlink" title="SDS的定义"></a>SDS的定义</h3><p><a target="_blank" rel="noopener" href="https://github.com/huangz1990/redis-3.0-annotated/blob/unstable/src/sds.h#L45"><code>redis-3.0-annotated/src/sds.h</code></a></p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="type">char</span> *sds;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sdshdr</span> &#123;</span></span><br><span class="line">    <span class="comment">// buf 中已占用空间的长度</span></span><br><span class="line">    <span class="type">int</span> len;</span><br><span class="line">    <span class="comment">// buf 中剩余可用空间的长度</span></span><br><span class="line">    <span class="type">int</span> <span class="built_in">free</span>;</span><br><span class="line">    <span class="comment">// 数据空间</span></span><br><span class="line">    <span class="type">char</span> buf[];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="一、全局锁"><a href="#一、全局锁" class="headerlink" title="一、全局锁"></a>一、全局锁</h3><p>全局锁就是对整个数据库实例加锁。</p>
+<h4 id="1-1、加锁方法"><a href="#1-1、加锁方法" class="headerlink" title="1.1、加锁方法"></a>1.1、加锁方法</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 加锁</span><br><span class="line">mysql&gt; Flush tables with read lock</span><br><span class="line"></span><br><span class="line"># 解锁</span><br><span class="line">mysql&gt; unlock tables</span><br></pre></td></tr></table></figure>
 
-<h3 id="SDS与C字符串的区别"><a href="#SDS与C字符串的区别" class="headerlink" title="SDS与C字符串的区别"></a>SDS与C字符串的区别</h3><p>C 语言使用长度为 <code>N+1</code> 的字符数组来表示长度为 <code>N</code> 的字符串， 并且字符数组的最后一个元素总是空字符 <code>&#39;\0&#39;</code>，C 语言使用的这种简单的字符串表示方式， 并不能满足 Redis 对字符串在安全性、效率、以及功能方面的要求</p>
-<h4 id="常数复杂度获取字符串长度"><a href="#常数复杂度获取字符串长度" class="headerlink" title="常数复杂度获取字符串长度"></a>常数复杂度获取字符串长度</h4><p>C 字符串并不记录自身的长度信息， 所以为了获取一个 C 字符串的长度， 程序必须遍历整个字符串， 对遇到的每个字符进行计数， 直到遇到代表字符串结尾的空字符为止。</p>
-<p>SDS 在 <code>len</code> 属性中记录了 SDS 本身的长度， 所以获取一个 SDS 长度的复杂度仅为 O(1) </p>
-<h4 id="杜绝缓冲区溢出"><a href="#杜绝缓冲区溢出" class="headerlink" title="杜绝缓冲区溢出"></a>杜绝缓冲区溢出</h4><p>C 字符串不记录自身长度带来的另一个问题是容易造成缓冲区溢出（buffer overflow）。</p>
-<p>修改两个相邻的字符串的时候，需要修改前一个没有重新分配内存就有可能覆盖后一个字符串的内容。</p>
-<p>SDS 的空间分配策略完全杜绝了发生缓冲区溢出的可能性： 当 SDS API 需要对 SDS 进行修改时， API 会先检查 SDS 的空间是否满足修改所需的要求， 如果不满足的话， API 会自动将 SDS 的空间扩展至执行修改所需的大小， 然后才执行实际的修改操作， 所以使用 SDS 既不需要手动修改 SDS 的空间大小， 也不会出现前面所说的缓冲区溢出问题。</p>
-<h3 id="减少修改字符串时带来的内存重分配次数"><a href="#减少修改字符串时带来的内存重分配次数" class="headerlink" title="减少修改字符串时带来的内存重分配次数"></a>减少修改字符串时带来的内存重分配次数</h3><p>C 字符串底层是一个字符数组，每次增长或者缩短一个 C 字符串， 程序都总要对保存这个 C 字符串的数组进行一次内存重分配操作，无论是增加、拼接、截取都得先通过内存重分配来扩展底层数组的空间大小，否则就可能造成溢出的情况</p>
-<h4 id="SDS空间预分配"><a href="#SDS空间预分配" class="headerlink" title="SDS空间预分配"></a>SDS空间预分配</h4><p>内存重分配涉及复杂的算法，并且可能需要执行系统调用是一个比较耗时的操作。SDS通过空间预分配的方式来减少系统调用从而加快执行的速度。</p>
-<p>当 SDS 的 API 对一个 SDS 进行修改， 并且需要对 SDS 进行空间扩展的时候， 程序不仅会为 SDS 分配修改所必须要的空间， 还会为 SDS 分配额外的未使用空间</p>
-<p><strong>额外分配的未使用空间数量由以下公式决定</strong></p>
+<p>执行成功之后，整个库处于只读状态，会关闭所有打开的表，同时对于所有数据库中的表都加一个读锁，之后其他线程的以下语句会被阻塞：数据更新语句（数据的增删改）、数据定义语句（包括建表、修改表结构等）和更新类事务的提交语句。</p>
+<h4 id="1-2、使用场景"><a href="#1-2、使用场景" class="headerlink" title="1.2、使用场景"></a>1.2、使用场景</h4><p>全局锁的典型使用场景是，做<strong>全库逻辑备份</strong>。也就是把整库每个表都 select 出来存成文本。</p>
+<p><span style="color:orange;font-weight:bold">可能造成的影响</span></p>
 <ol>
-<li>如果对SDS进行修改之后，SDS的长度（也即是 <code>len</code> 属性的值）将小于<code>1 MB</code>，那么程序分配和 <code>len</code> 属性同样大小的未使用空间，这时SDS的<code>len</code>属性的值将和 <code>free</code> 属性的值相同。<br>举个例子， 如果进行修改之后， SDS 的 <code>len</code> 将变成 <code>13</code> 字节， 那么程序也会分配 <code>13</code> 字节的未使用空间， SDS 的 <code>buf</code> 数组的实际长度将变成 <code>13 + 13 + 1 = 27</code> 字节（额外的一字节用于保存空字符）</li>
-<li>如果对 SDS 进行修改之后， SDS 的长度将大于等于 <code>1 MB</code> ， 那么程序会分配 <code>1 MB</code> 的未使用空间。<br>举个例子， 如果进行修改之后， SDS 的 <code>len</code> 将变成 <code>30 MB</code> ， 那么程序会分配 <code>1 MB</code> 的未使用空间， SDS 的 <code>buf</code> 数组的实际长度将为 <code>30 MB + 1 MB + 1 byte</code> 。</li>
+<li>如果你在主库上备份，那么在备份期间都不能执行更新，业务基本上就得停摆；</li>
+<li>如果你在从库上备份，那么备份期间从库不能执行主库同步过来的 binlog，会导致主从延迟。</li>
 </ol>
-<h4 id="惰性空间释放"><a href="#惰性空间释放" class="headerlink" title="惰性空间释放"></a>惰性空间释放</h4><p>惰性空间释放用于优化SDS的字符串缩短操作： 当SDS的API需要缩短 SDS 保存的字符串时， 程序并不立即使用内存重分配来回收缩短后多出来的字节， 而是使用 <code>free</code> 属性将这些字节的数量记录起来， 并等待将来使用。</p>
-<h4 id="SDS是二进制安全的"><a href="#SDS是二进制安全的" class="headerlink" title="SDS是二进制安全的"></a>SDS是二进制安全的</h4><p>C字符串中的字符必须符合某种编码（比如 ASCII），并且除了字符串的末尾之外，字符串里面不能包含空字符，否则最先被程序读入的空字符将被误认为是字符串结尾 —— 这些限制使得C字符串只能保存文本数据，而不能保存像图片、音频、视频、压缩文件这样的二进制数据。</p>
-<p>SDS使用 <code>len</code> 属性的值而不是空字符来判断字符串是否结束，因此SDS的API都是二进制安全的（binary-safe）。</p>
+<h3 id="二、表锁"><a href="#二、表锁" class="headerlink" title="二、表锁"></a>二、表锁</h3><p>MySQL 里面表级别的锁有两种：一种是表锁，一种是元数据锁（meta data lock，MDL)。</p>
+<h4 id="2-1、表锁"><a href="#2-1、表锁" class="headerlink" title="2.1、表锁"></a>2.1、表锁</h4><p><span style="color:orange;font-weight:bold">表锁的语法</span></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 加锁</span><br><span class="line"># mysql&gt; lock tables tableNames read/write</span><br><span class="line"></span><br><span class="line"># t1 表只读</span><br><span class="line">mysql lock tables t1 read;</span><br><span class="line"></span><br><span class="line"># t1 表只写</span><br><span class="line">mysql lock tables t1 write;</span><br></pre></td></tr></table></figure>
+
+<p>与 FTWRL 类似，可以用 unlock tables 主动释放锁，也可以在客户端断开的时候自动释放。lock tables 语法除了会限制别的线程的读写外，也会限制当前线程。</p>
+<h4 id="2-2、MDL（metadata-lock"><a href="#2-2、MDL（metadata-lock" class="headerlink" title="2.2、MDL（metadata lock)"></a>2.2、MDL（metadata lock)</h4><p>MDL 不需要显式的使用，MDL 的作用是，保证读写的正确性。当对一个表做增删改查操作的时候，加 MDL 读锁；当要对表做结构变更操作的时候，加 MDL 写锁。</p>
+<p>读锁之间不互斥，因此你可以有多个线程同时对一张表增删改查。读写锁之间、写锁之间是互斥的，用来保证变更表结构操作的安全性。因此，如果有两个线程要同时给一个表加字段，其中一个要等另一个执行完才能开始执行。</p>
+<h3 id="三、行锁"><a href="#三、行锁" class="headerlink" title="三、行锁"></a>三、行锁</h3><h4 id="3-1、两阶段锁协议"><a href="#3-1、两阶段锁协议" class="headerlink" title="3.1、两阶段锁协议"></a>3.1、两阶段锁协议</h4><p>在 InnoDB 事务中，行锁是在需要的时候才加上的，但并不是不需要了就立刻释放，而是要等到事务结束时才释放。这个就是两阶段锁协议。</p>
+<blockquote>
+<p>如果你的事务中需要锁多个行，要把最可能造成锁冲突、最可能影响并发度的锁尽量往后放。</p>
+</blockquote>
+<h4 id="3-2、死锁和死锁检测"><a href="#3-2、死锁和死锁检测" class="headerlink" title="3.2、死锁和死锁检测"></a>3.2、死锁和死锁检测</h4><p><span style="color:orange;font-weight:bold">死锁的定义</span></p>
+<p>当并发系统中不同线程出现循环资源依赖，涉及的线程都在等待别的线程释放资源时，就会导致这几个线程都进入无限等待的状态，称为死锁。</p>
+<p><span style="color:orange;font-weight:bold">死锁的例子</span></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE `t1` (</span><br><span class="line">  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,</span><br><span class="line">  `c` int(11) NOT NULL,</span><br><span class="line">  `d` int(11) NOT NULL,</span><br><span class="line">  PRIMARY KEY (`id`)</span><br><span class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8;</span><br><span class="line"></span><br><span class="line">INSERT INTO `hanpy`.`t1`(`id`, `c`, `d`) VALUES (1, 1, 1);</span><br><span class="line">INSERT INTO `hanpy`.`t1`(`id`, `c`, `d`) VALUES (2, 2, 2);</span><br><span class="line">INSERT INTO `hanpy`.`t1`(`id`, `c`, `d`) VALUES (3, 3, 3);</span><br><span class="line">INSERT INTO `hanpy`.`t1`(`id`, `c`, `d`) VALUES (5, 5, 5);</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>Session A</th>
+<th>Session B</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>begin<br />update t1 set c=c+1 where id=1;</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>begin<br />update t1 set c=c+1 where id=2;</td>
+</tr>
+<tr>
+<td>update t1 set c=c+1 where id=2;</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>update t1 set c=c+1 where id=1;<br /># (1213, ‘Deadlock found when trying to get lock; try restarting transaction’)</td>
+</tr>
+</tbody></table>
+<p>Session A 会等待 id=2 的行锁，Session B会等待 id=2 的行锁，所以造成了死锁，最后触发了死锁检测。</p>
+<p><span style="color:orange;font-weight:bold">出现死锁的两种策略</span></p>
+<ol>
+<li>锁等待，直接进入等待，直到超时。<code>innodb_lock_wait_timeout</code> 可以设置超时的时间，默认设置的50s</li>
+<li>主动检查，发现死锁后，主动回滚死锁链条中的某一个事务，让其他事务得以继续执行。<code>innodb_deadlock_detect</code> 设置为 on，表示开启这个逻辑。</li>
+</ol>
+<h4 id="3-3、InnoDB-中两种标准行锁"><a href="#3-3、InnoDB-中两种标准行锁" class="headerlink" title="3.3、InnoDB 中两种标准行锁"></a>3.3、InnoDB 中两种标准行锁</h4><p>InnoDB默认使用行锁，实现了两种标准的行锁——共享锁与排他锁；</p>
+<img  
+                     lazyload
+                     alt="image"
+                     data-src="https://raw.githubusercontent.com/hanpengyu/blogimg/main/img/image-20230410231547934.png"
+                      alt="image-20230410231547934" style="width:800px" 
+                >
+
+<h5 id="共享锁"><a href="#共享锁" class="headerlink" title="共享锁"></a>共享锁</h5><p>共享锁又称为读锁或者是S锁，当一个事务对某几行上读锁时，允许其他事务对这几行进行读操作，但不允许其进行写操作，也不允许其他事务给这几行上排它锁，但允许上读锁。</p>
+<h5 id="排它锁"><a href="#排它锁" class="headerlink" title="排它锁"></a>排它锁</h5><p>排它锁又称为写锁或者是X锁，当一个事务对某几个上写锁时，不允许其他事务写，但允许读。更不允许其他事务给这几行上任何锁。包括写锁。</p>
+<h5 id="读取操作加锁"><a href="#读取操作加锁" class="headerlink" title="读取操作加锁"></a>读取操作加锁</h5><p>默认情况下Innodb中，select 操作是使用一致性非锁定读（快照读）。<br><span style="color:orange;font-weight:bold">加读锁</span></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># lock in share mode</span><br><span class="line"></span><br><span class="line"># 举个例子</span><br><span class="line">mysql&gt; select * from t1 where id=1 lock in share mode;</span><br></pre></td></tr></table></figure>
+<p><span style="color:orange;font-weight:bold">加写锁</span></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># for update</span><br><span class="line"></span><br><span class="line"># 举个例子</span><br><span class="line">mysql&gt; select * from t1 where id=1 for update;</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h4 id="3-4、幻读"><a href="#3-4、幻读" class="headerlink" title="3.4、幻读"></a>3.4、幻读</h4><p><span style="color:red">事务隔离级别是可重复读的前提下</span></p>
+<p>幻读是指在同一个事务中，前后两次查询同一个范围的数据，但是第二次查询却看到了第一次查询没看到的行。</p>
+<p><strong>需要明确幻读出现的两个前提</strong></p>
+<ol>
+<li>事务的隔离级别为可重复读，且是当前读（当前读的情况才会出现幻读的情况，快照读使用MVCC来避免幻读）</li>
+<li>幻读仅专指新插入的行（更新的不算）</li>
+</ol>
+<h5 id="幻读如何解决"><a href="#幻读如何解决" class="headerlink" title="幻读如何解决"></a>幻读如何解决</h5><p>产生幻读的原因是，行锁只能锁住行，但是新插入记录这个动作，要更新的是记录之间的“间隙”。因此，为了解决幻读问题，InnoDB 只好引入新的锁，也就是间隙锁 (Gap Lock)。</p>
+<p><strong>间隙锁，锁的就是两个值之间的空隙。</strong></p>
+<p>间隙锁还有一个特殊的地方，间隙锁之间都不存在冲突关系，跟间隙锁存在冲突关系的，是“往这个间隙中插入一个记录”这个操作。间隙锁和行锁合称 next-key lock，每个 next-key lock 是前开后闭区间。间隙锁和 next-key lock 的引入，解决了幻读的问题。</p>
 
             </div>
 
@@ -281,15 +334,7 @@
                 <ul class="post-tags-box">
                     
                         <li class="tag-item">
-                            <a href="/tags/string/">#string</a>&nbsp;
-                        </li>
-                    
-                        <li class="tag-item">
-                            <a href="/tags/redis/">#redis</a>&nbsp;
-                        </li>
-                    
-                        <li class="tag-item">
-                            <a href="/tags/SDS/">#SDS</a>&nbsp;
+                            <a href="/tags/lock/">#lock</a>&nbsp;
                         </li>
                     
                 </ul>
@@ -301,13 +346,13 @@
                         <div class="article-prev">
                             <a class="prev"
                                rel="prev"
-                               href="/2023/02/11/redis-rdb.html"
+                               href="/2023/02/07/mysql-transaction.html"
                             >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                                 <span class="title flex-center">
-                                <span class="post-nav-title-item">Redis 数据持久化</span>
+                                <span class="post-nav-title-item">MySQL 事务</span>
                                 <span class="post-nav-item">上一篇</span>
                             </span>
                             </a>
@@ -317,10 +362,10 @@
                         <div class="article-next">
                             <a class="next"
                                rel="next"
-                               href="/2023/02/07/mysql-transaction.html"
+                               href="/2023/02/05/docker-compose-command.html"
                             >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">MySQL 事务</span>
+                                <span class="post-nav-title-item">Docker Compose 命令说明</span>
                                 <span class="post-nav-item">下一篇</span>
                             </span>
                                 <span class="right arrow-icon flex-center">
@@ -339,7 +384,7 @@
             <div class="toc-content-container">
                 <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#SDS%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-text">SDS的定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SDS%E4%B8%8EC%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">SDS与C字符串的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E6%95%B0%E5%A4%8D%E6%9D%82%E5%BA%A6%E8%8E%B7%E5%8F%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%95%BF%E5%BA%A6"><span class="nav-text">常数复杂度获取字符串长度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9D%9C%E7%BB%9D%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA"><span class="nav-text">杜绝缓冲区溢出</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%8F%E5%B0%91%E4%BF%AE%E6%94%B9%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%97%B6%E5%B8%A6%E6%9D%A5%E7%9A%84%E5%86%85%E5%AD%98%E9%87%8D%E5%88%86%E9%85%8D%E6%AC%A1%E6%95%B0"><span class="nav-text">减少修改字符串时带来的内存重分配次数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#SDS%E7%A9%BA%E9%97%B4%E9%A2%84%E5%88%86%E9%85%8D"><span class="nav-text">SDS空间预分配</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%83%B0%E6%80%A7%E7%A9%BA%E9%97%B4%E9%87%8A%E6%94%BE"><span class="nav-text">惰性空间释放</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SDS%E6%98%AF%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8%E7%9A%84"><span class="nav-text">SDS是二进制安全的</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%85%A8%E5%B1%80%E9%94%81"><span class="nav-text">一、全局锁</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1%E3%80%81%E5%8A%A0%E9%94%81%E6%96%B9%E6%B3%95"><span class="nav-text">1.1、加锁方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2%E3%80%81%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-text">1.2、使用场景</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E8%A1%A8%E9%94%81"><span class="nav-text">二、表锁</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1%E3%80%81%E8%A1%A8%E9%94%81"><span class="nav-text">2.1、表锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2%E3%80%81MDL%EF%BC%88metadata-lock"><span class="nav-text">2.2、MDL（metadata lock)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E8%A1%8C%E9%94%81"><span class="nav-text">三、行锁</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1%E3%80%81%E4%B8%A4%E9%98%B6%E6%AE%B5%E9%94%81%E5%8D%8F%E8%AE%AE"><span class="nav-text">3.1、两阶段锁协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2%E3%80%81%E6%AD%BB%E9%94%81%E5%92%8C%E6%AD%BB%E9%94%81%E6%A3%80%E6%B5%8B"><span class="nav-text">3.2、死锁和死锁检测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3%E3%80%81InnoDB-%E4%B8%AD%E4%B8%A4%E7%A7%8D%E6%A0%87%E5%87%86%E8%A1%8C%E9%94%81"><span class="nav-text">3.3、InnoDB 中两种标准行锁</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%85%B1%E4%BA%AB%E9%94%81"><span class="nav-text">共享锁</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8E%92%E5%AE%83%E9%94%81"><span class="nav-text">排它锁</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AF%BB%E5%8F%96%E6%93%8D%E4%BD%9C%E5%8A%A0%E9%94%81"><span class="nav-text">读取操作加锁</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4%E3%80%81%E5%B9%BB%E8%AF%BB"><span class="nav-text">3.4、幻读</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B9%BB%E8%AF%BB%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3"><span class="nav-text">幻读如何解决</span></a></li></ol></li></ol></li></ol>
     </div>
 </div>
 
