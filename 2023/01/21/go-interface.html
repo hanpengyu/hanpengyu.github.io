@@ -264,13 +264,12 @@
 <blockquote>
 <p>《Go语言设计与实现》中的图</p>
 </blockquote>
-<img  
+<p><img  
                      lazyload
                      alt="image"
-                     data-src="https://raw.githubusercontent.com/hanpengyu/blogimg/main/img/image-20230319165444143.png"
-                      alt="image-20230319165444143"  
-                >
-
+                     data-src="http://img.hanpy.cn/typora/202406052104_40_image-20230319165444143.png"
+                      alt="image-20230319165444143"
+                ></p>
 <p>结构体类型和指针类型是不同的，在实现接口时这两种类型也不能划等号。虽然两种类型不同，但是上图中的两种实现不可以同时存在，Go 语言的编译器会在结构体类型和指针类型都实现一个方法时报错 “method redeclared”。</p>
 <hr>
 <p>实现接口时可以选择接受者的类型，即<code>结构体</code>或者<code>结构体指针</code>，在初始化时也可以初始化成<code>结构体</code>或者<code>指针</code>。<br>在初始化成<code>结构体</code>的时候，是可以调用接受者是<code>结构体</code>和<code>结构体指针</code>的方法。<br>在初始化成<code>指针</code>的时候，只可以调用接受者是<code>结构体指针</code>的方法。</p>
@@ -283,7 +282,7 @@
 <p><img  
                      lazyload
                      alt="image"
-                     data-src="https://raw.githubusercontent.com/hanpengyu/blogimg/main/img/image-20230319202228325.png"
+                     data-src="/Users/hanpengyu/Desktop/typora/image-20230319202228325.png"
                       alt="image-20230319202228325"
                 ></p>
 <h3 id="两种接口的数据结构"><a href="#两种接口的数据结构" class="headerlink" title="两种接口的数据结构"></a>两种接口的数据结构</h3><p>Go 语言根据接口类型是否包含一组方法将接口类型分成了两类：</p>
@@ -391,7 +390,7 @@
             
                 <span>2018</span> -
             
-            2023
+            2024
             
                 <!-- &nbsp;<i class="fas fa-heart icon-animate"></i> -->
                 <!-- &nbsp;<a href="/">hanpy</a> -->

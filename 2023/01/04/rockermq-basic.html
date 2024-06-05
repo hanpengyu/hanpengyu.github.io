@@ -237,7 +237,7 @@
 <p><img  
                      lazyload
                      alt="image"
-                     data-src="https://raw.githubusercontent.com/hanpengyu/blogimg/main/img/image-20230401102353849.png"
+                     data-src="http://img.hanpy.cn/typora/202406052023_08_image-20230401102353849.png"
                       alt="image-20230401102353849"
                 ></p>
 <h3 id="消息标签（MessageTag）"><a href="#消息标签（MessageTag）" class="headerlink" title="消息标签（MessageTag）"></a>消息标签（MessageTag）</h3><p>消息标签主要用于同一主题下区分不同类型的消息，如果把 Topic 比作一级分类，那 tag 就是二级分类。</p>
@@ -248,14 +248,14 @@
 <p><img  
                      lazyload
                      alt="image"
-                     data-src="https://raw.githubusercontent.com/hanpengyu/blogimg/main/img/image-20230401222431570.png"
+                     data-src="http://img.hanpy.cn/typora/202406052024_07_image-20230401222431570.png"
                       alt="image-20230401222431570"
                 ></p>
 <h3 id="消息标识（MessageId-Key）"><a href="#消息标识（MessageId-Key）" class="headerlink" title="消息标识（MessageId/Key）"></a>消息标识（MessageId/Key）</h3><p>RocketMQ 中每个消息拥有唯一的 <code>MessageId</code>，且可以携带具有业务标识的 <code>Key</code>，以方便对消息的查询。不过需要注意的是，MessageId 有两个：在生产者发送消息时会自动生成一个 MessageId（msgId)，当消息到达 Broker 后，Broker 也会自动生成一个 MessageId(offsetMsgId)。msgId、offsetMsgId 与 key 都称为消息标识。<br><span style="color:#ffaf40"> msgId </span>：由producer端生成，其生成规则为：producerIp + 进程pid + MessageClientIDSetter类的ClassLoader的hashCode +当前时间 + AutomicInteger自增计数器<br><span style="color:#ffaf40">offsetMsgId</span>：由broker端生成，其生成规则为：brokerIp + 物理分区的offset（Queue中的偏移量）<br><span style="color:#ffaf40">key</span>：由用户指定的业务相关的唯一标识</p>
 <h2 id="RocketMQ-核心概念"><a href="#RocketMQ-核心概念" class="headerlink" title="RocketMQ 核心概念"></a>RocketMQ 核心概念</h2><p><img  
                      lazyload
                      alt="image"
-                     data-src="https://raw.githubusercontent.com/hanpengyu/blogimg/main/img/image-20230401015605138.png"
+                     data-src="http://img.hanpy.cn/typora/202406052025_14_image-20230401015605138.png"
                       alt="image-20230401015605138"
                 ></p>
 <h3 id="Name-Server"><a href="#Name-Server" class="headerlink" title="Name Server"></a>Name Server</h3><p>NameServer 是 RocketMQ Broker与Topic路由的注册中心，支持Broker的动态注册与发现。在启动服务的时候，NameServer 需要先于 Broker 启动，每个 Broker 在启动的时候会到 NameServer 注册。<br>每个 NameServer 中都保存着 Broker 集群的整个路由信息和用于客户端查询的队列信息。Producer 和 Conumser 通过 NameServer可 以获取整个 Broker 集群的路由信息，从而进行消息的投递和消费。</p>
@@ -392,7 +392,7 @@
             
                 <span>2018</span> -
             
-            2023
+            2024
             
                 <!-- &nbsp;<i class="fas fa-heart icon-animate"></i> -->
                 <!-- &nbsp;<a href="/">hanpy</a> -->

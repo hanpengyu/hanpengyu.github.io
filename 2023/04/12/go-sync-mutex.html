@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="技术博客，个人博客">
+    <meta name="description" content="不积跬步，无以至千里。不积小流，以成江海">
+    <meta name="author" content="hanpy">
+    
+    <title>
+        
+            Golang学习 - sync.Mutex |
+        
+        Hanpy&#39;s blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/fontawesome.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/regular.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/solid.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/font/css/brands.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"hanpy.cn","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true},"style":{"primary_color":"#ffaf40","favicon":"/images/favicon.ico","avatar":"/images/logo.png","font_size":null,"font_family":"STHeiti","hover":{"shadow":true,"scale":true},"first_screen":{"enable":false,"header_transparent":false,"background_img":"/images/cup-7832358_1280.png","font_color":null,"hitokoto":false},"scroll":{"progress_bar":true,"percent":true}},"local_search":{"enable":true,"preload":true},"code_copy":{},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"side_tools":{},"pjax":{"enable":false},"lazyload":{"enable":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.8"},"waline":{"server_url":null,"reaction":false,"version":2}},"post":{"author_label":{"enable":false,"auto":true,"custom_label_list":["Trainee","Engineer","Architect"]},"word_count":{"enable":false,"wordcount":false,"min2read":false},"img_align":"center","copyright_info":false},"version":"3.6.1"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+               Hanpy&#39;s blog
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                BLOG
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >
+                                分类
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >
+                                标签
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                时间线
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >
+                                友链
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">BLOG</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories">分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags">标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">时间线</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links">友链</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="post-page-container">
+        <div class="article-content-container">
+
+            <div class="article-title">
+                <span class="title-hover-animation">Golang学习 - sync.Mutex</span>
+            </div>
+
+            
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="/images/logo.png">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">hanpy</span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            
+<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        
+            <i class="fa-regular fa-calendar-plus"></i>&nbsp;
+        
+        <span class="pc">2023-04-12 00:14:21</span>
+        <span class="mobile">2023-04-12 00:14</span>
+    </span>
+    
+        <span class="article-update-date article-meta-item">
+        <i class="fas fa-file-pen"></i>&nbsp;
+        <span class="pc">2023-04-12 00:14:21</span>
+    </span>
+    
+    
+    
+
+    
+    
+    
+    
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="article-content keep-markdown-body">
+                
+
+                <p>sync.Mutex 的简单使用</p>
+<span id="more"></span>
+
+<h2 id="一、前导概念"><a href="#一、前导概念" class="headerlink" title="一、前导概念"></a>一、前导概念</h2><p><span style="color:orange;font-weight:bold">竞态条件</span></p>
+<p>锁是一种并发编程中的同步原语（Synchronization Primitives），它能保证多个 Goroutine 在访问同一片内存时不会出现竞争条件（Race condition）等问题。</p>
+<blockquote>
+<p>竞态条件：一旦数据被多个线程共享，那么就很可能会产生争用和冲突的情况。这种情况也被称为竞态条件（race condition），这往往会破坏共享数据的一致性。</p>
+</blockquote>
+<p><span style="color:orange;font-weight:bold">临界区</span></p>
+<p>多个并发运行的线程对这个共享资源的访问是完全串行的。只要一个代码片段需要实现对共享资源的串行化访问，就可以被视为一个临界区（critical section）</p>
+<img  
+                     lazyload
+                     alt="image"
+                     data-src="https://raw.githubusercontent.com/hanpengyu/blogimg/main/img/image-20230412084716894.png"
+                      alt="image-20230412084716894" style="width:700px;" 
+                >
+
+<h2 id="二、sync-Mutex"><a href="#二、sync-Mutex" class="headerlink" title="二、sync.Mutex"></a>二、sync.Mutex</h2><p>sync.Mutex 是一个互斥锁，保证同时只有一个Goroutine可以访问共享资源。Mutex 类型的锁和 Goroutine 无关，可以由不同的 Goroutine 加锁和解锁。也可以为其他结构体的字段，零值为解锁状态。</p>
+<p>互斥锁可以看做是进入临界区的令牌，在进入之前申请</p>
+<h3 id="2-1、结构和方法"><a href="#2-1、结构和方法" class="headerlink" title="2.1、结构和方法"></a>2.1、结构和方法</h3><p><span style="color:orange;font-weight:bold">结构体</span></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Mutex <span class="keyword">struct</span> &#123;</span><br><span class="line">    state <span class="type">int32</span></span><br><span class="line">    sema  <span class="type">uint32</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><span style="color:orange;font-weight:bold">方法列表</span></p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>(m *Mutex) Lock()</td>
+<td>方法锁住m，如果 m 已经加锁，则阻塞直到 m 解锁。</td>
+</tr>
+<tr>
+<td>(m *Mutex) Unlock()</td>
+<td>解锁 m，如果 m 未加锁会导致运行时错误。</td>
+</tr>
+</tbody></table>
+<h3 id="2-2、简单的使用"><a href="#2-2、简单的使用" class="headerlink" title="2.2、简单的使用"></a>2.2、简单的使用</h3><p>sync.Mutex 是开箱即用的，就是声明了之后就可以使用</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">    <span class="string">&quot;sync&quot;</span></span><br><span class="line">    <span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 声明全局锁</span></span><br><span class="line"><span class="keyword">var</span> mu sync.Mutex</span><br><span class="line"></span><br><span class="line"><span class="comment">// 声明全局总量</span></span><br><span class="line"><span class="keyword">var</span> total <span class="type">int</span> = <span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;Main Start&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 多个协程同时去减total</span></span><br><span class="line">    <span class="keyword">go</span> subTotal(<span class="string">&quot;G1&quot;</span>, &amp;mu)</span><br><span class="line">    <span class="keyword">go</span> subTotal(<span class="string">&quot;G2&quot;</span>, &amp;mu)</span><br><span class="line">    <span class="keyword">go</span> subTotal(<span class="string">&quot;G3&quot;</span>, &amp;mu)</span><br><span class="line"></span><br><span class="line">    time.Sleep(time.Second * <span class="number">1</span>)</span><br><span class="line">    fmt.Println(<span class="string">&quot;Main Stop!&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">subTotal</span><span class="params">(gName <span class="type">string</span>, mu *sync.Mutex)</span></span> &#123;</span><br><span class="line">    <span class="keyword">for</span> &#123;</span><br><span class="line">        mu.Lock()</span><br><span class="line">        <span class="keyword">if</span> total == <span class="number">0</span> &#123;</span><br><span class="line">            mu.Unlock()</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        &#125;</span><br><span class="line">        time.Sleep(<span class="number">10</span> * time.Millisecond)</span><br><span class="line">        total--</span><br><span class="line">        fmt.Printf(<span class="string">&quot;%s 执行减减，剩余: %d \n&quot;</span>, gName, total)</span><br><span class="line">        mu.Unlock()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Main Start</span><br><span class="line">G3 执行减减，剩余: <span class="number">9</span> </span><br><span class="line">G3 执行减减，剩余: <span class="number">8</span> </span><br><span class="line">G2 执行减减，剩余: <span class="number">7</span> </span><br><span class="line">G1 执行减减，剩余: <span class="number">6</span> </span><br><span class="line">G3 执行减减，剩余: <span class="number">5</span> </span><br><span class="line">G2 执行减减，剩余: <span class="number">4</span> </span><br><span class="line">G1 执行减减，剩余: <span class="number">3</span> </span><br><span class="line">G3 执行减减，剩余: <span class="number">2</span> </span><br><span class="line">G2 执行减减，剩余: <span class="number">1</span> </span><br><span class="line">G1 执行减减，剩余: <span class="number">0</span> </span><br><span class="line">Main Stop!</span><br></pre></td></tr></table></figure>
+
+<p><span style="color:orange;font-weight:bold">互斥锁使用注意事项：</span></p>
+<ol>
+<li>不要重复锁定互斥锁</li>
+<li>不要忘记解锁互斥锁，必要时使用defer语句</li>
+<li>不要对尚未锁定或者已解锁的互斥锁解锁</li>
+<li>不要在多个函数之间直接传递互斥锁</li>
+</ol>
+<h3 id="2-3、数据结构"><a href="#2-3、数据结构" class="headerlink" title="2.3、数据结构"></a>2.3、数据结构</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Mutex <span class="keyword">struct</span> &#123;</span><br><span class="line">    state <span class="type">int32</span></span><br><span class="line">    sema  <span class="type">uint32</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>state：代表互斥锁的状态<br>sema：互斥锁的信号量，mutex的阻塞队列的定位是通过这个变量来实现的，从而可以实现goroutine的阻塞和唤醒</p>
+<p><span style="color:orange;font-weight:bold">互斥锁的状态</span></p>
+<p>最低三位分别表示 <code>mutexLocked</code>、<code>mutexWoken</code> 和 <code>mutexStarving</code>，剩下的位置用来表示当前有多少个 Goroutine 在等待互斥锁的释放</p>
+<img  
+                     lazyload
+                     alt="image"
+                     data-src="http://img.hanpy.cn/typora/202406052038_46_image-20230412103100873.png"
+                      alt="image-20230412103100873" style="width:750px;" 
+                >
+
+<p>默认情况下，互斥锁的所有状态位都是 0，<code>int32</code> 中的不同位分别表示了不同的状态：</p>
+<p><span style="color:orange;">mutexLocked</span> — 表示互斥锁的锁定状态；<br><span style="color:orange;">mutexWoken</span> — 表示从正常模式被从唤醒；<br><span style="color:orange;">mutexStarving</span> — 当前的互斥锁进入饥饿状态；<br><span style="color:orange;">waitersCount</span> — 当前互斥锁上等待的 Goroutine 个数；</p>
+<h3 id="2-4、正常模式和饥饿模式"><a href="#2-4、正常模式和饥饿模式" class="headerlink" title="2.4、正常模式和饥饿模式"></a>2.4、正常模式和饥饿模式</h3><p><span style="color:orange;font-weight:bold">正常模式（非公平锁）</span>：锁的等待者会按照先进先出的顺序获取锁，唤醒的gotouine不会直接拥有锁，而是会和新请求竞争锁，因为新请求正在运行，获取被唤醒的goroutine大概率不会获取锁，<span style="color:red;">一旦 Goroutine 超过 1ms 没有获取到锁，就会切换到饥饿模式</span></p>
+<p><span style="color:orange;font-weight:bold">饥饿模式（公平锁）</span>：锁会直接给等待队列中的第一个goroutine，新的请求不会自旋也不会竞争锁，会直接放在等待队列的最后一位。 <span style="color:red;">满足下面条件中的一个就会退出饥饿模式，G的执行时间小于1ms；等待队列清空</span></p>
+<blockquote>
+<p>正常模式下的互斥锁能够提供更好地性能，饥饿模式的能避免 Goroutine 由于陷入等待无法获取锁而造成的高尾延时。</p>
+</blockquote>
+<h3 id="2-5、加锁"><a href="#2-5、加锁" class="headerlink" title="2.5、加锁"></a>2.5、加锁</h3><p><code>go/src/sync/mutex.go</code></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m *Mutex)</span></span> Lock() &#123;</span><br><span class="line">    <span class="comment">// 判断锁的状态是不是0，如果是0就标记为mutexLocked状态</span></span><br><span class="line">    <span class="comment">// 互斥锁的第1个阶段是使用原子操作快速抢占锁</span></span><br><span class="line">    <span class="keyword">if</span> atomic.CompareAndSwapInt32(&amp;m.state, <span class="number">0</span>, mutexLocked) &#123;</span><br><span class="line">        <span class="keyword">if</span> race.Enabled &#123;</span><br><span class="line">            race.Acquire(unsafe.Pointer(m))</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 尝试通过自旋（Spinnig）等方式等待锁的释放</span></span><br><span class="line">    m.lockSlow()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><span style="color:orange;font-weight:bold">加锁过程</span></p>
+<ol>
+<li>互斥锁的第1个阶段是使用原子操作快速抢占锁，如果抢占成功则 立即返回，如果抢占失败则调用lockSlow方法。</li>
+<li>互斥锁的第2个阶段，使用信号量 进行同步。当信号量计 数值大于0时，意味着有其他协程执行了解锁操作，这时加锁协程可以 直接退出。当信号量计数值等于0时，意味着当前加锁协程需要陷入休 眠状态。</li>
+</ol>
+<p><span style="color:orange;font-weight:bold">互斥锁自旋</span></p>
+<p>自旋是一种多线程同步机制，当前的线程在进入自旋的过程中会一直保持 CPU 的占用，持续检查某个条件是否为真。在多核的 CPU 上，自旋可以避免 Goroutine 的切换，使用恰当会对性能带来很大的增益，但是使用的不恰当就会拖慢整个程序。</p>
+<p><span style="color:orange;font-weight:bold">Goroutine 进入自旋的条件</span></p>
+<ol>
+<li>互斥锁只有在普通模式才能进入自旋</li>
+<li>运行在多 CPU 的机器上</li>
+<li>当前 Goroutine 为了获取该锁进入自旋的次数小于四次</li>
+<li>当前机器上至少存在一个正在运行的处理器 P 并且处理的运行队列为空</li>
+</ol>
+<h3 id="2-6、解锁"><a href="#2-6、解锁" class="headerlink" title="2.6、解锁"></a>2.6、解锁</h3>
+            </div>
+
+            
+
+            
+
+            
+                <div class="article-nav">
+                    
+                    
+                        <div class="article-next">
+                            <a class="next"
+                               rel="next"
+                               href="/2023/04/06/proto-file.html"
+                            >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Proto 文件语法</span>
+                                <span class="post-nav-item">下一篇</span>
+                            </span>
+                                <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                            </a>
+                        </div>
+                    
+                </div>
+            
+
+            
+        </div>
+
+        
+            <div class="toc-content-container">
+                <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%89%8D%E5%AF%BC%E6%A6%82%E5%BF%B5"><span class="nav-text">一、前导概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81sync-Mutex"><span class="nav-text">二、sync.Mutex</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1%E3%80%81%E7%BB%93%E6%9E%84%E5%92%8C%E6%96%B9%E6%B3%95"><span class="nav-text">2.1、结构和方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2%E3%80%81%E7%AE%80%E5%8D%95%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-text">2.2、简单的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3%E3%80%81%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-text">2.3、数据结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4%E3%80%81%E6%AD%A3%E5%B8%B8%E6%A8%A1%E5%BC%8F%E5%92%8C%E9%A5%A5%E9%A5%BF%E6%A8%A1%E5%BC%8F"><span class="nav-text">2.4、正常模式和饥饿模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5%E3%80%81%E5%8A%A0%E9%94%81"><span class="nav-text">2.5、加锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6%E3%80%81%E8%A7%A3%E9%94%81"><span class="nav-text">2.6、解锁</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            
+<footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+                <span>2018</span> -
+            
+            2024
+            
+                <!-- &nbsp;<i class="fas fa-heart icon-animate"></i> -->
+                <!-- &nbsp;<a href="/">hanpy</a> -->
+                &nbsp;<a href="/">HANPY</a>
+            
+        </div>
+        
+        
+            <div class="icp-info info-item">
+                <a target="_blank" rel="nofollow"
+                   href="https://beian.miit.gov.cn"
+                >
+                    京ICP备16043183号
+                </a>
+            </div>
+        
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/dark-light-toggle.js"></script>
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/local-search.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/code-block.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/lazyload.js"></script>
+
+
+<div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/post-helper.js"></script>
+        
+            <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/libs/anime.min.js"></script>
+        
+        
+            <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.6.1/source/js/toc.js"></script>
+        
+    
+</div>
+
+
+
+</body>
+</html>
